@@ -1,7 +1,6 @@
 package com.heights.auditapp.model;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 
 @Entity
@@ -9,27 +8,39 @@ import java.sql.Date;
 public class AuditUniverseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false, precision = 0)
-    private BigInteger id;
+    @Column(name = "ID", nullable = false, unique = true, precision = 0)
+    private Long universeId;
     @Basic
-    @Column(name = "UNIVERSE_NAME", nullable = false, length = 2000)
+    @Column(name = "UNIVERSE_NAME", nullable = false, length = 2000, unique = true)
     private String universeName;
     @Basic
-    @Column(name = "RECORD_STAT", nullable = true, length = 1)
-    private String recordStat;
+    @Column(name = "RECORD_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'O'")
+    private String recordStat = "O";
     @Basic
-    @Column(name = "AUTH_STAT", nullable = true, length = 1)
-    private String authStat;
+    @Column(name = "AUTH_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'A'")
+    private String authStat = "A";
     @Basic
-    @Column(name = "CREATE_DATE", nullable = true)
-    private Date createDate;
+    @Column(name = "CREATE_DATE", nullable = false)
+    private Date createDate = new Date(new java.util.Date().getTime());
 
-    public BigInteger getId() {
-        return id;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "universe")
+//    private Set<AuditEntityEntity> auditEntityEntities;
+
+//    public Set<AuditEntityEntity> getAuditEntityEntities() {
+//        return auditEntityEntities;
+//    }
+//
+//    public void setAuditEntityEntities(Set<AuditEntityEntity> auditEntityEntities) {
+//        this.auditEntityEntities = auditEntityEntities;
+//    }
+
+    public Long getUniverseId() {
+        return universeId;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setUniverseId(Long id) {
+        this.universeId = id;
     }
 
     public String getUniverseName() {
@@ -71,7 +82,7 @@ public class AuditUniverseEntity {
 
         AuditUniverseEntity that = (AuditUniverseEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (universeId != null ? !universeId.equals(that.universeId) : that.universeId != null) return false;
         if (universeName != null ? !universeName.equals(that.universeName) : that.universeName != null) return false;
         if (recordStat != null ? !recordStat.equals(that.recordStat) : that.recordStat != null) return false;
         if (authStat != null ? !authStat.equals(that.authStat) : that.authStat != null) return false;
@@ -80,7 +91,7 @@ public class AuditUniverseEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = universeId != null ? universeId.hashCode() : 0;
         result = 31 * result + (universeName != null ? universeName.hashCode() : 0);
         result = 31 * result + (recordStat != null ? recordStat.hashCode() : 0);
         result = 31 * result + (authStat != null ? authStat.hashCode() : 0);

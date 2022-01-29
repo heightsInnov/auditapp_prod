@@ -4,8 +4,6 @@ import com.heights.auditapp.model.AuditScopeEntity;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
-
 @Repository
-public interface AuditScopeRepository extends PagingAndSortingRepository<AuditScopeEntity, BigInteger> {
+public interface AuditScopeRepository extends PagingAndSortingRepository<AuditScopeEntity, Long> {
 }

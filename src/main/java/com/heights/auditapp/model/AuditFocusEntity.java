@@ -1,7 +1,6 @@
 package com.heights.auditapp.model;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 
 @Entity
@@ -10,18 +9,18 @@ public class AuditFocusEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false, precision = 0)
-    private BigInteger id;
+    private Long id;
     @Basic
     @Column(name = "SCOPE_ID", nullable = true, precision = 0, insertable = false, updatable = false)
-    private BigInteger scopeId;
+    private Long scopeId;
     @Basic
     @Column(name = "AREA_OF_FOCUS", nullable = false, length = 3000)
     private String areaOfFocus;
     @Basic
-    @Column(name = "VIEW_FLAG", nullable = true, length = 1)
+    @Column(name = "VIEW_FLAG", nullable = true, length = 1, columnDefinition = "varchar(1) default 'N'")
     private String viewFlag;
     @Basic
-    @Column(name = "SCHEDULED_FLAG", nullable = true, length = 1)
+    @Column(name = "SCHEDULED_FLAG", nullable = true, length = 1, columnDefinition = "varchar(1) default 'N'")
     private String scheduledFlag;
     @Basic
     @Column(name = "SCHEDULLED_DATE", nullable = true)
@@ -33,7 +32,7 @@ public class AuditFocusEntity {
     @Column(name = "WORK_PROGRAM_START", nullable = true, length = 3000)
     private String workProgramStart;
     @Basic
-    @Column(name = "START_FLAG", nullable = true, length = 1)
+    @Column(name = "START_FLAG", nullable = true, length = 1, columnDefinition = "varchar(1) default 'N'")
     private String startFlag;
     @Basic
     @Column(name = "RISK_RATING", nullable = true, length = 3000)
@@ -63,19 +62,19 @@ public class AuditFocusEntity {
     @Column(name = "DUE_DATE", nullable = true)
     private Date dueDate;
     @Basic
-    @Column(name = "EXCEPTION_FLAG", nullable = true, length = 1)
+    @Column(name = "EXCEPTION_FLAG", nullable = true, length = 1, columnDefinition = "varchar(1) default 'N'")
     private String exceptionFlag;
     @Basic
-    @Column(name = "APPROVAL_STATUS", nullable = true, length = 3000)
+    @Column(name = "APPROVAL_STATUS", nullable = true, length = 3000, columnDefinition = "varchar(1) default 'D'")
     private String approvalStatus;
     @Basic
     @Column(name = "USER_NAME", nullable = true, length = 3000)
     private String userName;
     @Basic
-    @Column(name = "RECORD_STAT", nullable = true, length = 1)
+    @Column(name = "RECORD_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'O'")
     private String recordStat;
     @Basic
-    @Column(name = "AUTH_STAT", nullable = true, length = 1)
+    @Column(name = "AUTH_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'A'")
     private String authStat;
     @Basic
     @Column(name = "CREATE_DATE", nullable = true)
@@ -84,19 +83,19 @@ public class AuditFocusEntity {
     @JoinColumn(name = "SCOPE_ID", referencedColumnName = "ID")
     private AuditScopeEntity auditScopeByScopeId;
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getScopeId() {
+    public Long getScopeId() {
         return scopeId;
     }
 
-    public void setScopeId(BigInteger scopeId) {
+    public void setScopeId(Long scopeId) {
         this.scopeId = scopeId;
     }
 

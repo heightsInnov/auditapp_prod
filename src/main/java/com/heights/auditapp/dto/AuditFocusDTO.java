@@ -2,19 +2,18 @@ package com.heights.auditapp.dto;
 
 import com.heights.auditapp.model.AuditScopeEntity;
 
-import java.math.BigInteger;
 import java.sql.Date;
 
-public class AuditFocusDTO extends AbstractDTO<BigInteger> {
-    private BigInteger id;
-    private BigInteger scopeId;
+public class AuditFocusDTO extends AbstractDTO<Long> {
+    private Long id;
+    private Long scopeId;
     private String areaOfFocus;
-    private String viewFlag;
-    private String scheduledFlag;
+    private String viewFlag = "N";
+    private String scheduledFlag = "N";
     private Date schedulledDate;
     private Date startDate;
     private String workProgramStart;
-    private String startFlag;
+    private String startFlag = "N";
     private String riskRating;
     private String focusException;
     private String focusRecommendation;
@@ -24,30 +23,30 @@ public class AuditFocusDTO extends AbstractDTO<BigInteger> {
     private String recipientName;
     private String recipientEmail;
     private Date dueDate;
-    private String exceptionFlag;
-    private String approvalStatus;
+    private String exceptionFlag = "N";
+    private String approvalStatus = "D";
     private String userName;
-    private String recordStat;
-    private String authStat;
+    private String recordStat = "O";
+    private String authStat = "A";
     private Date createDate;
     private AuditScopeEntity auditScopeByScopeId;
 
     public AuditFocusDTO() {
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getScopeId() {
+    public Long getScopeId() {
         return this.scopeId;
     }
 
-    public void setScopeId(BigInteger scopeId) {
+    public void setScopeId(Long scopeId) {
         this.scopeId = scopeId;
     }
 

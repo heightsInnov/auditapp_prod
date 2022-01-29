@@ -3,7 +3,6 @@ package com.heights.auditapp.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +19,5 @@ public interface GenericService<E, M> {
 
     Page<E> findAll(Pageable pageable);
 
-    E update(E entity, BigInteger id);
+    E update(E entity, Long id);
 }

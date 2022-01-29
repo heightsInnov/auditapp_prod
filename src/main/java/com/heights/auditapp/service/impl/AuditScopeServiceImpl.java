@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +32,12 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public void deleteById(BigInteger id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Optional<AuditScopeEntity> findById(BigInteger id) {
+    public Optional<AuditScopeEntity> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -55,7 +54,7 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public AuditScopeEntity update(AuditScopeEntity entity, BigInteger id) {
+    public AuditScopeEntity update(AuditScopeEntity entity, Long id) {
         Optional<AuditScopeEntity> optional = findById(id);
         if (optional.isPresent()) {
             return save(entity);

@@ -2,7 +2,8 @@ package com.heights.auditapp.service;
 
 import com.heights.auditapp.model.AuditEntityEntity;
 
-import java.math.BigInteger;
+import java.util.List;
 
-public interface AuditEntityService extends GenericService<AuditEntityEntity, BigInteger> {
+public interface AuditEntityService extends GenericService<AuditEntityEntity, Long> {
+    List<AuditEntityEntity> findEntitiesByUniverseId(Long universeId);
 }
