@@ -10,16 +10,17 @@ import java.util.Objects;
 
 public class AuditEntityId implements Serializable {
     private Long id;
-    private Long universeId;
     private String entityName;
 
-    public AuditEntityId(Long id, Long universeId, String entityName) {
+    public AuditEntityId() {
+    }
+
+    public AuditEntityId(Long id, String entityName) {
         this.id = id;
-        this.universeId = universeId;
         this.entityName = entityName;
     }
 
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID", nullable = false, unique = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
@@ -28,16 +29,6 @@ public class AuditEntityId implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Column(name = "universeId", nullable = false)
-    @Id
-    public Long getUniverseId() {
-        return universeId;
-    }
-
-    public void setUniverseId(Long universeId) {
-        this.universeId = universeId;
     }
 
     @Column(name = "entityName", nullable = false)
@@ -55,11 +46,11 @@ public class AuditEntityId implements Serializable {
         if (this == o) return true;
         if (!(o instanceof AuditEntityId)) return false;
         AuditEntityId that = (AuditEntityId) o;
-        return getId().equals(that.getId()) && getUniverseId().equals(that.getUniverseId()) && getEntityName().equals(that.getEntityName());
+        return getId().equals(that.getId()) && getEntityName().equals(that.getEntityName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUniverseId(), getEntityName());
+        return Objects.hash(getId(), getEntityName());
     }
 }

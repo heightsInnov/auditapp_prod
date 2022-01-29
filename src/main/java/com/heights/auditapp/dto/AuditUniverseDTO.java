@@ -3,7 +3,7 @@ package com.heights.auditapp.dto;
 import java.sql.Date;
 
 public class AuditUniverseDTO extends AbstractDTO<Long> {
-    private Long id;
+    private Long universeId;
     private String universeName;
     private String recordStat = "O";
     private String authStat = "A";
@@ -12,12 +12,12 @@ public class AuditUniverseDTO extends AbstractDTO<Long> {
     public AuditUniverseDTO() {
     }
 
-    public Long getId() {
-        return this.id;
+    public Long getUniverseId() {
+        return universeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUniverseId(Long universeId) {
+        this.universeId = universeId;
     }
 
     public String getUniverseName() {

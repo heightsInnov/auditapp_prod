@@ -1,19 +1,21 @@
 package com.heights.auditapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.heights.auditapp.model.AuditScopeEntity;
 import com.heights.auditapp.model.AuditUniverseEntity;
 
 import java.sql.Date;
 import java.util.Collection;
 
+@JsonSerialize
 public class AuditEntityDTO extends AbstractDTO<Long> {
     private Long id;
     private Long universeId;
     private String entityName;
     private String recordStat = "O";
     private String authStat = "A";
-    private Date createDate;
+    private Date createDate = new Date(new java.util.Date().getTime());
     @JsonProperty("auditUniverse")
     private AuditUniverseEntity auditUniverseByUniverseId;
     private Collection<AuditScopeEntity> auditScopesById;

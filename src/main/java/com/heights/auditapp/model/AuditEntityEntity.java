@@ -8,16 +8,14 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "AUDIT_ENTITY", schema = "AUDITAPP")
-@IdClass(AuditEntityId.class)
 public class AuditEntityEntity {
     @Id
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Id
     @Basic
-    @Column(name = "UNIVERSE_ID", nullable = false)
+    @Column(name = "UNIVERSE_ID", nullable = false, insertable = false, updatable = false)
     private Long universeId;
-    @Id
     @Basic
     @Column(name = "ENTITY_NAME", nullable = false, length = 2000)
     private String entityName;
@@ -30,20 +28,13 @@ public class AuditEntityEntity {
     @Basic
     @Column(name = "CREATE_DATE", nullable = true)
     private Date createDate;
-    @ManyToOne
-    @JoinColumn(name = "ID", insertable = false, updatable = false)
-    private AuditUniverseEntity auditUniverseByUniverseId;
+
+//    @ManyToOne
+//    private AuditUniverseEntity universe;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "auditEntityByEntityId", cascade = CascadeType.ALL)
     private Collection<AuditScopeEntity> auditScopesById;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUniverseId() {
         return universeId;
@@ -51,6 +42,14 @@ public class AuditEntityEntity {
 
     public void setUniverseId(Long universeId) {
         this.universeId = universeId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEntityName() {
@@ -93,7 +92,6 @@ public class AuditEntityEntity {
         AuditEntityEntity that = (AuditEntityEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (universeId != null ? !universeId.equals(that.universeId) : that.universeId != null) return false;
         if (entityName != null ? !entityName.equals(that.entityName) : that.entityName != null) return false;
         if (recordStat != null ? !recordStat.equals(that.recordStat) : that.recordStat != null) return false;
         if (authStat != null ? !authStat.equals(that.authStat) : that.authStat != null) return false;
@@ -103,7 +101,6 @@ public class AuditEntityEntity {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (universeId != null ? universeId.hashCode() : 0);
         result = 31 * result + (entityName != null ? entityName.hashCode() : 0);
         result = 31 * result + (recordStat != null ? recordStat.hashCode() : 0);
         result = 31 * result + (authStat != null ? authStat.hashCode() : 0);
@@ -111,13 +108,13 @@ public class AuditEntityEntity {
         return result;
     }
 
-    public AuditUniverseEntity getAuditUniverseByUniverseId() {
-        return auditUniverseByUniverseId;
-    }
-
-    public void setAuditUniverseByUniverseId(AuditUniverseEntity auditUniverseByUniverseId) {
-        this.auditUniverseByUniverseId = auditUniverseByUniverseId;
-    }
+//    public AuditUniverseEntity getUniverse() {
+//        return universe;
+//    }
+//
+//    public void setUniverse(AuditUniverseEntity universe) {
+//        this.universe = universe;
+//    }
 
     public Collection<AuditScopeEntity> getAuditScopesById() {
         return auditScopesById;

@@ -14,7 +14,7 @@ public class AuditUniverseMapperImpl implements AuditUniverseMapper {
     @Override
     public AuditUniverseEntity asEntity(AuditUniverseDTO dto) {
         AuditUniverseEntity entity = new AuditUniverseEntity();
-        entity.setId(dto.getId());
+        entity.setUniverseId(dto.getId());
         entity.setUniverseName(dto.getUniverseName());
         entity.setRecordStat(dto.getRecordStat());
         entity.setAuthStat(dto.getAuthStat());
@@ -25,7 +25,7 @@ public class AuditUniverseMapperImpl implements AuditUniverseMapper {
     @Override
     public AuditUniverseDTO asDTO(AuditUniverseEntity entity) {
         AuditUniverseDTO dto = new AuditUniverseDTO();
-        dto.setId(entity.getId());
+        dto.setId(entity.getUniverseId());
         dto.setUniverseName(entity.getUniverseName());
         dto.setRecordStat(entity.getRecordStat());
         dto.setAuthStat(entity.getAuthStat());

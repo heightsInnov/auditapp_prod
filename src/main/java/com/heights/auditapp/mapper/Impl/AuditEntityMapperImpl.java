@@ -1,6 +1,7 @@
 package com.heights.auditapp.mapper.Impl;
 
 import com.heights.auditapp.dto.AuditEntityDTO;
+import com.heights.auditapp.mapper.AuditEntityMapper;
 import com.heights.auditapp.model.AuditEntityEntity;
 import org.springframework.stereotype.Component;
 
@@ -8,16 +9,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class AuditEntityMapperImpl implements com.heights.auditapp.mapper.AuditEntityMapper {
+public class AuditEntityMapperImpl implements AuditEntityMapper {
     @Override
     public AuditEntityEntity asEntity(AuditEntityDTO dto) {
         AuditEntityEntity entity = new AuditEntityEntity();
         entity.setEntityName(dto.getEntityName());
         entity.setAuditScopesById(dto.getAuditScopesById());
         entity.setAuthStat(dto.getAuthStat());
-        entity.setId(dto.getId());
         entity.setCreateDate(dto.getCreateDate());
-        entity.setAuditUniverseByUniverseId(dto.getAuditUniverseByUniverseId());
+//        entity.setUniverse(dto.getAuditUniverseByUniverseId());
         entity.setRecordStat(dto.getRecordStat());
         entity.setUniverseId(dto.getUniverseId());
         return entity;
@@ -31,7 +31,7 @@ public class AuditEntityMapperImpl implements com.heights.auditapp.mapper.AuditE
         dto.setAuthStat(entity.getAuthStat());
         dto.setId(entity.getId());
         dto.setCreateDate(entity.getCreateDate());
-        dto.setAuditUniverseByUniverseId(entity.getAuditUniverseByUniverseId());
+//        dto.setAuditUniverseByUniverseId(entity.getUniverse());
         dto.setRecordStat(entity.getRecordStat());
         dto.setUniverseId(entity.getUniverseId());
         return dto;
