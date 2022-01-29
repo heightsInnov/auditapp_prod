@@ -1,7 +1,6 @@
 package com.heights.auditapp.model;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 
 @Entity
@@ -9,26 +8,26 @@ import java.sql.Date;
 public class AuditUniverseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false, precision = 0)
-    private BigInteger id;
+    @Column(name = "ID", nullable = false, unique = true, precision = 0)
+    private Long id;
     @Basic
-    @Column(name = "UNIVERSE_NAME", nullable = false, length = 2000)
+    @Column(name = "UNIVERSE_NAME", nullable = false, length = 2000, unique = true)
     private String universeName;
     @Basic
-    @Column(name = "RECORD_STAT", nullable = true, length = 1)
-    private String recordStat;
+    @Column(name = "RECORD_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'O'")
+    private String recordStat = "O";
     @Basic
-    @Column(name = "AUTH_STAT", nullable = true, length = 1)
-    private String authStat;
+    @Column(name = "AUTH_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'A'")
+    private String authStat = "A";
     @Basic
-    @Column(name = "CREATE_DATE", nullable = true)
-    private Date createDate;
+    @Column(name = "CREATE_DATE", nullable = false)
+    private Date createDate = new Date(new java.util.Date().getTime());
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

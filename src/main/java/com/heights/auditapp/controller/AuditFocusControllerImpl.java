@@ -1,6 +1,5 @@
-package com.heights.auditapp.controller.impl;
+package com.heights.auditapp.controller;
 
-import com.heights.auditapp.controller.AuditFocusEntityController;
 import com.heights.auditapp.dto.AuditFocusDTO;
 import com.heights.auditapp.mapper.AuditFocusMapper;
 import com.heights.auditapp.model.AuditFocusEntity;
@@ -11,13 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-focus")
 @RestController
-public class AuditFocusControllerImpl implements AuditFocusEntityController {
+public class AuditFocusControllerImpl {
     private final AuditFocusService auditFocusService;
     private final AuditFocusMapper auditFocusMapper;
 
@@ -26,7 +24,7 @@ public class AuditFocusControllerImpl implements AuditFocusEntityController {
         this.auditFocusMapper = auditFocusMapper;
     }
 
-    @Override
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AuditFocusDTO save(@RequestBody AuditFocusDTO auditFocusDTO) {
@@ -34,26 +32,26 @@ public class AuditFocusControllerImpl implements AuditFocusEntityController {
         return auditFocusMapper.asDTO(auditFocusService.save(auditFocus));
     }
 
-    @Override
+
     @GetMapping("/{id}")
-    public AuditFocusDTO findById(@PathVariable("id") BigInteger id) {
+    public AuditFocusDTO findById(@PathVariable("id") Long id) {
         AuditFocusEntity auditFocus = auditFocusService.findById(id).orElse(null);
         return auditFocusMapper.asDTO(auditFocus);
     }
 
-    @Override
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") BigInteger id) {
+    public void delete(@PathVariable("id") Long id) {
         auditFocusService.deleteById(id);
     }
 
-    @Override
+
     @GetMapping
     public List<AuditFocusDTO> list() {
         return auditFocusMapper.asDTOList(auditFocusService.findAll());
     }
 
-    @Override
+
     @GetMapping("/page-query")
     public Page<AuditFocusDTO> pageQuery(Pageable pageable) {
         Page<AuditFocusEntity> auditFocusPage = auditFocusService.findAll(pageable);
@@ -63,9 +61,9 @@ public class AuditFocusControllerImpl implements AuditFocusEntityController {
         return new PageImpl<>(dtoList, pageable, auditFocusPage.getTotalElements());
     }
 
-    @Override
+
     @PutMapping("/{id}")
-    public AuditFocusDTO update(@RequestBody AuditFocusDTO auditFocusDTO, @PathVariable("id") BigInteger id) {
+    public AuditFocusDTO update(@RequestBody AuditFocusDTO auditFocusDTO, @PathVariable("id") Long id) {
         AuditFocusEntity auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
         return auditFocusMapper.asDTO(auditFocusService.update(auditFocus, id));
     }

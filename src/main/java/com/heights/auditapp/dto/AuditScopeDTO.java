@@ -2,12 +2,11 @@ package com.heights.auditapp.dto;
 
 import com.heights.auditapp.model.AuditEntityEntity;
 
-import java.math.BigInteger;
 import java.sql.Date;
 
-public class AuditScopeDTO extends AbstractDTO<BigInteger> {
-    private BigInteger id;
-    private BigInteger entityId;
+public class AuditScopeDTO extends AbstractDTO<Long> {
+    private Long id;
+    private Long entityId;
     private String scopeOfAudit;
     private String auditPeriod;
     private String scopePurpose;
@@ -21,27 +20,27 @@ public class AuditScopeDTO extends AbstractDTO<BigInteger> {
     private Date auditEndDate;
     private String approvalStatus;
     private String userName;
-    private String recordStat;
-    private String authStat;
+    private String recordStat = "O";
+    private String authStat = "A";
     private Date createDate;
     private AuditEntityEntity auditEntityByEntityId;
 
     public AuditScopeDTO() {
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getEntityId() {
+    public Long getEntityId() {
         return this.entityId;
     }
 
-    public void setEntityId(BigInteger entityId) {
+    public void setEntityId(Long entityId) {
         this.entityId = entityId;
     }
 

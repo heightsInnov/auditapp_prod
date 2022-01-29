@@ -1,52 +1,55 @@
 package com.heights.auditapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.Collection;
 
 @Entity
 @Table(name = "AUDIT_ENTITY", schema = "AUDITAPP")
+@IdClass(AuditEntityId.class)
 public class AuditEntityEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ID", nullable = false, precision = 0)
-    private BigInteger id;
+    @Column(name = "ID", nullable = false)
+    private Long id;
+    @Id
     @Basic
-    @Column(name = "UNIVERSE_ID", nullable = true, precision = 0, insertable = false, updatable = false)
-    private BigInteger universeId;
+    @Column(name = "UNIVERSE_ID", nullable = false)
+    private Long universeId;
+    @Id
     @Basic
     @Column(name = "ENTITY_NAME", nullable = false, length = 2000)
     private String entityName;
     @Basic
-    @Column(name = "RECORD_STAT", nullable = true, length = 1)
+    @Column(name = "RECORD_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'O'")
     private String recordStat;
     @Basic
-    @Column(name = "AUTH_STAT", nullable = true, length = 1)
+    @Column(name = "AUTH_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'A'")
     private String authStat;
     @Basic
     @Column(name = "CREATE_DATE", nullable = true)
     private Date createDate;
     @ManyToOne
-    @JoinColumn(name = "UNIVERSE_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "ID", insertable = false, updatable = false)
     private AuditUniverseEntity auditUniverseByUniverseId;
-
-    @OneToMany(mappedBy = "auditEntityByEntityId")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "auditEntityByEntityId", cascade = CascadeType.ALL)
     private Collection<AuditScopeEntity> auditScopesById;
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getUniverseId() {
+    public Long getUniverseId() {
         return universeId;
     }
 
-    public void setUniverseId(BigInteger universeId) {
+    public void setUniverseId(Long universeId) {
         this.universeId = universeId;
     }
 

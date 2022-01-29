@@ -1,23 +1,22 @@
 package com.heights.auditapp.dto;
 
-import java.math.BigInteger;
 import java.sql.Date;
 
-public class AuditUniverseDTO extends AbstractDTO<BigInteger> {
-    private BigInteger id;
+public class AuditUniverseDTO extends AbstractDTO<Long> {
+    private Long id;
     private String universeName;
-    private String recordStat;
-    private String authStat;
+    private String recordStat = "O";
+    private String authStat = "A";
     private Date createDate;
 
     public AuditUniverseDTO() {
     }
 
-    public java.math.BigInteger getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(java.math.BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -45,11 +44,11 @@ public class AuditUniverseDTO extends AbstractDTO<BigInteger> {
         this.authStat = authStat;
     }
 
-    public java.sql.Date getCreateDate() {
+    public Date getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(java.sql.Date createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 }

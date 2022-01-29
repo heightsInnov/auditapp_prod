@@ -1,38 +1,39 @@
 package com.heights.auditapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.heights.auditapp.model.AuditScopeEntity;
 import com.heights.auditapp.model.AuditUniverseEntity;
 
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.Collection;
 
-public class AuditEntityDTO extends AbstractDTO<BigInteger> {
-    private BigInteger id;
-    private BigInteger universeId;
+public class AuditEntityDTO extends AbstractDTO<Long> {
+    private Long id;
+    private Long universeId;
     private String entityName;
-    private String recordStat;
-    private String authStat;
+    private String recordStat = "O";
+    private String authStat = "A";
     private Date createDate;
+    @JsonProperty("auditUniverse")
     private AuditUniverseEntity auditUniverseByUniverseId;
     private Collection<AuditScopeEntity> auditScopesById;
 
     public AuditEntityDTO() {
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getUniverseId() {
+    public Long getUniverseId() {
         return this.universeId;
     }
 
-    public void setUniverseId(BigInteger universeId) {
+    public void setUniverseId(Long universeId) {
         this.universeId = universeId;
     }
 

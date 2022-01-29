@@ -1,4 +1,4 @@
-package com.heights.auditapp.controller.impl;
+package com.heights.auditapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

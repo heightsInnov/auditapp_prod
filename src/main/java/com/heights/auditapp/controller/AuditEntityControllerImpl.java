@@ -1,6 +1,5 @@
-package com.heights.auditapp.controller.impl;
+package com.heights.auditapp.controller;
 
-import com.heights.auditapp.controller.AuditEntityEntityController;
 import com.heights.auditapp.dto.AuditEntityDTO;
 import com.heights.auditapp.mapper.AuditEntityMapper;
 import com.heights.auditapp.model.AuditEntityEntity;
@@ -11,13 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/api/audit")
+@RequestMapping("/audit-entity")
 @RestController
-public class AuditEntityControllerImpl implements AuditEntityEntityController {
+public class AuditEntityControllerImpl {
     private final AuditEntityService auditEntityService;
     private final AuditEntityMapper auditMapper;
 
@@ -26,7 +24,6 @@ public class AuditEntityControllerImpl implements AuditEntityEntityController {
         this.auditMapper = auditMapper;
     }
 
-    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AuditEntityDTO save(@RequestBody AuditEntityDTO auditEntityDTO) {
@@ -34,26 +31,22 @@ public class AuditEntityControllerImpl implements AuditEntityEntityController {
         return auditMapper.asDTO(auditEntityService.save(audit));
     }
 
-    @Override
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        auditEntityService.deleteById(id);
+    }
+
     @GetMapping("/{id}")
-    public AuditEntityDTO findById(@PathVariable("id") BigInteger id) {
+    public AuditEntityDTO findById(@PathVariable("id") Long id) {
         AuditEntityEntity audit = auditEntityService.findById(id).orElse(null);
         return auditMapper.asDTO(audit);
     }
 
-    @Override
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") BigInteger id) {
-        auditEntityService.deleteById(id);
-    }
-
-    @Override
     @GetMapping
     public List<AuditEntityDTO> list() {
         return auditMapper.asDTOList(auditEntityService.findAll());
     }
 
-    @Override
     @GetMapping("/page-query")
     public Page<AuditEntityDTO> pageQuery(Pageable pageable) {
         Page<AuditEntityEntity> auditPage = auditEntityService.findAll(pageable);
@@ -63,10 +56,14 @@ public class AuditEntityControllerImpl implements AuditEntityEntityController {
         return new PageImpl<>(dtoList, pageable, auditPage.getTotalElements());
     }
 
-    @Override
     @PutMapping("/{id}")
-    public AuditEntityDTO update(@RequestBody AuditEntityDTO auditEntityDTO, @PathVariable("id") BigInteger id) {
+    public AuditEntityDTO update(@RequestBody AuditEntityDTO auditEntityDTO, @PathVariable("id") Long id) {
         AuditEntityEntity audit = auditMapper.asEntity(auditEntityDTO);
         return auditMapper.asDTO(auditEntityService.update(audit, id));
+    }
+
+    @GetMapping("/{universeId}")
+    public List<AuditEntityDTO> findByUniverse(@PathVariable Long universeId) {
+        return auditMapper.asDTOList(auditEntityService.findEntitiesByUniverseId(universeId));
     }
 }

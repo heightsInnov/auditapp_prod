@@ -9,11 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service("AuditUniverseService")
 @Transactional
 public class AuditUniverseServiceImpl implements AuditUniverseService {
     private final AuditUniverseRepository repository;
@@ -33,12 +32,12 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
     }
 
     @Override
-    public void deleteById(BigInteger id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
     @Override
-    public Optional<AuditUniverseEntity> findById(BigInteger id) {
+    public Optional<AuditUniverseEntity> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -55,10 +54,13 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
     }
 
     @Override
-    public AuditUniverseEntity update(AuditUniverseEntity entity, BigInteger id) {
+    public AuditUniverseEntity update(AuditUniverseEntity entity, Long id) {
         Optional<AuditUniverseEntity> optional = findById(id);
         if (optional.isPresent()) {
-            return save(entity);
+            optional.get().setAuthStat(entity.getAuthStat());
+            optional.get().setRecordStat(entity.getRecordStat());
+            optional.get().setUniverseName(entity.getUniverseName());
+            return save(optional.get());
         }
         return null;
     }

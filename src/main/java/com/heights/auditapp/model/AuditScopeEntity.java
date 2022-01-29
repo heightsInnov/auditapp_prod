@@ -1,7 +1,8 @@
 package com.heights.auditapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.sql.Date;
 
 @Entity
@@ -10,10 +11,10 @@ public class AuditScopeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ID", nullable = false, precision = 0)
-    private BigInteger id;
+    private Long id;
     @Basic
     @Column(name = "ENTITY_ID", nullable = true, precision = 0)
-    private BigInteger entityId;
+    private Long entityId;
     @Basic
     @Column(name = "SCOPE_OF_AUDIT", nullable = false, length = 3000)
     private String scopeOfAudit;
@@ -54,35 +55,36 @@ public class AuditScopeEntity {
     @Column(name = "USER_NAME", nullable = true, length = 3000)
     private String userName;
     @Basic
-    @Column(name = "RECORD_STAT", nullable = true, length = 1)
+    @Column(name = "RECORD_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'O'")
     private String recordStat;
     @Basic
-    @Column(name = "AUTH_STAT", nullable = true, length = 1)
+    @Column(name = "AUTH_STAT", nullable = true, length = 1, columnDefinition = "varchar(1) default 'A'")
     private String authStat;
     @Basic
     @Column(name = "CREATE_DATE", nullable = true)
     private Date createDate;
-    @ManyToOne
-    @JoinColumn(name = "auditScopesById")
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
     private AuditEntityEntity auditEntityByEntityId;
 
     public AuditEntityEntity getAuditEntityByEntityId() {
         return auditEntityByEntityId;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public BigInteger getEntityId() {
+    public Long getEntityId() {
         return entityId;
     }
 
-    public void setEntityId(BigInteger entityId) {
+    public void setEntityId(Long entityId) {
         this.entityId = entityId;
     }
 
