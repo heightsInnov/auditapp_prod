@@ -1,14 +1,13 @@
 package com.heights.auditapp.mapper;
 
 import com.heights.auditapp.dto.AuditScopeDTO;
-import com.heights.auditapp.mapper.Impl.ReferenceMapper;
-import com.heights.auditapp.model.AuditScopeEntity;
+import com.heights.auditapp.model.AuditScope;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = ReferenceMapper.class)
-public interface AuditScopeMapper extends GenericMapper<AuditScopeEntity, AuditScopeDTO> {
+public interface AuditScopeMapper extends GenericMapper<AuditScope, AuditScopeDTO> {
     @Override
     @Mapping(target = "id", ignore = false)
-    AuditScopeEntity asEntity(AuditScopeDTO dto);
+    AuditScope asEntity(AuditScopeDTO dto);
 }

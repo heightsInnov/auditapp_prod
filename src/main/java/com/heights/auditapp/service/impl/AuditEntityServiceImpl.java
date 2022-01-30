@@ -1,12 +1,15 @@
 package com.heights.auditapp.service.impl;
 
-import com.heights.auditapp.dao.AuditEntityRepository;
-import com.heights.auditapp.model.AuditEntityEntity;
+import com.heights.auditapp.dao.AuditRepository;
+import com.heights.auditapp.model.AuditEntity;
 import com.heights.auditapp.service.AuditEntityService;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,20 +18,26 @@ import java.util.Optional;
 @Service
 @Transactional
 public class AuditEntityServiceImpl implements AuditEntityService {
-    private final AuditEntityRepository repository;
+    private final AuditRepository repository;
 
-    public AuditEntityServiceImpl(AuditEntityRepository repository) {
+    public AuditEntityServiceImpl(AuditRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public AuditEntityEntity save(AuditEntityEntity entity) {
+    public AuditEntity save(AuditEntity entity) {
+        if(repository.existsByUniverseIdAndEntityName(entity.getUniverseId(), entity.getEntityName()))
+            throw new DuplicateKeyException("Duplicate entity on audit universe");
         return repository.save(entity);
     }
 
     @Override
-    public List<AuditEntityEntity> save(List<AuditEntityEntity> entities) {
-        return (List<AuditEntityEntity>) repository.saveAll(entities);
+    public List<AuditEntity> save(List<AuditEntity> entities) {
+        entities.forEach(x -> {
+            if(repository.existsByUniverseIdAndEntityName(x.getUniverseId(), x.getEntityName()))
+                throw new DuplicateKeyException("Duplicate entity on audit universe");
+        });
+        return (List<AuditEntity>) repository.saveAll(entities);
     }
 
     @Override
@@ -37,33 +46,44 @@ public class AuditEntityServiceImpl implements AuditEntityService {
     }
 
     @Override
-    public Optional<AuditEntityEntity> findById(Long id) {
+    public Optional<AuditEntity> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<AuditEntityEntity> findAll() {
-        return (List<AuditEntityEntity>) repository.findAll();
+    public List<AuditEntity> findAll() {
+        return (List<AuditEntity>) repository.findAll();
     }
 
     @Override
-    public Page<AuditEntityEntity> findAll(Pageable pageable) {
-        Page<AuditEntityEntity> entityPage = repository.findAll(pageable);
-        List<AuditEntityEntity> entities = entityPage.getContent();
+    public Page<AuditEntity> findAll(Pageable pageable) {
+        Page<AuditEntity> entityPage = repository.findAll(pageable);
+        List<AuditEntity> entities = entityPage.getContent();
         return new PageImpl<>(entities, pageable, entityPage.getTotalElements());
     }
 
     @Override
-    public AuditEntityEntity update(AuditEntityEntity entity, Long id) {
-        Optional<AuditEntityEntity> optional = findById(id);
+    public AuditEntity update(AuditEntity entity, Long id) {
+        Optional<AuditEntity> optional = findById(id);
         if (optional.isPresent()) {
-            return save(entity);
+            AuditEntity optionalEntity = optional.get();
+            if (optionalEntity.getAuthStat() != null)
+                optionalEntity.setAuthStat(entity.getAuthStat());
+            if (optionalEntity.getRecordStat() != null)
+                optionalEntity.setRecordStat(entity.getRecordStat());
+            if (entity.getAuthStat() != null)
+                optionalEntity.setAuthStat(optionalEntity.getAuthStat());
+            if (entity.getEntityName() != null)
+                optionalEntity.setEntityName(optionalEntity.getEntityName());
+            if (entity.getUniverseId() != null)
+                optionalEntity.setUniverseId(optionalEntity.getUniverseId());
+            return save(optionalEntity);
         }
-        return null;
+        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "No record found for entity");
     }
 
     @Override
-    public List<AuditEntityEntity> findEntitiesByUniverseId(Long universeId) {
-        return findEntitiesByUniverseId(universeId);
+    public List<AuditEntity> findEntitiesByUniverseId(Long universeId) {
+        return repository.findAllByUniverseId(universeId);
     }
 }

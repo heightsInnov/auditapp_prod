@@ -18,22 +18,22 @@ import java.util.Base64;
 
 @Component
 public class PBEncrytor {
-    String passPhrase0 = "***MyRedeemerLives7";
+    static String passPhrase0 = "***MyRedeemerLives7";
 
     public PBEncrytor() {
 
     }
 
-    public String PBEncrypt(String str) {
+    public static String PBEncrypt(String str) {
         return PBEncrypt(str, passPhrase0);
     }
 //
 
-    public String PBDecrypt(String str) {
+    public static String PBDecrypt(String str) {
         return PBDecrypt(str, passPhrase0);
     }
 
-    public String PBEncrypt(String str, String passPhrase) {
+    public static String PBEncrypt(String str, String passPhrase) {
         Cipher ecipher;
         Cipher dcipher;
 
@@ -75,7 +75,7 @@ public class PBEncrytor {
         return null;
     }
 
-    public String PBDecrypt(String str, String passPhrase) {
+    public static String PBDecrypt(String str, String passPhrase) {
         Cipher ecipher;
         Cipher dcipher;
 
@@ -118,11 +118,11 @@ public class PBEncrytor {
         return null;
     }
 
-    public static void main(String[] args) {
-        PBEncrytor v = new PBEncrytor();
-        System.out.println(v.PBDecrypt("SkB9t9KxkLAt5BxBNOGUBf7zrjofS4"));
-        System.out.println(v.PBEncrypt("ermportal2021"));
-        System.out.println("New "+v.PBEncrypt("devops2020"));
-        System.out.println(v.PBEncrypt("lasgermportal@gmail.com"));
-    }
+//    public static void main(String[] args) {
+//        PBEncrytor v = new PBEncrytor();
+//        System.out.println(v.PBDecrypt("SkB9t9KxkLAt5BxBNOGUBf7zrjofS4"));
+//        System.out.println(v.PBEncrypt("ermportal2021"));
+//        System.out.println("New "+v.PBEncrypt("devops2020"));
+//        System.out.println(v.PBEncrypt("lasgermportal@gmail.com"));
+//    }
 }

@@ -1,9 +1,9 @@
 package com.heights.auditapp.dao;
 
-import com.heights.auditapp.model.AuditScopeEntity;
+import com.heights.auditapp.model.AuditScope;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AuditScopeRepository extends PagingAndSortingRepository<AuditScopeEntity, Long> {
+public interface AuditScopeRepository extends PagingAndSortingRepository<AuditScope, Long> {
 }

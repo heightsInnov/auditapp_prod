@@ -1,12 +1,14 @@
 package com.heights.auditapp.service.impl;
 
 import com.heights.auditapp.dao.AuditUniverseRepository;
-import com.heights.auditapp.model.AuditUniverseEntity;
+import com.heights.auditapp.model.AuditUniverse;
 import com.heights.auditapp.service.AuditUniverseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,13 +24,13 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
     }
 
     @Override
-    public AuditUniverseEntity save(AuditUniverseEntity entity) {
+    public AuditUniverse save(AuditUniverse entity) {
         return repository.save(entity);
     }
 
     @Override
-    public List<AuditUniverseEntity> save(List<AuditUniverseEntity> entities) {
-        return (List<AuditUniverseEntity>) repository.saveAll(entities);
+    public List<AuditUniverse> save(List<AuditUniverse> entities) {
+        return (List<AuditUniverse>) repository.saveAll(entities);
     }
 
     @Override
@@ -37,31 +39,35 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
     }
 
     @Override
-    public Optional<AuditUniverseEntity> findById(Long id) {
+    public Optional<AuditUniverse> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<AuditUniverseEntity> findAll() {
-        return (List<AuditUniverseEntity>) repository.findAll();
+    public List<AuditUniverse> findAll() {
+        return (List<AuditUniverse>) repository.findAll();
     }
 
     @Override
-    public Page<AuditUniverseEntity> findAll(Pageable pageable) {
-        Page<AuditUniverseEntity> entityPage = repository.findAll(pageable);
-        List<AuditUniverseEntity> entities = entityPage.getContent();
+    public Page<AuditUniverse> findAll(Pageable pageable) {
+        Page<AuditUniverse> entityPage = repository.findAll(pageable);
+        List<AuditUniverse> entities = entityPage.getContent();
         return new PageImpl<>(entities, pageable, entityPage.getTotalElements());
     }
 
     @Override
-    public AuditUniverseEntity update(AuditUniverseEntity entity, Long id) {
-        Optional<AuditUniverseEntity> optional = findById(id);
+    public AuditUniverse update(AuditUniverse entity, Long id) {
+        Optional<AuditUniverse> optional = findById(id);
         if (optional.isPresent()) {
-            optional.get().setAuthStat(entity.getAuthStat());
-            optional.get().setRecordStat(entity.getRecordStat());
-            optional.get().setUniverseName(entity.getUniverseName());
-            return save(optional.get());
+            AuditUniverse universe = optional.get();
+            if (universe.getAuthStat() != null)
+                universe.setAuthStat(entity.getAuthStat());
+            if (universe.getRecordStat() != null)
+                universe.setRecordStat(entity.getRecordStat());
+            if(universe.getUniverseName() != null)
+                universe.setUniverseName(entity.getUniverseName());
+            return save(universe);
         }
-        return null;
+        throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "No record found for entity");
     }
 }

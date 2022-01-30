@@ -1,0 +1,18 @@
+---
+version: '3'
+services:
+  oracle:
+    image: banglamon/oracle193db:19.3.0-ee
+    container_name: oracle19c
+    volumes:
+      - "~/oradata/oracle19c:/opt/oracle/oradata"
+      - "~/docker-dataguard:/opt/oracle/scripts"
+    environment:
+      CONTAINER_NAME: oracle19c
+      ORACLE_PDB: TOLAPDB
+      ORACLE_PWD: devops2022
+      ORACLE_SID: XE
+      DB_UNQNAME: oracle19c
+      ROLE: STANDBY
+    ports:
+      - "1521:1521"

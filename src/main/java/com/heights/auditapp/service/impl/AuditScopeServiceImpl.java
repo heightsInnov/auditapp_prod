@@ -1,7 +1,7 @@
 package com.heights.auditapp.service.impl;
 
 import com.heights.auditapp.dao.AuditScopeRepository;
-import com.heights.auditapp.model.AuditScopeEntity;
+import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,13 +22,13 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public AuditScopeEntity save(AuditScopeEntity entity) {
-        return repository.save(entity);
+    public AuditScope save(AuditScope auditScope) {
+        return repository.save(auditScope);
     }
 
     @Override
-    public List<AuditScopeEntity> save(List<AuditScopeEntity> entities) {
-        return (List<AuditScopeEntity>) repository.saveAll(entities);
+    public List<AuditScope> save(List<AuditScope> entities) {
+        return (List<AuditScope>) repository.saveAll(entities);
     }
 
     @Override
@@ -37,27 +37,27 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public Optional<AuditScopeEntity> findById(Long id) {
+    public Optional<AuditScope> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<AuditScopeEntity> findAll() {
-        return (List<AuditScopeEntity>) repository.findAll();
+    public List<AuditScope> findAll() {
+        return (List<AuditScope>) repository.findAll();
     }
 
     @Override
-    public Page<AuditScopeEntity> findAll(Pageable pageable) {
-        Page<AuditScopeEntity> entityPage = repository.findAll(pageable);
-        List<AuditScopeEntity> entities = entityPage.getContent();
-        return new PageImpl<>(entities, pageable, entityPage.getTotalElements());
+    public Page<AuditScope> findAll(Pageable pageable) {
+        Page<AuditScope> Page = repository.findAll(pageable);
+        List<AuditScope> entities = Page.getContent();
+        return new PageImpl<>(entities, pageable, Page.getTotalElements());
     }
 
     @Override
-    public AuditScopeEntity update(AuditScopeEntity entity, Long id) {
-        Optional<AuditScopeEntity> optional = findById(id);
+    public AuditScope update(AuditScope auditScope, Long id) {
+        Optional<AuditScope> optional = findById(id);
         if (optional.isPresent()) {
-            return save(entity);
+            return save(auditScope);
         }
         return null;
     }

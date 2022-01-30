@@ -1,7 +1,7 @@
 package com.heights.auditapp.service;
 
-import com.heights.auditapp.model.AuditScopeEntity;
 
+import com.heights.auditapp.model.AuditScope;
 
-public interface AuditScopeService extends GenericService<AuditScopeEntity, Long> {
+public interface AuditScopeService extends GenericService<AuditScope, Long> {
 }

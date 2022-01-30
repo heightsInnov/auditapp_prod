@@ -1,117 +1,106 @@
 package com.heights.auditapp.dto;
 
-import com.heights.auditapp.model.AuditScopeEntity;
-
-import java.sql.Date;
+import java.util.Date;
 
 public class AuditFocusDTO extends AbstractDTO<Long> {
-    private Long id;
-    private Long scopeId;
+    private Long focusId;
+    private String approvalStatus = "D";
     private String areaOfFocus;
-    private String viewFlag = "N";
-    private String scheduledFlag = "N";
-    private Date schedulledDate;
-    private Date startDate;
-    private String workProgramStart;
-    private String startFlag = "N";
-    private String riskRating;
-    private String focusException;
-    private String focusRecommendation;
+    private String authStat = "A";
     private String comments;
     private String controlStatus;
-    private String requestAdditionalInfo;
-    private String recipientName;
-    private String recipientEmail;
+    private Date createDate = new Date();
     private Date dueDate;
     private String exceptionFlag = "N";
-    private String approvalStatus = "D";
-    private String userName;
+    private String focusException;
+    private String focusRecommendation;
+    private String recipientEmail;
+    private String recipientName;
     private String recordStat = "O";
-    private String authStat = "A";
-    private Date createDate;
-    private AuditScopeEntity auditScopeByScopeId;
+    private String requestAdditionalInfo;
+    private String riskRating;
+    private String scheduledFlag = "N";
+    private Date schedulledDate;
+    private Long scopeId;
+    private Date startDate;
+    private String startFlag = "N";
+    private Long userName;
+    private String viewFlag = "N";
+    private String workProgramStart;
 
     public AuditFocusDTO() {
     }
 
-    public Long getId() {
-        return this.id;
+    public Long getFocusId() {
+        return this.focusId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFocusId(Long focusId) {
+        this.focusId = focusId;
     }
 
-    public Long getScopeId() {
-        return this.scopeId;
+    public String getApprovalStatus() {
+        return this.approvalStatus;
     }
 
-    public void setScopeId(Long scopeId) {
-        this.scopeId = scopeId;
-    }
-
-    public String getAreaOfFocus() {
-        return this.areaOfFocus;
+    public void setApprovalStatus(String approvalStatus) {
+        this.approvalStatus = approvalStatus;
     }
 
     public void setAreaOfFocus(String areaOfFocus) {
         this.areaOfFocus = areaOfFocus;
     }
 
-    public String getViewFlag() {
-        return this.viewFlag;
+    public String getAreaOfFocus() {
+        return this.areaOfFocus;
     }
 
-    public void setViewFlag(String viewFlag) {
-        this.viewFlag = viewFlag;
+    public String getAuthStat() {
+        return this.authStat;
     }
 
-    public String getScheduledFlag() {
-        return this.scheduledFlag;
+    public void setAuthStat(String authStat) {
+        this.authStat = authStat;
     }
 
-    public void setScheduledFlag(String scheduledFlag) {
-        this.scheduledFlag = scheduledFlag;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
-    public Date getSchedulledDate() {
-        return this.schedulledDate;
+    public String getComments() {
+        return this.comments;
     }
 
-    public void setSchedulledDate(Date schedulledDate) {
-        this.schedulledDate = schedulledDate;
+    public void setControlStatus(String controlStatus) {
+        this.controlStatus = controlStatus;
     }
 
-    public Date getStartDate() {
-        return this.startDate;
+    public String getControlStatus() {
+        return this.controlStatus;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public Date getCreateDate() {
+        return this.createDate;
     }
 
-    public String getWorkProgramStart() {
-        return this.workProgramStart;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public void setWorkProgramStart(String workProgramStart) {
-        this.workProgramStart = workProgramStart;
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public String getStartFlag() {
-        return this.startFlag;
+    public Date getDueDate() {
+        return this.dueDate;
     }
 
-    public void setStartFlag(String startFlag) {
-        this.startFlag = startFlag;
+    public void setExceptionFlag(String exceptionFlag) {
+        this.exceptionFlag = exceptionFlag;
     }
 
-    public String getRiskRating() {
-        return this.riskRating;
-    }
-
-    public void setRiskRating(String riskRating) {
-        this.riskRating = riskRating;
+    public String getExceptionFlag() {
+        return this.exceptionFlag;
     }
 
     public String getFocusException() {
@@ -130,28 +119,12 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         this.focusRecommendation = focusRecommendation;
     }
 
-    public String getComments() {
-        return this.comments;
+    public String getRecipientEmail() {
+        return this.recipientEmail;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getControlStatus() {
-        return this.controlStatus;
-    }
-
-    public void setControlStatus(String controlStatus) {
-        this.controlStatus = controlStatus;
-    }
-
-    public String getRequestAdditionalInfo() {
-        return this.requestAdditionalInfo;
-    }
-
-    public void setRequestAdditionalInfo(String requestAdditionalInfo) {
-        this.requestAdditionalInfo = requestAdditionalInfo;
+    public void setRecipientEmail(String recipientEmail) {
+        this.recipientEmail = recipientEmail;
     }
 
     public String getRecipientName() {
@@ -162,75 +135,91 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         this.recipientName = recipientName;
     }
 
-    public String getRecipientEmail() {
-        return this.recipientEmail;
-    }
-
-    public void setRecipientEmail(String recipientEmail) {
-        this.recipientEmail = recipientEmail;
-    }
-
-    public Date getDueDate() {
-        return this.dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public String getExceptionFlag() {
-        return this.exceptionFlag;
-    }
-
-    public void setExceptionFlag(String exceptionFlag) {
-        this.exceptionFlag = exceptionFlag;
-    }
-
-    public String getApprovalStatus() {
-        return this.approvalStatus;
-    }
-
-    public void setApprovalStatus(String approvalStatus) {
-        this.approvalStatus = approvalStatus;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setRecordStat(String recordStat) {
+        this.recordStat = recordStat;
     }
 
     public String getRecordStat() {
         return this.recordStat;
     }
 
-    public void setRecordStat(String recordStat) {
-        this.recordStat = recordStat;
+    public String getRequestAdditionalInfo() {
+        return this.requestAdditionalInfo;
     }
 
-    public String getAuthStat() {
-        return this.authStat;
+    public void setRequestAdditionalInfo(String requestAdditionalInfo) {
+        this.requestAdditionalInfo = requestAdditionalInfo;
     }
 
-    public void setAuthStat(String authStat) {
-        this.authStat = authStat;
+    public String getRiskRating() {
+        return this.riskRating;
     }
 
-    public Date getCreateDate() {
-        return this.createDate;
+    public void setRiskRating(String riskRating) {
+        this.riskRating = riskRating;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public String getScheduledFlag() {
+        return this.scheduledFlag;
     }
 
-    public AuditScopeEntity getAuditScopeByScopeId() {
-        return this.auditScopeByScopeId;
+    public void setScheduledFlag(String scheduledFlag) {
+        this.scheduledFlag = scheduledFlag;
     }
 
-    public void setAuditScopeByScopeId(AuditScopeEntity auditScopeByScopeId) {
-        this.auditScopeByScopeId = auditScopeByScopeId;
+    public Date getSchedulledDate() {
+        return this.schedulledDate;
+    }
+
+    public void setSchedulledDate(Date schedulledDate) {
+        this.schedulledDate = schedulledDate;
+    }
+
+    public Long getScopeId() {
+        return this.scopeId;
+    }
+
+    public void setScopeId(Long scopeId) {
+        this.scopeId = scopeId;
+    }
+
+    public Date getStartDate() {
+        return this.startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getStartFlag() {
+        return this.startFlag;
+    }
+
+    public void setStartFlag(String startFlag) {
+        this.startFlag = startFlag;
+    }
+
+    public Long getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(Long userName) {
+        this.userName = userName;
+    }
+
+    public String getViewFlag() {
+        return this.viewFlag;
+    }
+
+    public void setViewFlag(String viewFlag) {
+        this.viewFlag = viewFlag;
+    }
+
+    public String getWorkProgramStart() {
+        return this.workProgramStart;
+    }
+
+    public void setWorkProgramStart(String workProgramStart) {
+        this.workProgramStart = workProgramStart;
     }
 }

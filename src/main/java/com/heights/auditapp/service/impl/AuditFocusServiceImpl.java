@@ -1,7 +1,7 @@
 package com.heights.auditapp.service.impl;
 
 import com.heights.auditapp.dao.AuditFocusRepository;
-import com.heights.auditapp.model.AuditFocusEntity;
+import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,13 +22,13 @@ public class AuditFocusServiceImpl implements AuditFocusService {
     }
 
     @Override
-    public AuditFocusEntity save(AuditFocusEntity entity) {
+    public AuditFocus save(AuditFocus entity) {
         return repository.save(entity);
     }
 
     @Override
-    public List<AuditFocusEntity> save(List<AuditFocusEntity> entities) {
-        return (List<AuditFocusEntity>) repository.saveAll(entities);
+    public List<AuditFocus> save(List<AuditFocus> entities) {
+        return (List<AuditFocus>) repository.saveAll(entities);
     }
 
     @Override
@@ -37,25 +37,25 @@ public class AuditFocusServiceImpl implements AuditFocusService {
     }
 
     @Override
-    public Optional<AuditFocusEntity> findById(Long id) {
+    public Optional<AuditFocus> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public List<AuditFocusEntity> findAll() {
-        return (List<AuditFocusEntity>) repository.findAll();
+    public List<AuditFocus> findAll() {
+        return (List<AuditFocus>) repository.findAll();
     }
 
     @Override
-    public Page<AuditFocusEntity> findAll(Pageable pageable) {
-        Page<AuditFocusEntity> entityPage = repository.findAll(pageable);
-        List<AuditFocusEntity> entities = entityPage.getContent();
+    public Page<AuditFocus> findAll(Pageable pageable) {
+        Page<AuditFocus> entityPage = repository.findAll(pageable);
+        List<AuditFocus> entities = entityPage.getContent();
         return new PageImpl<>(entities, pageable, entityPage.getTotalElements());
     }
 
     @Override
-    public AuditFocusEntity update(AuditFocusEntity entity, Long id) {
-        Optional<AuditFocusEntity> optional = findById(id);
+    public AuditFocus update(AuditFocus entity, Long id) {
+        Optional<AuditFocus> optional = findById(id);
         if (optional.isPresent()) {
             return save(entity);
         }
