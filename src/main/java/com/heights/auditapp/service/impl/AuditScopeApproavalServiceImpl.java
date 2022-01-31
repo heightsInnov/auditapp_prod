@@ -55,7 +55,7 @@ public class AuditScopeApproavalServiceImpl implements AuditScopeApproavalServic
 
     @Override
     public AuditScopeApproaval update(AuditScopeApproaval entity, Long id) {
-        Optional<AuditScopeApproaval> optional = findById(id) );
+        Optional<AuditScopeApproaval> optional = findById(id);
         if (optional.isPresent()) {
             return save(entity);
         }
