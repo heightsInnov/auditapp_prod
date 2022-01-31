@@ -2,25 +2,23 @@
 <html lang="en" layout:decorate="@{layouts/_layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{vendor/datatables/dataTables.bootstrap4.min.css}">
+</th:block>
 <body>
 <div layout:fragment="content">
-    <div class="app-main__outer">
-        <div class="app-main__inner">
-            <div class="app-page-title">
-                <div class="page-title-wrapper">
-                    <div class="page-title-heading">
-                        <div class="page-title-icon">
-                            <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
-                        </div>
-                        <div>Audit Universe
-                            <div class="page-title-subheading">Create, view and edit audit universe.</div>
-                        </div>
-                    </div>
-                    </div>
-            </div>
-            <div class="main-card mb-3 card">
-            <div class="card-body">
-                <table class="table table-hover table-striped table-bordered" id="example" style="width: 100%;">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Audit Universe</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Audit Universe
+                <span class="fa fa-plus float-right"></span>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
                     <tr>
                         <th>Universe Id</th>
@@ -28,6 +26,7 @@
                         <th>Action</th>
                     </tr>
                     </thead>
+                    <tbody>
                     <tbody>
                     <tr th:each="univ : ${universe}"
                         th:id="${'rID'} + ${univ.getUniverseId()}">
@@ -53,8 +52,17 @@
                 </table>
             </div>
         </div>
-        </div>
     </div>
 </div>
+<th:block layout:fragment="script">
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+</th:block>
 </body>
 </html>

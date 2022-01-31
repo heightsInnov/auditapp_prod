@@ -1,93 +1,93 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 
-
-<!-- Mirrored from demo.dashboardpack.com/architectui-html-pro/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 09 Jan 2022 20:44:46 GMT -->
-<!-- Added by HTTrack --><meta content="text/html;charset=UTF-8" http-equiv="content-type" /><!-- /Added by HTTrack -->
 <head>
+
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="en" http-equiv="Content-Language">
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <title>Login - Audit Management Solution</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
-          name="viewport"/>
-    <meta content="This is an example dashboard created using build-in elements and components." name="description">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
 
-    <!-- Disable tap highlight on IE -->
-    <meta content="no" name="msapplication-tap-highlight">
+    <title>Login | Audit Management Solution</title>
 
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
 </head>
 
-<body>
-<div class="app-container app-theme-white body-tabs-shadow">
-    <div class="app-container">
-        <div class="h-100">
-            <div class="h-100 no-gutters row">
-                <div class="d-none d-lg-block col-lg-4">
-                    <div class="slider-light">
-                        <div class="slick-slider">
-                            <div>
-                                <div class="position-relative h-100 d-flex justify-content-center align-items-center bg-plum-plate"
-                                     tabindex="-1">
-                                    <div class="slide-img-bg"
-                                         style="background-image: url('assets/images/originals/city.jpg');"></div>
-                                    <div class="slider-content">
-                                        <h3>Audit Management Solution</h3>
-                                        <p>ArchitectUI is like a dream. Some think it's too good to be true! Extensive
-                                            collection of unified React Boostrap Components and Elements.
-                                        </p>
+<body class="bg-gradient-primary">
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                </div>
+                                <form class="user">
+                                    <div class="form-group">
+                                        <input aria-describedby="emailHelp" class="form-control form-control-user"
+                                               id="exampleInputEmail" placeholder="Enter Email Address..."
+                                               type="email">
                                     </div>
+                                    <div class="form-group">
+                                        <input class="form-control form-control-user" id="exampleInputPassword"
+                                               placeholder="Password" type="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input class="custom-control-input" id="customCheck" type="checkbox">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-primary btn-user btn-block" href="index.html">
+                                        Login
+                                    </a>
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="register.html">Create an Account!</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-lg-8">
-                    <div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
-                        <div class="app-logo"></div>
-                        <h4 class="mb-0">
-                            <span class="d-block">Welcome back,</span>
-                            <span>Please sign in to your account.</span>
-                        </h4>
-                        <div class="divider row"></div>
-                        <div>
-                            <form class="">
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="position-relative form-group">
-                                            <label class="" for="exampleEmail">Email</label>
-                                            <input class="form-control" id="exampleEmail" name="email"
-                                                   placeholder="Email here..." type="email">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="position-relative form-group">
-                                            <label class="" for="examplePassword">Password</label>
-                                            <input class="form-control" id="examplePassword" name="password"
-                                                   placeholder="Password here..." type="password">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="divider row"></div>
-                                <div class="d-flex align-items-center">
-                                    <div class="ml-auto">
-                                        <a class="btn-lg btn btn-link" href="javascript:void(0);">Recover Password</a>
-                                        <button class="btn btn-primary btn-lg">Login to Dashboard</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
+
         </div>
+
     </div>
+
 </div>
-<script src="assets/scripts/main.d810cf0ae7f39f28f336.js" type="text/javascript"></script>
 
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Mirrored from demo.dashboardpack.com/architectui-html-pro/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 09 Jan 2022 20:44:49 GMT -->
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
 </html>

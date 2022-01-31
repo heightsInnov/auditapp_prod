@@ -3,20 +3,20 @@ package com.heights.auditapp.dto;
 import java.util.Date;
 
 public class AuditScopeDTO extends AbstractDTO<Long> {
-    private Long scopeId;
-    private String approvalStatus = "D";
-    private Date auditEndDate;
-    private String auditPeriod;
-    private Date auditStartDate;
-    private String auditType;
+    private Long scopeId; //
+    private String scopeDef; //
+    private String approvalStatus = "D"; //auto
+    private Date auditEndDate;//
+    private String auditPeriod; //
+    private Date auditStartDate; //
+    private String auditType; //
     private String authStat = "A";
     private Date createDate = new Date();
-    private Long entityId;
+    private Long entityId; //
     private String frequency;
     private String recordStat = "O";
     private String riskRating;
     private Date schedulledDate;
-    private String scopeDef;
     private String scopeObjectives;
     private String scopeOfAudit;
     private String scopePurpose;

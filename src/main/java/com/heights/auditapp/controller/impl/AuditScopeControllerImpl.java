@@ -4,26 +4,46 @@ import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
+import com.heights.auditapp.service.AuditService;
+import com.heights.auditapp.service.AuditUniverseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-scope")
-@RestController
+@Controller
 public class AuditScopeControllerImpl {
     private final AuditScopeService auditScopeService;
     private final AuditScopeMapper auditScopeMapper;
+    private final AuditUniverseService auditUniverseService;
+    private final AuditService auditService;
 
-    public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper) {
+    public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper, AuditUniverseService auditUniverseService, AuditService auditService) {
         this.auditScopeService = auditScopeService;
         this.auditScopeMapper = auditScopeMapper;
+        this.auditUniverseService = auditUniverseService;
+        this.auditService = auditService;
     }
 
+    @GetMapping("/index")
+    public String load(Model model){
+        model.addAttribute("universe", auditUniverseService.findAll());
+        return "scope";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+        model.addAttribute("universe", auditUniverseService.findAll());
+        model.addAttribute("scope", new AuditScopeDTO());
+        return "create-scope";
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
