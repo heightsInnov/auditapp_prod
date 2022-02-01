@@ -6,7 +6,9 @@ import com.heights.auditapp.service.AuditScopeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -23,6 +25,8 @@ public class AuditScopeServiceImpl implements AuditScopeService {
 
     @Override
     public AuditScope save(AuditScope auditScope) {
+        if(repository.existsByEntityIdAndScopeOfAudit(auditScope.getEntityId(), auditScope.getScopeOfAudit()))
+            update(auditScope, auditScope.getScopeId());
         return repository.save(auditScope);
     }
 
@@ -57,8 +61,29 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     public AuditScope update(AuditScope auditScope, Long id) {
         Optional<AuditScope> optional = findById(id);
         if (optional.isPresent()) {
-            return save(auditScope);
+            AuditScope scope = optional.get();
+            if (auditScope.getScopeDef() != null)
+                scope.setScopeDef(auditScope.getScopeDef());
+            if (auditScope.getAuditEndDate() != null)
+                scope.setAuditEndDate(auditScope.getAuditEndDate());
+            if (auditScope.getAuditPeriod() != null)
+                scope.setScopeDef(auditScope.getScopeDef());
+            if (auditScope.getAuditStartDate() != null)
+                scope.setAuditStartDate(auditScope.getAuditStartDate());
+            if (auditScope.getAuditType() != null)
+                scope.setAuditType(auditScope.getAuditType());
+            if (auditScope.getFrequency() != null)
+                scope.setFrequency(auditScope.getFrequency());
+            if (auditScope.getRiskRating() != null)
+                scope.setRiskRating(auditScope.getRiskRating());
+            if (auditScope.getSchedulledDate() != null)
+                scope.setSchedulledDate(auditScope.getSchedulledDate());
+            if (auditScope.getScopeObjectives() != null)
+                scope.setScopeObjectives(auditScope.getScopeObjectives());
+            if (auditScope.getScopePurpose() != null)
+                scope.setScopePurpose(auditScope.getScopePurpose());
+            return save(scope);
         }
-        return null;
+        throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "No data found corresponding to scope Id");
     }
 }

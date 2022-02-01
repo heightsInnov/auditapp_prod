@@ -1,11 +1,13 @@
 package com.heights.auditapp.controller.impl;
 
+import com.heights.auditapp.controller.AuditScopeApproavalController;
+import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
-import com.heights.auditapp.service.AuditService;
 import com.heights.auditapp.service.AuditUniverseService;
+import com.heights.auditapp.service.AuditUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,13 +25,16 @@ public class AuditScopeControllerImpl {
     private final AuditScopeService auditScopeService;
     private final AuditScopeMapper auditScopeMapper;
     private final AuditUniverseService auditUniverseService;
-    private final AuditService auditService;
+    private final AuditScopeApproavalController auditScopeApproaval;
+    private final AuditUserService auditUserService;
 
-    public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper, AuditUniverseService auditUniverseService, AuditService auditService) {
+    public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper, AuditUniverseService auditUniverseService,
+                                    AuditScopeApproavalController auditScopeApproaval, AuditUserService auditUserService) {
         this.auditScopeService = auditScopeService;
         this.auditScopeMapper = auditScopeMapper;
         this.auditUniverseService = auditUniverseService;
-        this.auditService = auditService;
+        this.auditScopeApproaval = auditScopeApproaval;
+        this.auditUserService = auditUserService;
     }
 
     @GetMapping("/index")
@@ -45,11 +50,26 @@ public class AuditScopeControllerImpl {
         return "create-scope";
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AuditScopeDTO save(@RequestBody AuditScopeDTO auditScopeDTO) {
+    @PostMapping(value="/save", params="action=approve")
+//    @RequestMapping(value = "/save", method = RequestMethod.POST,
+//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+//            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+//    @ResponseStatus(HttpStatus.CREATED)
+    public String sendForApproval(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
-        return auditScopeMapper.asDTO(auditScopeService.save(auditScope));
+        AuditScopeApproavalDTO approaval = new AuditScopeApproavalDTO();
+        approaval.setScopeId(auditScopeDTO.getScopeId());
+        approaval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
+        model.addAttribute("response",auditScopeApproaval.save(approaval));
+        return "create-scope";
+    }
+
+    @PostMapping(value="/save", params="action=save")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String save(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
+        AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
+        model.addAttribute("response", auditScopeMapper.asDTO(auditScopeService.save(auditScope)));
+        return "create-scope";
     }
 
 

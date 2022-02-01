@@ -61,4 +61,9 @@ public class AuditUserServiceImpl implements AuditUserService {
         }
         return null;
     }
+
+    @Override
+    public AuditUser findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
 }
