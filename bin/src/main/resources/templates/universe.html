@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="@{layouts/_layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{vendor/datatables/dataTables.bootstrap4.min.css}">
+</th:block>
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Audit Universe</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Audit Universe
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"><span class="fa fa-plus float-right"></span></a>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Universe Id</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                    <tr th:each="univ : ${universe}"
+                        th:id="${'rID'} + ${univ.getUniverseId()}">
+                        <td th:text="${univ.getUniverseId()}"></td>
+                        <td th:text="${univ.getUniverseName()}"></td>
+                        <td class="text-center">&nbsp;
+                            <a href="javascript:void(0)"
+                               id="delete"
+                               onclick="deleteUniverse(this.getAttribute('data-univ_id'))"
+                               th:data-username="${univ.getUniverseId()}">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Universe Id</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="this.disabled=true;this.form.submit();">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+</th:block>
+</body>
+</html>

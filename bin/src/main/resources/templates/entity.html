@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="@{layouts/_layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
+    <link rel="stylesheet" th:href="@{vendor/datatables/dataTables.bootstrap4.min.css}">
+</th:block>
+<body>
+<div layout:fragment="content">
+    <h1 class="h3 mb-2 text-gray-800">Audit Entity</h1>
+    <div class="card mb-4">
+        <div class="card-header py-3">
+        </div>
+        <div class="card-body">
+            <div class="dropdown mb-4">
+                <button aria-expanded="false" aria-haspopup="true"
+                        class="btn btn-secondary dropdown-toggle col-lg-12" data-toggle="dropdown" id="dropdownMenuButton"
+                        type="button">
+                    Select Universe
+                </button>
+                <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+                    <a class="dropdown-item" th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Audit Entity
+                <a><span class="fa fa-plus float-right"></span></a>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Entity Id</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Entity Id</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+</th:block>
+</body>
+</html>

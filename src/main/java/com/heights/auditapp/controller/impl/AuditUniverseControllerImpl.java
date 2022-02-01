@@ -28,9 +28,10 @@ public class AuditUniverseControllerImpl {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuditUniverseDTO save(@RequestBody AuditUniverseDTO auditUniverseDTO) {
+    public String save(@ModelAttribute("universeObj") AuditUniverseDTO auditUniverseDTO) {
         AuditUniverse auditUniverse = auditUniverseMapper.asEntity(auditUniverseDTO);
-        return auditUniverseMapper.asDTO(auditUniverseService.save(auditUniverse));
+        auditUniverseMapper.asDTO(auditUniverseService.save(auditUniverse));
+        return "universe";
     }
 
     @GetMapping("/{id}")
@@ -47,6 +48,7 @@ public class AuditUniverseControllerImpl {
     @GetMapping
     public String list(Model model) {
         model.addAttribute("universe", auditUniverseMapper.asDTOList(auditUniverseService.findAll()));
+        model.addAttribute("universeObj", new AuditUniverseDTO());
         return "universe";
     }
 

@@ -34,7 +34,7 @@ public class AuditEntityControllerImpl {
         model.addAttribute("universe", auditUniverseService.findAll());
         return "entity";
     }
-    @PostMapping
+    @PostMapping("add-entity")
     @ResponseStatus(HttpStatus.CREATED)
     public AuditDTO save(@RequestBody AuditDTO auditEntityDTO) {
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
