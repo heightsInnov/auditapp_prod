@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditUserRepository extends PagingAndSortingRepository<AuditUser, Long> {
+    AuditUser findByUsername(String username);
 }

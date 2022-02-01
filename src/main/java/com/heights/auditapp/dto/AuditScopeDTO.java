@@ -6,9 +6,9 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
     private Long scopeId; //
     private String scopeDef; //
     private String approvalStatus = "D"; //auto
-    private Date auditEndDate;//
+    private String auditEndDate;//
     private String auditPeriod; //
-    private Date auditStartDate; //
+    private String auditStartDate; //
     private String auditType; //
     private String authStat = "A";
     private Date createDate = new Date();
@@ -16,7 +16,7 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
     private String frequency;
     private String recordStat = "O";
     private String riskRating;
-    private Date schedulledDate;
+    private String schedulledDate;
     private String scopeObjectives;
     private String scopeOfAudit;
     private String scopePurpose;
@@ -42,11 +42,11 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         this.approvalStatus = approvalStatus;
     }
 
-    public Date getAuditEndDate() {
+    public String getAuditEndDate() {
         return this.auditEndDate;
     }
 
-    public void setAuditEndDate(Date auditEndDate) {
+    public void setAuditEndDate(String auditEndDate) {
         this.auditEndDate = auditEndDate;
     }
 
@@ -58,12 +58,12 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         return this.auditPeriod;
     }
 
-    public void setAuditStartDate(Date auditStartDate) {
-        this.auditStartDate = auditStartDate;
+    public String getAuditStartDate() {
+        return this.auditStartDate;
     }
 
-    public Date getAuditStartDate() {
-        return this.auditStartDate;
+    public void setAuditStartDate(String auditStartDate) {
+        this.auditStartDate = auditStartDate;
     }
 
     public String getAuditType() {
@@ -122,11 +122,11 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         this.riskRating = riskRating;
     }
 
-    public Date getSchedulledDate() {
+    public String getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(Date schedulledDate) {
+    public void setSchedulledDate(String schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
