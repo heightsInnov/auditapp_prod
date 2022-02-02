@@ -42,8 +42,8 @@ public class AuditRoleControllerImpl implements AuditRoleController {
 
     @Override
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditRoleService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditRoleService.deleteByDtoId(id);
     }
 
     @Override

@@ -61,4 +61,9 @@ public class AuditRoleServiceImpl implements AuditRoleService {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByRoleId(dtoId);
+    }
 }

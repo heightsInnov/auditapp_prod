@@ -36,15 +36,19 @@ public class AuditEntityControllerImpl {
     }
 
     @PostMapping
-    public String save(@ModelAttribute("entityObj") AuditDTO auditEntityDTO) {
+    public String save(@ModelAttribute("entityObj") AuditDTO auditEntityDTO, Model model) {
+        if(auditEntityDTO.getUniverseId() < 1){
+            model.addAttribute("message", "No universe selected");
+        }
+
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
         auditMapper.asDTO(auditEntityService.save(audit));
         return "redirect:/audit-entity";
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditEntityService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditEntityService.deleteByDtoId(id);
     }
 
     @GetMapping("/{id}")

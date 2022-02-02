@@ -19,7 +19,7 @@ public interface AuditRoleController {
     public AuditRoleDTO findById(@PathVariable("id") Long id);
 
     @ApiOperation("Delete based on primary key")
-    public void delete(@PathVariable("id") Long id);
+    public boolean delete(@PathVariable("id") Long id);
 
     @ApiOperation("Find all data")
     public List<AuditRoleDTO> list();

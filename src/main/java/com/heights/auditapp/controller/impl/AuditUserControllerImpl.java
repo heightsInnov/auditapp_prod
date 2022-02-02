@@ -1,6 +1,5 @@
 package com.heights.auditapp.controller.impl;
 
-import com.heights.auditapp.controller.AuditUserController;
 import com.heights.auditapp.dto.AuditUserDTO;
 import com.heights.auditapp.mapper.AuditUserMapper;
 import com.heights.auditapp.model.AuditUser;
@@ -8,15 +7,18 @@ import com.heights.auditapp.service.AuditUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-user")
-@RestController
-public class AuditUserControllerImpl implements AuditUserController {
+@Controller
+public class AuditUserControllerImpl{
     private final AuditUserService auditUserService;
     private final AuditUserMapper auditUserMapper;
 
@@ -25,34 +27,36 @@ public class AuditUserControllerImpl implements AuditUserController {
         this.auditUserMapper = auditUserMapper;
     }
 
-    @Override
+    
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AuditUserDTO save(@RequestBody AuditUserDTO auditUserDTO) {
+    public String save(AuditUserDTO auditUserDTO, Model model) {
         AuditUser auditUser = auditUserMapper.asEntity(auditUserDTO);
-        return auditUserMapper.asDTO(auditUserService.save(auditUser));
+        model.addAttribute(auditUserMapper.asDTO(auditUserService.save(auditUser)));
+        return "redirect:/audit-user";
     }
 
-    @Override
+    
     @GetMapping("/{id}")
     public AuditUserDTO findById(@PathVariable("id") Long id) {
         AuditUser auditUser = auditUserService.findById(id).orElse(null);
         return auditUserMapper.asDTO(auditUser);
     }
 
-    @Override
+    
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditUserService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditUserService.deleteByDtoId(id);
     }
 
-    @Override
+    
     @GetMapping
-    public List<AuditUserDTO> list() {
-        return auditUserMapper.asDTOList(auditUserService.findAll());
+    public String list(Model model) {
+        model.addAttribute("users", auditUserMapper.asDTOList(auditUserService.findAll()));
+        model.addAttribute("user", new AuditUserDTO());
+        return "user";
     }
 
-    @Override
+    
     @GetMapping("/page-query")
     public Page<AuditUserDTO> pageQuery(Pageable pageable) {
         Page<AuditUser> auditUserPage = auditUserService.findAll(pageable);
@@ -62,10 +66,26 @@ public class AuditUserControllerImpl implements AuditUserController {
         return new PageImpl<>(dtoList, pageable, auditUserPage.getTotalElements());
     }
 
-    @Override
+    
     @PutMapping("/{id}")
     public AuditUserDTO update(@RequestBody AuditUserDTO auditUserDTO, @PathVariable("id") Long id) {
         AuditUser auditUser = auditUserMapper.asEntity(auditUserDTO);
         return auditUserMapper.asDTO(auditUserService.update(auditUser, id));
+    }
+
+    @PostMapping("/login")
+    public RedirectView login(AuditUserDTO dto, Model model, RedirectAttributes redir) {
+        if(dto.getUsername() == null || dto.getPassword() == null){
+            model.addAttribute("message", "Invalid username or Password");
+        }
+        AuditUserDTO auditUserDTO = auditUserMapper.asDTO(auditUserService.login(dto.getUsername(), dto.getPassword()));
+        RedirectView redirectView;
+        if (auditUserDTO != null) {
+            redirectView = new RedirectView("/dashboard", true);
+            redir.addFlashAttribute("USERNAME", auditUserDTO.getUsername());
+            redir.addFlashAttribute("ROLE", auditUserDTO.getRole());
+        }
+        redirectView = new RedirectView("/audit-user", true);
+        return redirectView;
     }
 }

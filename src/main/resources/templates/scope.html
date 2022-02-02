@@ -16,6 +16,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <select class="form-control" id="universeSelect">
+                            <option value="0">Select Universe</option>
                             <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                     th:value="${uni.getUniverseId()}"></option>
                         </select>

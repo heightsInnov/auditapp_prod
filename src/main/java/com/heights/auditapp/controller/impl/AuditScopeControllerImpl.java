@@ -75,8 +75,8 @@ public class AuditScopeControllerImpl {
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditScopeService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditScopeService.deleteByDtoId(id);
     }
 
 

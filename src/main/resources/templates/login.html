@@ -35,7 +35,7 @@
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
-                    <div class="row">
+                    <div class="row" th:action="@{/audit-user/login}" th:method="post" th:object="${user}">
                         <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                         <div class="col-lg-6">
                             <div class="p-5">
@@ -45,12 +45,12 @@
                                 <form class="user">
                                     <div class="form-group">
                                         <input aria-describedby="emailHelp" class="form-control form-control-user"
-                                               id="exampleInputEmail" placeholder="Enter Email Address..."
-                                               type="email">
+                                               id="username" placeholder="Enter Email Address..."
+                                               th:field="*{username}" type="email">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control form-control-user" id="exampleInputPassword"
-                                               placeholder="Password" type="password">
+                                        <input class="form-control form-control-user" id="password"
+                                               placeholder="Password" th:field="*{password}" type="password">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
@@ -59,12 +59,12 @@
                                                 Me</label>
                                         </div>
                                     </div>
-                                    <a class="btn btn-primary btn-user btn-block" href="index.html">
+                                    <button class="btn btn-primary btn-user btn-block" type="submit">
                                         Login
-                                    </a>
+                                    </button>
                                 </form>
                                 <div class="text-center">
-                                    <a class="small" href="register.html">Create an Account!</a>
+                                    <a class="small" href="#">Create an Account</a>
                                 </div>
                             </div>
                         </div>

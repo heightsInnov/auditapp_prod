@@ -24,11 +24,14 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                Ongoing Audit
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${ongoingApprovals == null ? 0 :
+                                ongoingApprovals}]]
+                            </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <i class="fas fa-tasks fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -42,11 +45,14 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                Pending Approvals
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${pendingApprovals == null ? 0 :
+                                pendingApprovals}]]
+                            </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <i class="fas fa-unlink fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -59,11 +65,13 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Scheduled Audit
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">[[${scheduledAudit == null
+                                        ? 0 : scheduledAudit}]]
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <div class="progress progress-sm mr-2">
@@ -75,7 +83,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            <i class="fas fa-th-list fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -89,29 +97,146 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Requests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                Completed Audits
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${completedAudit == null ? 0 :
+                                completedAudit}]]
+                            </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            <i class="fas fa-check fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow mb-12" style="padding-right: unset; padding-left: unset">
+                <a aria-controls="collapseCardExample" aria-expanded="true" class="d-block card-header py-6"
+                   data-toggle="collapse" href="#collapseCardExample" role="button">
+                    <h6 class="m-0 font-weight-bold text-primary">Ongoing Audit</h6>
+                </a>
+                <!--            <div class="card-header py-3">-->
+                <!--                <h6 class="m-0 font-weight-bold text-primary">Recent Audit Scopes-->
+                <!--                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus float-right"></span></a>-->
+                <!--                </h6>-->
+                <!--            </div>-->
+                <div class="collapse show" id="collapseCardExample">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                                <thead>
+                                <tr>
+                                    <th hidden="hidden">Focus</th>
+                                    <th>Focus</th>
+                                    <th>Control Status</th>
+                                    <th>Due Date</th>
+                                    <th>Risk Rating</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--                        <tr th:each="univ : ${universe}"-->
+                                <!--                            th:id="${'rID'} + ${univ.getUniverseId()}">-->
+                                <!--                            <td th:text="${univ.getUniverseId()}"></td>-->
+                                <!--                            <td th:text="${univ.getUniverseName()}"></td>-->
+                                <!--                            <td class="text-center">&nbsp;-->
+                                <!--                                <a href="javascript:void(0)"-->
+                                <!--                                   id="delete"-->
+                                <!--                                   th:data-univ_id="${univ.getUniverseId()}"-->
+                                <!--                                   onclick="deleteUniverse(this.getAttribute('data-univ_id'))">-->
+                                <!--                                    <span class="fa fa-trash"></span>-->
+                                <!--                                </a>-->
+                                <!--                            </td>-->
+                                <!--                        </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow mb-12" style="padding-right: unset; padding-left: unset">
+                <a aria-controls="collapseApproval" aria-expanded="true" class="d-block card-header py-6"
+                   data-toggle="collapse" href="#collapseApproval" role="button">
+                    <h6 class="m-0 font-weight-bold text-primary">Approvals</h6>
+                </a>
+                <!--            <div class="card-header py-3">-->
+                <!--                <h6 class="m-0 font-weight-bold text-primary">Recent Audit Scopes-->
+                <!--                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus float-right"></span></a>-->
+                <!--                </h6>-->
+                <!--            </div>-->
+                <div class="collapse show" id="collapseApproval">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                                <thead>
+                                <tr>
+                                    <th hidden="hidden">Scope Id</th>
+                                    <th>Scope</th>
+                                    <th>Frequency</th>
+                                    <th>Start Date</th>
+                                    <th>User</th>
+                                    <th>Approval Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--                        <tr th:each="univ : ${universe}"-->
+                                <!--                            th:id="${'rID'} + ${univ.getUniverseId()}">-->
+                                <!--                            <td th:text="${univ.getUniverseId()}"></td>-->
+                                <!--                            <td th:text="${univ.getUniverseName()}"></td>-->
+                                <!--                            <td class="text-center">&nbsp;-->
+                                <!--                                <a href="javascript:void(0)"-->
+                                <!--                                   id="delete"-->
+                                <!--                                   th:data-univ_id="${univ.getUniverseId()}"-->
+                                <!--                                   onclick="deleteUniverse(this.getAttribute('data-univ_id'))">-->
+                                <!--                                    <span class="fa fa-trash"></span>-->
+                                <!--                                </a>-->
+                                <!--                            </td>-->
+                                <!--                        </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-xl-8 col-lg-7">
+            <!-- Bar Chart -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="myBarChart"></canvas>
+                    </div>
+                    <hr>
+                    Styling for the bar chart can be found in the
+                    <code>/js/demo/chart-bar-demo.js</code> file.
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
-<th:block layout:fragment="script">
+    <th:block layout:fragment="script">
 
-    <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Page level plugins -->
+        <!--    <script src="vendor/datatables/jquery.dataTables.min.js"></script>-->
+        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+        <!-- Page level custom scripts -->
+        <!--    <script src="js/demo/datatables-demo.js"></script>-->
 
-</th:block>
+    </th:block>
 
 </body>
 </html>

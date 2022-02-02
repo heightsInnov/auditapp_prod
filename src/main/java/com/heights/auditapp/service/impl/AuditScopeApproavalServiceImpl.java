@@ -61,4 +61,9 @@ public class AuditScopeApproavalServiceImpl implements AuditScopeApproavalServic
         }
         return null;
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return deleteByDtoId(dtoId);
+    }
 }

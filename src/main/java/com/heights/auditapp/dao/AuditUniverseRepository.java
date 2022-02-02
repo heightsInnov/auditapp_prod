@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditUniverseRepository extends PagingAndSortingRepository<AuditUniverse, Long> {
+    boolean deleteByUniverseId(Long universeId);
 }

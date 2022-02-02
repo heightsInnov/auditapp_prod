@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="@{layouts/_layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
+
+</th:block>
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Manage Users</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Users
+                <a data-target="#exampleModal" data-toggle="modal" href="javascript:void(0)"><span
+                        class="fa fa-plus float-right"></span></a>
+            </h6>
+        </div>
+        <div class="card-body">
+            <div id="msg">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    msg
+                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${users}"
+                        th:id="${'rID'} + ${user.getUserId()}">
+                        <td th:text="${user.getUsername()}"></td>
+                        <td th:text="${user.getRole()}"></td>
+                        <td class="text-center">&nbsp;
+                            <a href="javascript:void(0)"
+                               id="delete"
+                               onclick="deleteUniverse(this.getAttribute('data-user_id'))"
+                               th:data-univ_id="${user.getUserId()}">
+                                <span class="fa fa-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog"
+             tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Universe</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" th:action="@{/audit-user}" th:object="${user}">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="universeName">Username</label>
+                                <input class="form-control" id="universeName" name="userName"
+                                       th:field="*{username}" type="text">
+                            </div>
+                            <div class="mb-3">
+                                <label for="universeRole">Role</label>
+                                <input class="form-control" id="universeRole" name="userName"
+                                       th:field="*{role}" type="text">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+    <script>
+        const addUniverse = () => {
+            let uniName = $('#universeName').val();
+            if (uniName == "") {
+                alert("Universe name is required!");
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-universe/add-universe";
+            xhr.open('POST', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send(JSON.stringify({'universeName': uniName}));
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                    let data = JSON.parse(res).data;
+                    if (JSON.parse(res).success) {
+
+                    }
+
+                }
+            } catch (t) {
+            }
+        }
+
+        function deleteUniverse(id) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this Universe?')) {
+                let xhr = new XMLHttpRequest();
+                let url = "/audit-universe/' + id";
+                xhr.open('DELETE', url, false);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                try {
+
+                    xhr.send();
+                    if (xhr.status != 200) {
+                        //alert('Something went wrong try again!');
+
+                        $('#msg').html(message("Something went wrong try again."));
+                    } else {
+                        $('#delete').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        $('#rID' + username).remove();
+                        let res = JSON.parse(xhr.responseText);
+                        console.log(res);
+                        let data = JSON.parse(res).data;
+                        if (JSON.parse(res).success) {
+
+                        }
+
+                    }
+                } catch (t) {
+                }
+
+            } else {
+                $('#delete').attr('disabled', false);
+            }
+
+        }
+
+        function message(msg) {
+            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
+					${msg}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>`
+        }
+    </script>
+</th:block>
+</body>
+</html>
