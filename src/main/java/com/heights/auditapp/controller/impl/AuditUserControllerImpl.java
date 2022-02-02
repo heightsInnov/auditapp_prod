@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,18 +73,17 @@ public class AuditUserControllerImpl{
     }
 
     @PostMapping("/login")
-    public RedirectView login(AuditUserDTO dto, Model model, RedirectAttributes redir) {
-        if(dto.getUsername() == null || dto.getPassword() == null){
+    public String login(AuditUserDTO dto, Model model, RedirectAttributes redirect) {
+        if(dto.getUsername().equals("") || dto.getPassword().equals("")){
             model.addAttribute("message", "Invalid username or Password");
+            return "login";
         }
         AuditUserDTO auditUserDTO = auditUserMapper.asDTO(auditUserService.login(dto.getUsername(), dto.getPassword()));
-        RedirectView redirectView;
         if (auditUserDTO != null) {
-            redirectView = new RedirectView("/dashboard", true);
-            redir.addFlashAttribute("USERNAME", auditUserDTO.getUsername());
-            redir.addFlashAttribute("ROLE", auditUserDTO.getRole());
+            redirect.addFlashAttribute("USERNAME", auditUserDTO.getUsername());
+            redirect.addFlashAttribute("ROLE", auditUserDTO.getRole());
+            return  "redirect:/dashboard";
         }
-        redirectView = new RedirectView("/audit-user", true);
-        return redirectView;
+        return "login";
     }
 }

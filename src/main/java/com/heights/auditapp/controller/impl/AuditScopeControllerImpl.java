@@ -73,6 +73,10 @@ public class AuditScopeControllerImpl {
         return auditScopeMapper.asDTO(auditScope);
     }
 
+    @GetMapping("/find-by-entity/{id}")
+    public @ResponseBody List<AuditScopeDTO> findByEntityId(@PathVariable("id") Long entityId) {
+        return auditScopeMapper.asDTOList(auditScopeService.findByEntityId(entityId));
+    }
 
     @DeleteMapping("/{id}")
     public boolean delete(@PathVariable("id") Long id) {

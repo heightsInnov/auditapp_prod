@@ -20,10 +20,9 @@ public class HomeController {
     }
 
     @GetMapping("/dashboard")
-    public String home(@ModelAttribute("auditUser") final AuditUserDTO userProfile, final Model model,
+    public String home(final Model model,
                        HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");
-        model.addAttribute("userProfile", userProfile);
         model.addAttribute("dashboard", "");
 
         return "dashboard";

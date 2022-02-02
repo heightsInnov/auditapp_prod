@@ -91,4 +91,9 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     public boolean deleteByDtoId(Long dtoId) {
         return repository.deleteByScopeId(dtoId);
     }
+
+    @Override
+    public List<AuditScope> findByEntityId(Long entityId) {
+        return repository.findAllByEntityId(entityId);
+    }
 }
