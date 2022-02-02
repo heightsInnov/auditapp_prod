@@ -128,8 +128,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="put" th:action="@{/audit-entity}" th:object="${entityObj}">
+                    <form method="post" th:action="@{/audit-entity/update}" th:object="${entityObj}">
                         <div class="modal-body">
+                            <input hidden="hidden" id="entityId" th:field="*{entityId}">
                             <div class="mb-3">
                                 <label for="entUniv">Select Universe</label>
                                 <select class="form-control" id="entUniv" th:field="*{universeId}">
@@ -264,11 +265,9 @@
 
                     if(res){
                         $('#editEntModal').modal('show');
+                        $('#entityId').val(entId);
                         setSelectedOption('#entUniv', res['universeId']);
                         $('#entName').val(res['entityName']);
-                        console.log(res['entityName']);
-                        console.log(res['universeId']);
-
                     }
                 }
             } catch (t) { }

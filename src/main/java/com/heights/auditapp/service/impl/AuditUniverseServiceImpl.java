@@ -34,8 +34,8 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
-        return repository.deleteByUniverseId(id);
+    public void deleteById(Long id) {
+         repository.deleteByUniverseId(id);
     }
 
     @Override

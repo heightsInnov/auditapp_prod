@@ -72,10 +72,11 @@ public class AuditEntityControllerImpl {
         return new PageImpl<>(dtoList, pageable, auditPage.getTotalElements());
     }
 
-    @PutMapping("/{id}")
-    public AuditDTO update(@RequestBody AuditDTO auditEntityDTO, @PathVariable("id") Long id) {
+    @PostMapping("/update")
+    public String update(@ModelAttribute("entityObj") AuditDTO auditEntityDTO) {
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
-        return auditMapper.asDTO(auditEntityService.update(audit, id));
+        auditMapper.asDTO(auditEntityService.update(audit, auditEntityDTO.getEntityId()));
+        return "redirect:/audit-entity";
     }
 
     @GetMapping("/get-by-universe/{universeId}")
