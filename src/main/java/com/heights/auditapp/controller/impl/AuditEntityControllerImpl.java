@@ -43,7 +43,7 @@ public class AuditEntityControllerImpl {
 
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
         auditMapper.asDTO(auditEntityService.save(audit));
-        return "redirect:/audit-entity";
+        return "redirect:/audit-entity/get-by-universe/"+ auditEntityDTO.getUniverseId();
     }
 
     @DeleteMapping("/{id}")
@@ -52,7 +52,7 @@ public class AuditEntityControllerImpl {
     }
 
     @GetMapping("/{id}")
-    public AuditDTO findById(@PathVariable("id") Long id) {
+    public @ResponseBody AuditDTO findById(@PathVariable("id") Long id) {
         AuditEntity audit = auditEntityService.findById(id).orElse(null);
         return auditMapper.asDTO(audit);
     }
@@ -72,14 +72,23 @@ public class AuditEntityControllerImpl {
         return new PageImpl<>(dtoList, pageable, auditPage.getTotalElements());
     }
 
-    @PutMapping("/{id}")
-    public AuditDTO update(@RequestBody AuditDTO auditEntityDTO, @PathVariable("id") Long id) {
+    @PostMapping("/update")
+    public String update(@ModelAttribute("entityObj") AuditDTO auditEntityDTO) {
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
-        return auditMapper.asDTO(auditEntityService.update(audit, id));
+        auditMapper.asDTO(auditEntityService.update(audit, auditEntityDTO.getEntityId()));
+        return "redirect:/audit-entity";
     }
 
     @GetMapping("/get-by-universe/{universeId}")
-    public @ResponseBody List<AuditDTO> findByUniverse(@PathVariable Long universeId) {
+    public String findByUniverse(@PathVariable Long universeId, Model model) {
+        model.addAttribute("entities", auditMapper.asDTOList(auditEntityService.findEntitiesByUniverseId(universeId)));
+        model.addAttribute("entityObj", new AuditDTO());
+        model.addAttribute("universe", auditUniverseService.findAll());
+        return "entity";
+    }
+
+    @GetMapping("/get-by-universeId/{universeId}")
+    public @ResponseBody List<AuditDTO> findByUniverseId(@PathVariable Long universeId, Model model) {
         return auditMapper.asDTOList(auditEntityService.findEntitiesByUniverseId(universeId));
     }
 }
