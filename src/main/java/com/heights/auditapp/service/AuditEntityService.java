@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AuditEntityService extends GenericService<AuditEntity, Long> {
     List<AuditEntity> findEntitiesByUniverseId(Long universeId);
+    boolean deleteByDtoId(Long dtoId);
 }

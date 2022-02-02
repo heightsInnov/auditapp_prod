@@ -10,4 +10,5 @@ import java.util.List;
 public interface AuditScopeApproavalRepository extends PagingAndSortingRepository<AuditScopeApproaval, Long> {
     List<AuditScopeApproaval> findByUserId(Long userId);
     List<AuditScopeApproaval> findByAuthorizerId(Long authorizerId);
+    boolean deleteByApprovalId(Long approvalId);
 }

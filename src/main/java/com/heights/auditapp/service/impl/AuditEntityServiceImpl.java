@@ -86,4 +86,9 @@ public class AuditEntityServiceImpl implements AuditEntityService {
     public List<AuditEntity> findEntitiesByUniverseId(Long universeId) {
         return repository.findAllByUniverseId(universeId);
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByEntityId(dtoId);
+    }
 }

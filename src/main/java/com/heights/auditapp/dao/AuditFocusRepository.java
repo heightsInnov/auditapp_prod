@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditFocusRepository extends PagingAndSortingRepository<AuditFocus, Long> {
-
+    boolean deleteByFocusId(Long focusId);
 }

@@ -86,4 +86,9 @@ public class AuditScopeServiceImpl implements AuditScopeService {
         }
         throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "No data found corresponding to scope Id");
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByScopeId(dtoId);
+    }
 }

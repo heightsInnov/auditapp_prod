@@ -66,4 +66,14 @@ public class AuditUserServiceImpl implements AuditUserService {
     public AuditUser findByUsername(String username) {
         return repository.findByUsername(username);
     }
+
+    @Override
+    public AuditUser login(String username, String password) {
+        return repository.findByUsernameAndPassword(username, password);
+    }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByUserId(dtoId);
+    }
 }

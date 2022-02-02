@@ -41,8 +41,8 @@ public class AuditFocusControllerImpl {
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditFocusService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditFocusService.deleteByDtoId(id);
     }
 
 

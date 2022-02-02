@@ -61,4 +61,9 @@ public class AuditServiceImpl implements AuditService {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByEntityId(dtoId);
+    }
 }

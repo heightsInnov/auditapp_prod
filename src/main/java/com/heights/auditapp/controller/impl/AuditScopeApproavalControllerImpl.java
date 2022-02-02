@@ -42,8 +42,8 @@ public class AuditScopeApproavalControllerImpl implements AuditScopeApproavalCon
 
     @Override
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditScopeApproavalService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditScopeApproavalService.deleteByDtoId(id);
     }
 
     @Override

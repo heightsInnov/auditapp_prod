@@ -70,4 +70,9 @@ public class AuditUniverseServiceImpl implements AuditUniverseService {
         }
         throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "No record found for entity");
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByUniverseId(dtoId);
+    }
 }

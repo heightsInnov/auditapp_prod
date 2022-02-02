@@ -61,4 +61,9 @@ public class AuditFocusServiceImpl implements AuditFocusService {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteByDtoId(Long dtoId) {
+        return repository.deleteByFocusId(dtoId);
+    }
 }

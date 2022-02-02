@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditScopeRepository extends PagingAndSortingRepository<AuditScope, Long> {
-    Boolean existsByEntityIdAndScopeOfAudit(Long entityId, String scope);
+    boolean existsByEntityIdAndScopeOfAudit(Long entityId, String scope);
+    boolean deleteByScopeId(Long scopeId);
 }

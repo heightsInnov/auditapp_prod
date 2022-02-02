@@ -11,13 +11,13 @@
     <h1 class="h3 mb-2 text-gray-800">Audit Entity</h1>
     <div class="card mb-4">
         <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Universe</h6>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="dropdown col-md-12 mb-4">
-                    <label for="universe">Select Universe</label>
                     <select class="form-control" id="universe">
-                        <option label="&nbsp;"></option>
+                        <option value="0">Select Universe</option>
                         <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                 th:value="${uni.getUniverseId()}"></option>
                     </select>
