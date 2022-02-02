@@ -31,7 +31,7 @@ public class AuditUniverseControllerImpl {
     public String save(@ModelAttribute("universeObj") AuditUniverseDTO auditUniverseDTO) {
         AuditUniverse auditUniverse = auditUniverseMapper.asEntity(auditUniverseDTO);
         auditUniverseMapper.asDTO(auditUniverseService.save(auditUniverse));
-        return "universe";
+        return "redirect:/audit-universe";
     }
 
     @GetMapping("/{id}")

@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="style">
-    <link rel="stylesheet" th:href="@{vendor/datatables/dataTables.bootstrap4.min.css}">
+
 </th:block>
 <body>
 <div layout:fragment="content">
@@ -17,30 +17,35 @@
             </h6>
         </div>
         <div class="card-body">
+            <div id="msg">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    msg
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
-                    <tr>
-                        <th>Universe Id</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>Universe Id</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tbody>
-                    <tr th:each="univ : ${universe}"
-                        th:id="${'rID'} + ${univ.getUniverseId()}">
-                        <td th:text="${univ.getUniverseId()}"></td>
-                        <td th:text="${univ.getUniverseName()}"></td>
-                        <td class="text-center">&nbsp;
-                            <a href="javascript:void(0)"
-                               id="delete"
-                               onclick="deleteUniverse(this.getAttribute('data-univ_id'))"
-                               th:data-username="${univ.getUniverseId()}">
-                                <span class="fa fa-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr th:each="univ : ${universe}"
+                            th:id="${'rID'} + ${univ.getUniverseId()}">
+                            <td th:text="${univ.getUniverseId()}"></td>
+                            <td th:text="${univ.getUniverseName()}"></td>
+                            <td class="text-center">&nbsp;
+                                <a href="javascript:void(0)"
+                                   id="delete"
+                                   th:data-univ_id="${univ.getUniverseId()}"
+                                   onclick="deleteUniverse(this.getAttribute('data-univ_id'))">
+                                    <span class="fa fa-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                     <tfoot>
                     <tr>
@@ -119,6 +124,48 @@
 
                 }
             } catch (t) { }
+        }
+
+        function deleteUniverse(id) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this Universe?')) {
+                let xhr = new XMLHttpRequest();
+                let url = "/audit-universe/' + id";
+                xhr.open('DELETE', url, false);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                try {
+
+                    xhr.send();
+                    if (xhr.status != 200) {
+                        //alert('Something went wrong try again!');
+
+                        $('#msg').html( message("Something went wrong try again."));
+                    } else {
+                        $('#delete').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        $('#rID' + username).remove();
+                        let res = JSON.parse(xhr.responseText);
+                        console.log(res);
+                        let data = JSON.parse(res).data;
+                        if (JSON.parse(res).success) {
+
+                        }
+
+                    }
+                } catch (t) { }
+
+            } else {
+                $('#delete').attr('disabled', false);
+            }
+
+        }
+
+        function message (msg){
+            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
+					${msg}
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>`
         }
     </script>
 </th:block>
