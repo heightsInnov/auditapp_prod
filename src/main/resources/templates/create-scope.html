@@ -16,7 +16,9 @@
                     <div class="p-5">
                         <div class="">
                             <h1 class="h4 text-gray-900 mb-4">Create Scope
-                                <a href="#"><span class="float-right fa fa-upload"/></a>
+                                <a data-target="#uploadModal" data-toggle="modal" href="javascript:void(0)">
+                                    <span class="float-right fa fa-upload"></span>
+                                </a>
                             </h1>
                         </div>
                         <form class="user" method="post" th:action="@{/audit-scope/save}"
@@ -32,8 +34,8 @@
 
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="entitySelect">Entity<span style="color: red">*</span></label>
-                                    <select class="form-control" id="entitySelect" required="required">
-                                        <option th:each="uni : ${universe}" th:field="*{entityId}"
+                                    <select class="form-control" id="entitySelect" required="required" th:field="*{entityId}">
+                                        <option th:each="uni : ${universe}"
                                                 th:text="${uni.getUniverseName()}"
                                                 th:value="${uni.getUniverseId()}"></option>
                                     </select>
@@ -110,6 +112,33 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div aria-hidden="true" aria-labelledby="uploadModalLabel" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Universe</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" th:action="@{/audit-scope/}">
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="scopeUpload">Upload Excel File</label>
+                                <input accept=".xlsx, .xls, .csv" class="form-control" id="scopeUpload" name="scopeUpload"
+                                       type="file">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@ public class AuditScopeServiceImpl implements AuditScopeService {
 
     @Override
     public AuditScope save(AuditScope auditScope) {
-        if(repository.existsByEntityIdAndScopeOfAudit(auditScope.getEntityId(), auditScope.getScopeOfAudit()))
+        if(Boolean.TRUE.equals(repository.existsByEntityIdAndScopeOfAudit(auditScope.getEntityId(), auditScope.getScopeOfAudit())))
             update(auditScope, auditScope.getScopeId());
         return repository.save(auditScope);
     }

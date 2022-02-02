@@ -51,16 +51,12 @@ public class AuditScopeControllerImpl {
     }
 
     @PostMapping(value="/save", params="action=approve")
-//    @RequestMapping(value = "/save", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-//            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-//    @ResponseStatus(HttpStatus.CREATED)
     public String sendForApproval(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
-        AuditScopeApproavalDTO approaval = new AuditScopeApproavalDTO();
-        approaval.setScopeId(auditScopeDTO.getScopeId());
-        approaval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
-        model.addAttribute("response",auditScopeApproaval.save(approaval));
+        AuditScopeApproavalDTO approval = new AuditScopeApproavalDTO();
+        approval.setScopeId(auditScopeDTO.getScopeId());
+        approval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
+        model.addAttribute("response",auditScopeApproaval.save(approval));
         return "create-scope";
     }
 
