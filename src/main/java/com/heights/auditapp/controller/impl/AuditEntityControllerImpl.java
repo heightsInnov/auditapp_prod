@@ -29,16 +29,19 @@ public class AuditEntityControllerImpl {
         this.auditUniverseService = auditUniverseService;
     }
 
-    @GetMapping("/index")
+    @GetMapping
     public String load(Model model){
         model.addAttribute("universe", auditUniverseService.findAll());
+        model.addAttribute("entityObj", new AuditDTO());
         return "entity";
     }
-    @PostMapping("add-entity")
+
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AuditDTO save(@RequestBody AuditDTO auditEntityDTO) {
+    public String save(@ModelAttribute("entityObj") AuditDTO auditEntityDTO) {
         AuditEntity audit = auditMapper.asEntity(auditEntityDTO);
-        return auditMapper.asDTO(auditEntityService.save(audit));
+        auditMapper.asDTO(auditEntityService.save(audit));
+        return "redirect:/audit-entity";
     }
 
     @DeleteMapping("/{id}")
@@ -52,8 +55,9 @@ public class AuditEntityControllerImpl {
         return auditMapper.asDTO(audit);
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public List<AuditDTO> list() {
+
         return auditMapper.asDTOList(auditEntityService.findAll());
     }
 
@@ -72,8 +76,8 @@ public class AuditEntityControllerImpl {
         return auditMapper.asDTO(auditEntityService.update(audit, id));
     }
 
-    @GetMapping("/{universeId}")
-    public List<AuditDTO> findByUniverse(@PathVariable Long universeId) {
+    @GetMapping("/get-by-universe/{universeId}")
+    public @ResponseBody List<AuditDTO> findByUniverse(@PathVariable Long universeId) {
         return auditMapper.asDTOList(auditEntityService.findEntitiesByUniverseId(universeId));
     }
 }

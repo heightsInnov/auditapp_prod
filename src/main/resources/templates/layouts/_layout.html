@@ -14,6 +14,7 @@
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
@@ -57,7 +58,7 @@
             <div aria-labelledby="headingTwo" class="collapse" data-parent="#accordionSidebar" id="collapseTwo">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="/audit-universe">Universe</a>
-                    <a class="collapse-item" href="/audit-entity/index">Entity</a>
+                    <a class="collapse-item" href="/audit-entity">Entity</a>
                     <a class="collapse-item" href="/audit-scope/index">Scope</a>
                     <a class="collapse-item" href="/audit-focus/index">Focus</a>
                 </div>
@@ -226,6 +227,35 @@
 
 <!-- Custom scripts for all pages-->
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
+<script>
+    const getEntity = (id, elementId) => {
+        let xhr = new XMLHttpRequest();
+        let url = "/audit-entity/get-by-universe/" + id;
+        xhr.open('GET', url, false);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        try {
+
+            xhr.send();
+            if (xhr.status != 200) {
+                //alert('Something went wrong try again!');
+            } else {
+                let res = JSON.parse(xhr.responseText);
+                console.log(res);
+                $("#" + elementId).html(`<option label="&nbsp;"></option>`);
+
+                let data = JSON.parse(res).data;
+                if (JSON.parse(res).success) {
+                    data.forEach(t => {
+                        let e = `<option value="${t.id}"> ${t.entityName} </option>`;
+                        $("#" + elementId).append(e);
+                    });
+                }
+
+            }
+        } catch (t) { }
+    }
+</script>
 <th:block layout:fragment="script"></th:block>
 </body>
 
