@@ -11,7 +11,6 @@ import com.heights.auditapp.service.AuditUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class AuditScopeControllerImpl {
         this.auditUserService = auditUserService;
     }
 
-    @GetMapping("/index")
+    @GetMapping
     public String load(Model model){
         model.addAttribute("universe", auditUniverseService.findAll());
         return "scope";
@@ -51,21 +50,16 @@ public class AuditScopeControllerImpl {
     }
 
     @PostMapping(value="/save", params="action=approve")
-//    @RequestMapping(value = "/save", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-//            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-//    @ResponseStatus(HttpStatus.CREATED)
     public String sendForApproval(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
-        AuditScopeApproavalDTO approaval = new AuditScopeApproavalDTO();
-        approaval.setScopeId(auditScopeDTO.getScopeId());
-        approaval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
-        model.addAttribute("response",auditScopeApproaval.save(approaval));
-        return "create-scope";
+        AuditScopeApproavalDTO approval = new AuditScopeApproavalDTO();
+        approval.setScopeId(auditScopeDTO.getScopeId());
+        approval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
+        model.addAttribute("response",auditScopeApproaval.save(approval));
+        return "redirect:/audit-scope";
     }
 
     @PostMapping(value="/save", params="action=save")
-    @ResponseStatus(HttpStatus.CREATED)
     public String save(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
         model.addAttribute("response", auditScopeMapper.asDTO(auditScopeService.save(auditScope)));
@@ -86,7 +80,7 @@ public class AuditScopeControllerImpl {
     }
 
 
-    @GetMapping
+    @GetMapping("/get-all")
     public List<AuditScopeDTO> list() {
         return auditScopeMapper.asDTOList(auditScopeService.findAll());
     }

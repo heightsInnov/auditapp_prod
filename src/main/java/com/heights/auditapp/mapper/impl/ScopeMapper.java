@@ -12,7 +12,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class ScopeMapper implements AuditScopeMapper {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf;
+
+    public ScopeMapper() {
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
+    }
+
     @SneakyThrows
     @Override
     public AuditScope asEntity(AuditScopeDTO dto) {
@@ -27,9 +32,12 @@ public class ScopeMapper implements AuditScopeMapper {
         entity.setRiskRating(dto.getRiskRating());
         entity.setFrequency(dto.getFrequency());
         entity.setAuditType(dto.getAuditType());
-        entity.setSchedulledDate(sdf.parse(dto.getSchedulledDate()));
-        entity.setAuditStartDate(sdf.parse(dto.getAuditStartDate()));
-        entity.setAuditEndDate(sdf.parse(dto.getAuditEndDate()));
+        if(dto.getSchedulledDate()!= null)
+            entity.setSchedulledDate(sdf.parse(dto.getSchedulledDate()));
+        if(dto.getAuditStartDate()!= null)
+            entity.setAuditStartDate(sdf.parse(dto.getAuditStartDate()));
+        if(dto.getAuditEndDate()!= null && !dto.getAuditEndDate().equals(""))
+            entity.setAuditEndDate(sdf.parse(dto.getAuditEndDate()));
         entity.setApprovalStatus(dto.getApprovalStatus());
         entity.setUserName(dto.getUserName());
         entity.setRecordStat(dto.getRecordStat());
@@ -51,9 +59,12 @@ public class ScopeMapper implements AuditScopeMapper {
         dto.setRiskRating(entity.getRiskRating());
         dto.setFrequency(entity.getFrequency());
         dto.setAuditType(entity.getAuditType());
-        dto.setSchedulledDate(sdf.format(entity.getSchedulledDate()));
-        dto.setAuditStartDate(sdf.format(entity.getAuditStartDate()));
-        dto.setAuditEndDate(sdf.format(entity.getAuditEndDate()));
+        if(entity.getSchedulledDate()!= null)
+            dto.setSchedulledDate(sdf.format(entity.getSchedulledDate()));
+        if(entity.getAuditStartDate()!= null)
+            dto.setAuditStartDate(sdf.format(entity.getAuditStartDate()));
+        if(entity.getAuditEndDate()!= null)
+            dto.setAuditEndDate(sdf.format(entity.getAuditEndDate()));
         dto.setApprovalStatus(entity.getApprovalStatus());
         dto.setUserName(entity.getUserName());
         dto.setRecordStat(entity.getRecordStat());

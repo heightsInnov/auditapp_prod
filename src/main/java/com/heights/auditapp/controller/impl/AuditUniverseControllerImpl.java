@@ -7,7 +7,6 @@ import com.heights.auditapp.service.AuditUniverseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +26,6 @@ public class AuditUniverseControllerImpl {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public String save(@ModelAttribute("universeObj") AuditUniverseDTO auditUniverseDTO) {
         AuditUniverse auditUniverse = auditUniverseMapper.asEntity(auditUniverseDTO);
         auditUniverseMapper.asDTO(auditUniverseService.save(auditUniverse));
