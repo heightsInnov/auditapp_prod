@@ -49,6 +49,28 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr th:if="${entities != null}"
+                            th:each="ent : ${entities}"
+                            th:id="${'rID'} + ${ent.getEntityId()}">
+                            <td th:text="${ent.getEntityId()}"></td>
+                            <td th:text="${ent.getEntityName()}"></td>
+                            <td class="text-center">&nbsp;
+                                <a href="javascript:void(0)"
+                                   class="btn btn-warning btn-sm"
+                                   data-toggle="modal" data-target="#"
+                                   th:data-ent_id="${ent.getEntityId()}"
+                                   onclick="openEditModal(this.getAttribute('data-ent_id'))">
+                                    <span class="fa fa-pen"></span>
+                                </a>
+                                <a href="javascript:void(0)"
+                                   class="btn btn-danger btn-sm"
+                                   id="delete"
+                                   th:data-ent_id="${ent.getEntityId()}"
+                                   onclick="deleteEntity(this.getAttribute('data-ent_id'))">
+                                    <span class="fa fa-trash"></span>
+                                </a>
+                            </td>
+                        </tr>
 
                     </tbody>
                     <tfoot>
@@ -71,7 +93,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="post" th:action="@{/audit-entity}" th:object="${entityObj}">
+                    <form method="post" th:action="@{/audit-entity/}" th:object="${entityObj}">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="formUniverse">Select Universe</label>
@@ -90,13 +112,47 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="editEntModal" tabindex="-1" role="dialog" aria-labelledby="editEntModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editEntModalLabel">Edit Audit Entity</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="put" th:action="@{/audit-entity}" th:object="${entityObj}">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="entUniv">Select Universe</label>
+                                <select class="form-control" id="entUniv" th:field="*{universeId}">
+                                    <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
+                                            th:value="${uni.getUniverseId()}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="entName">Entity Name</label>
+                                <input class="form-control" name="entityName" id="entName" placeholder="Entity Name"
+                                       th:field="*{entityName}"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
         <!-- Modal -->
         <div class="modal fade" id="uplaodModal" tabindex="-1" role="dialog" aria-labelledby="uplaodModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -140,7 +196,7 @@
                 return;
             }
             let xhr = new XMLHttpRequest();
-            let url = "/audit-entity/get-by-universe/" + uniId;
+            let url = "/audit-entity/get-by-universeId/" + uniId;
             xhr.open('GET', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
@@ -166,15 +222,94 @@
                                <td>${x.entityId}</td>
                                <td>${x.entityName}</td>
                                <td>
-                                    <a href="#" class="btn btn-warning btn-sm"><span class="fa fa-pen"></span></a>
-                                    <a href="#" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a>
+                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>
+                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteEntity(${x.entityId})"><span class="fa fa-trash"></span></a>
                                </td>
                         </tr>`;
 
                 $('.table-bordered tbody').append(res);
             });
+        }
+
+        $(document).ready(() => {
+            let url = $(location).attr('href'),
+                parts = url.split("/"),
+                last_part = parts[parts.length-1];
+            console.log(last_part);
+            Number(last_part) ? (setSelectedOption('#universe', last_part)): ($("#universe option:eq(1)").prop("selected", true),
+            $('#universe').change());
+
+        });
+
+
+        const openEditModal = (id) => {
+            let entId = id;
+            $('#editEntModal').modal('show');
+            if(entId < 1){
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-entity/" + entId;
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+
+                    if(res){
+                        $('#editEntModal').modal('show');
+                        setSelectedOption('#entUniv', res['universeId']);
+                        $('#entName').val(res['entityName']);
+                        console.log(res['entityName']);
+                        console.log(res['universeId']);
+
+                    }
+                }
+            } catch (t) { }
 
         }
+
+        const setSelectedOption = (id, value) =>{
+
+            $(id + ' option').each(function () {
+                if ($(this).val() == value) {
+                    $(this).prop("selected", true);
+                }
+            });
+        }
+
+        function deleteEntity(id) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this Entity?')) {
+                let xhr = new XMLHttpRequest();
+                let url = "/audit-entity/" + id;
+                xhr.open('DELETE', url, false);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                try {
+
+                    xhr.send();
+                    if (xhr.status != 200) {
+                        //alert('Something went wrong try again!');
+                        location.reload();
+                    } else {
+                       location.reload();
+
+                    }
+                } catch (t) {  location.reload(); }
+
+            } else {
+                $('#delete').attr('disabled', false);
+            }
+
+        }
+
     </script>
 
 </th:block>

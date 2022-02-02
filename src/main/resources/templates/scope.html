@@ -3,7 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="style">
-    <link rel="stylesheet" th:href="@{vendor/datatables/dataTables.bootstrap4.min.css}">
 </th:block>
 <body>
 <div layout:fragment="content">
@@ -22,7 +21,7 @@
                     </div>
                     <div class="col-lg-6">
                         <select class="form-control" id="entitySelect">
-                            <option value="0">Select Entity</option>
+                            <option label="&nbsp;">Select Entity</option>
                         </select>
                     </div>
                 </div>
@@ -82,6 +81,75 @@
 
     <!-- Page level custom scripts -->
     <script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+    <script>
+        $('#universeSelect').on('change', () =>{
+            let uniId = $('#universeSelect').val();
+            if(uniId < 1 ){
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-entity/get-by-universeId/" + uniId;
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    $('#entitySelect').html(`<option label="&nbsp;">Select Entity</option>`);
+                    res.forEach(x => {
+                        let res = `<option value="${x.entityId}">${x.entityName}</option>`;
+                        $('#entitySelect').append(res);
+                    })
+                }
+            } catch (t) { }
+        });
+
+        $('#entitySelect').on('change', () =>{
+            let entId = $('#entitySelect').val();
+            if(entId < 1 ){
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-scope/" + entId;
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                   if(res){
+                       scopeTemp(res);
+                   }
+                }
+            } catch (t) { }
+        });
+
+        const scopeTemp = (data) => {
+            $('.table-bordered tbody').html('');
+            data.forEach(x => {
+                let res = `<tr>
+                               // <td>${x.entityId}</td>
+                               // <td>${x.entityName}</td>
+                               // <td>
+                               //      <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>
+                               //      <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteEntity(${x.entityId})"><span class="fa fa-trash"></span></a>
+                               // </td>
+                        </tr>`;
+
+                $('.table-bordered tbody').append(res);
+            });
+        }
+    </script>
 
 </th:block>
 

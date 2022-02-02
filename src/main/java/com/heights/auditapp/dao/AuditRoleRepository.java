@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditRoleRepository extends PagingAndSortingRepository<AuditRole, Long> {
+    boolean deleteByRoleId(Long roleId);
 }

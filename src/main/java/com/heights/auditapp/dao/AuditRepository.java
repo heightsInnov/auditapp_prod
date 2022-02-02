@@ -10,4 +10,5 @@ import java.util.List;
 public interface AuditRepository extends PagingAndSortingRepository<AuditEntity, Long> {
     List<AuditEntity> findAllByUniverseId(Long universeId);
     Boolean existsByUniverseIdAndEntityName(Long universeId, String entityName);
+    boolean deleteByEntityId(Long entityId);
 }

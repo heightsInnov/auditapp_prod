@@ -18,10 +18,7 @@
         </div>
         <div class="card-body">
             <div id="msg">
-                <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                    msg
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+
             </div>
             <div class="table-responsive">
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
@@ -130,7 +127,7 @@
             $('#delete').attr('disabled', true);
             if (confirm('Are you sure to delete this Universe?')) {
                 let xhr = new XMLHttpRequest();
-                let url = "/audit-universe/' + id";
+                let url = "/audit-universe/" + id;
                 xhr.open('DELETE', url, false);
                 xhr.setRequestHeader("content-type", "application/json");
                 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
@@ -138,22 +135,21 @@
 
                     xhr.send();
                     if (xhr.status != 200) {
+                        location.reload();
                         //alert('Something went wrong try again!');
 
-                        $('#msg').html( message("Something went wrong try again."));
+                       // $('#msg').html( message("Something went wrong try again."));
                     } else {
                         $('#delete').attr('disabled', false);
                         $('#msg').html(message(data.data));
                         $('#rID' + username).remove();
                         let res = JSON.parse(xhr.responseText);
-                        console.log(res);
-                        let data = JSON.parse(res).data;
-                        if (JSON.parse(res).success) {
-
+                        if(res){
+                            location.reload();
                         }
 
                     }
-                } catch (t) { }
+                } catch (t) {location.reload(); }
 
             } else {
                 $('#delete').attr('disabled', false);
@@ -164,7 +160,6 @@
         function message (msg){
             return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
 					${msg}
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>`
         }
     </script>

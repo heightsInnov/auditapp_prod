@@ -39,8 +39,8 @@ public class AuditUniverseControllerImpl {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        auditUniverseService.deleteById(id);
+    public boolean delete(@PathVariable("id") Long id) {
+        return auditUniverseService.deleteById(id);
     }
 
     @GetMapping
