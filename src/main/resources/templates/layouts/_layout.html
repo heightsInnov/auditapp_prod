@@ -228,33 +228,7 @@
 <!-- Custom scripts for all pages-->
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
 <script>
-    const getEntity = (id, elementId) => {
-        let xhr = new XMLHttpRequest();
-        let url = "/audit-entity/get-by-universe/" + id;
-        xhr.open('GET', url, false);
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        try {
 
-            xhr.send();
-            if (xhr.status != 200) {
-                //alert('Something went wrong try again!');
-            } else {
-                let res = JSON.parse(xhr.responseText);
-                console.log(res);
-                $("#" + elementId).html(`<option label="&nbsp;"></option>`);
-
-                let data = JSON.parse(res).data;
-                if (JSON.parse(res).success) {
-                    data.forEach(t => {
-                        let e = `<option value="${t.id}"> ${t.entityName} </option>`;
-                        $("#" + elementId).append(e);
-                    });
-                }
-
-            }
-        } catch (t) { }
-    }
 </script>
 <th:block layout:fragment="script"></th:block>
 </body>

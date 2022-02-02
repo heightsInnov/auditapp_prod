@@ -108,7 +108,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form class="dropzone"
+                        <form action="#" class="dropzone"
                               id="my-awesome-dropzone">
                             <input type="file" name="file" class="form-control-file" />
                         </form>
@@ -139,49 +139,42 @@
             if(uniId < 1 ){
                 return;
             }
-            getEntity(uniId, "entity");
-        });
-
-
-        const addEntity = () => {
-            let entName = $('#entityName').val();
-            let uniId = $('#formUniverse').val();
-
-            if(uniId < 1) {
-                alert("Select universe name is required!");
-                return;
-            }
-            if(entName == "") {
-                alert("Entity name is required!");
-                return;
-            }
-            let params = {
-                'entityName': entName,
-                'universeId': uniId
-            }
             let xhr = new XMLHttpRequest();
-            let url = "/audit-entity/add-entity";
-            xhr.open('POST', url, false);
+            let url = "/audit-entity/get-by-universe/" + uniId;
+            xhr.open('GET', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
             try {
 
-                xhr.send(JSON.stringify(params));
+                xhr.send();
                 if (xhr.status != 200) {
                     //alert('Something went wrong try again!');
                 } else {
-
                     let res = JSON.parse(xhr.responseText);
                     console.log(res);
-                    let data = JSON.parse(res).data;
-                    if (JSON.parse(res).success) {
-
-                    }
-
+                        if(res){
+                            entityTemp(res);
+                        }
                 }
             } catch (t) { }
-        }
+        });
 
+        const entityTemp = (data) => {
+            $('.table-bordered tbody').html('');
+            data.forEach(x => {
+                let res = `<tr>
+                               <td>${x.entityId}</td>
+                               <td>${x.entityName}</td>
+                               <td>
+                                    <a href="#" class="btn btn-warning btn-sm"><span class="fa fa-pen"></span></a>
+                                    <a href="#" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a>
+                               </td>
+                        </tr>`;
+
+                $('.table-bordered tbody').append(res);
+            });
+
+        }
     </script>
 
 </th:block>
