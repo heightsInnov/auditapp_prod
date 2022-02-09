@@ -9,9 +9,18 @@ public class AuditUserDTO extends AbstractDTO<Long> {
     private Long role;
     private Date createdDate;
     private String roleName;
+    private String isActive;
 
     public String getRoleName() {
         return roleName;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
     }
 
     public void setRoleName(String roleName) {

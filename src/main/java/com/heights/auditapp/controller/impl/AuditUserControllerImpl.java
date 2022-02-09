@@ -1,8 +1,10 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
+import com.heights.auditapp.mapper.AuditRoleMapper;
 import com.heights.auditapp.mapper.AuditUserMapper;
 import com.heights.auditapp.model.AuditUser;
+import com.heights.auditapp.service.AuditRoleService;
 import com.heights.auditapp.service.AuditUserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,11 +22,15 @@ import java.util.stream.Collectors;
 @Controller
 public class AuditUserControllerImpl{
     private final AuditUserService auditUserService;
+    private final AuditRoleService auditRoleService;
     private final AuditUserMapper auditUserMapper;
+    private final AuditRoleMapper auditRoleMapper;
 
-    public AuditUserControllerImpl(AuditUserService auditUserService, AuditUserMapper auditUserMapper) {
+    public AuditUserControllerImpl(AuditUserService auditUserService, AuditRoleService auditRoleService, AuditUserMapper auditUserMapper, AuditRoleMapper auditRoleMapper) {
         this.auditUserService = auditUserService;
+        this.auditRoleService = auditRoleService;
         this.auditUserMapper = auditUserMapper;
+        this.auditRoleMapper = auditRoleMapper;
     }
 
     
@@ -53,6 +59,7 @@ public class AuditUserControllerImpl{
     public String list(Model model) {
         model.addAttribute("users", auditUserMapper.asDTOList(auditUserService.findAll()));
         model.addAttribute("user", new AuditUserDTO());
+        model.addAttribute("role", auditRoleService.findAll());
         return "user";
     }
 

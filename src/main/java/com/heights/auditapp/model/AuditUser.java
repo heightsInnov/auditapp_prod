@@ -1,15 +1,13 @@
 package com.heights.auditapp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "AUDIT_USER")
 public class AuditUser {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long userId;
 
@@ -22,8 +20,19 @@ public class AuditUser {
     @Column(name = "ROLE")
     private Long role;
 
+    @Column(name = "ISACTIVE")
+    private char isActive = '1';
+
     @Column(name = "CREATED_DATE")
-    private Date createdDate;
+    private Date createdDate = new Date();
+
+    public char getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(char isActive) {
+        this.isActive = isActive;
+    }
 
     public Long getUserId() {
         return this.userId;

@@ -90,11 +90,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed"  href="#">
+            <a aria-controls="collapseThree" aria-expanded="true" class="nav-link collapsed" data-target="#collapseThree"
+               data-toggle="collapse" href="#">
                 <i class="fas fa-fw fa-cogs"></i>
                 <span>Settings</span>
             </a>
+            <div aria-labelledby="headingThree" class="collapse" data-parent="#accordionSidebar" id="collapseThree">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="#">Create User</a>
+                </div>
+            </div>
         </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 

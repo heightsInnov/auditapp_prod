@@ -13,24 +13,21 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Users
-                <a data-target="#exampleModal" data-toggle="modal" href="javascript:void(0)"><span
-                        class="fa fa-plus float-right"></span></a>
+                <a class="btn btn-primary mr-2 float-right" data-target="#exampleModal" data-toggle="modal" href="javascript:void(0)">
+                    <span class="fa fa-plus float-right"></span>
+                </a>
             </h6>
         </div>
         <div class="card-body">
-<!--            <div id="msg">-->
-<!--                <div class="alert alert-primary alert-dismissible fade show" role="alert">-->
-<!--                    msg-->
-<!--                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="table-responsive">
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
                     <tr>
                         <th>Username</th>
                         <th>Role</th>
-                        <th>Active</th>
+                        <th>Manager</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,6 +35,8 @@
                         th:id="${'rID'} + ${user.getUserId()}">
                         <td th:text="${user.getUsername()}"></td>
                         <td th:text="${user.getRoleName()}"></td>
+                        <td th:text="${user.getRoleName()}"></td>
+                        <td th:class="${!user.getIsActive().equals('ACTIVE')?'badge badge-pill badge-danger':'badge badge-pill badge-success'}" th:text="${user.getIsActive()}"></td>
                         <td class="text-center">&nbsp;
                             <a data-target="#"
                                data-toggle="modal" href="javascript:void(0)"
@@ -64,7 +63,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Universe</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">New Customer</h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -72,14 +71,16 @@
                     <form method="post" th:action="@{/audit-user}" th:object="${user}">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="universeName">Username</label>
-                                <input class="form-control" id="universeName" name="userName"
+                                <label for="userName">Username/Email</label>
+                                <input class="form-control" id="userName" name="userName"
                                        th:field="*{username}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label for="universeRole">Role</label>
-                                <input class="form-control" id="universeRole" name="userName"
-                                       th:field="*{role}" type="text">
+                                <label for="forRole">Role</label>
+                                <select class="form-control" id="forRole" th:field="*{role}">
+                                    <option th:each="rol : ${role}" th:text="${rol.getName()}"
+                                            th:value="${rol.getRoleId()}"></option>
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">

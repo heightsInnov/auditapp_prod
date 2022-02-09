@@ -1,29 +1,38 @@
 package com.heights.auditapp.mapper.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
-import com.heights.auditapp.encrypt.PBEncrytor;
 import com.heights.auditapp.mapper.AuditUserMapper;
 import com.heights.auditapp.model.AuditUser;
 import com.heights.auditapp.service.AuditRoleService;
+import com.heights.auditapp.service.impl.UtilHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class UserMapper implements AuditUserMapper {
 
     private final AuditRoleService auditRoleService;
+    private final UtilHelper utilHelper;
 
-    public UserMapper(AuditRoleService auditRoleService) {
+    public UserMapper(AuditRoleService auditRoleService, UtilHelper utilHelper) {
         this.auditRoleService = auditRoleService;
+        this.utilHelper = utilHelper;
     }
 
     @Override
     public AuditUser asEntity(AuditUserDTO dto) {
         AuditUser user = new AuditUser();
         user.setUsername(dto.getUsername());
-        user.setPassword(PBEncrytor.PBEncrypt(dto.getPassword()));
+        String pass = utilHelper.generatePassword();
+        String enc = Base64.getEncoder().encodeToString(pass.getBytes());
+        log.info("Your password is >> "+ pass);
+        user.setPassword(enc);//.replace("=",""));
+        log.info("Your enc password is >> "+ user.getPassword());
         user.setRole(dto.getRole());
         return user;
     }
@@ -36,6 +45,7 @@ public class UserMapper implements AuditUserMapper {
         dto.setUsername(entity.getUsername());
         dto.setUserId(entity.getUserId());
         auditRoleService.findById(entity.getRole()).ifPresent(auditRole -> dto.setRoleName(auditRole.getName()));
+        dto.setIsActive(entity.getIsActive() == '1'?"ACTIVE":"DISABLED");
         return dto;
     }
 
