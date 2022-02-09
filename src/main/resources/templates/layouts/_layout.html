@@ -10,6 +10,8 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
+    <meta content = "2; url = http://localhost:7007/" http-equiv = "refresh" th:if="${session.username == null}" />
+
     <title>Audit Management Solution</title>
 
     <!-- Custom fonts for this template-->
@@ -25,7 +27,6 @@
 </head>
 
 <body id="page-top">
-
 <!-- Page Wrapper -->
 <div id="wrapper">
 
@@ -63,6 +64,12 @@
                     <a class="collapse-item" href="/audit-focus">Focus</a>
                 </div>
             </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#">
+                <i class="fas fa-fw fa-user-shield"></i>
+                <span>Audit Execution</span>
+            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="#">
@@ -134,7 +141,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
                            href="#" id="userDropdown" role="button">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">[[${username}]]</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${session.username}"></span>
                             <img class="img-profile rounded-circle"
                                  th:src="@{/img/undraw_profile.svg}">
                         </a>

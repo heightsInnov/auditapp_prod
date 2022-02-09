@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,17 +74,20 @@ public class AuditUserControllerImpl{
     }
 
     @PostMapping("/login")
-    public String login(AuditUserDTO dto, Model model, RedirectAttributes redirect) {
+    public String login(AuditUserDTO dto, Model model, RedirectAttributes redirect, HttpSession session) {
         if(dto.getUsername().equals("") || dto.getPassword().equals("")){
             model.addAttribute("message", "Invalid username or Password");
-            return "login";
+            return "redirect:/";
         }
-        AuditUserDTO auditUserDTO = auditUserMapper.asDTO(auditUserService.login(dto.getUsername(), dto.getPassword()));
-        if (auditUserDTO != null) {
-            redirect.addFlashAttribute("USERNAME", auditUserDTO.getUsername());
-            redirect.addFlashAttribute("ROLE", auditUserDTO.getRole());
+        AuditUser tt = auditUserService.login(dto.getUsername(), dto.getPassword());
+
+        if (tt != null) {
+            AuditUserDTO auditUserDTO = auditUserMapper.asDTO(tt);
+            session.setAttribute("username", auditUserDTO.getUsername());
+            session.setAttribute("role", auditUserDTO.getRole());
             return  "redirect:/dashboard";
         }
-        return "login";
+        redirect.addFlashAttribute("message", "Invalid username or password");
+        return "redirect:/";
     }
 }

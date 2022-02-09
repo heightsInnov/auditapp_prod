@@ -118,11 +118,12 @@ public class PBEncrytor {
         return null;
     }
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
+        String enc = Base64.getEncoder().encodeToString("oluomo".getBytes());
 //        PBEncrytor v = new PBEncrytor();
 //        System.out.println(v.PBDecrypt("SkB9t9KxkLAt5BxBNOGUBf7zrjofS4"));
 //        System.out.println(v.PBEncrypt("ermportal2021"));
 //        System.out.println("New "+v.PBEncrypt("devops2020"));
-//        System.out.println(v.PBEncrypt("lasgermportal@gmail.com"));
-//    }
+        System.out.println(enc);
+    }
 }

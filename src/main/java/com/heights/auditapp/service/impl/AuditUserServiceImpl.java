@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +70,7 @@ public class AuditUserServiceImpl implements AuditUserService {
 
     @Override
     public AuditUser login(String username, String password) {
-        return repository.findByUsernameAndPassword(username, password);
+        return repository.findByUsernameAndPassword(username, Base64.getEncoder().encodeToString(password.getBytes()));
     }
 
     @Override

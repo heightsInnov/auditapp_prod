@@ -8,6 +8,15 @@ public class AuditUserDTO extends AbstractDTO<Long> {
     private String password;
     private Long role;
     private Date createdDate;
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public AuditUserDTO() {
     }

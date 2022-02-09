@@ -4,6 +4,7 @@ import com.heights.auditapp.dto.AuditUserDTO;
 import com.heights.auditapp.encrypt.PBEncrytor;
 import com.heights.auditapp.mapper.AuditUserMapper;
 import com.heights.auditapp.model.AuditUser;
+import com.heights.auditapp.service.AuditRoleService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,6 +12,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper implements AuditUserMapper {
+
+    private final AuditRoleService auditRoleService;
+
+    public UserMapper(AuditRoleService auditRoleService) {
+        this.auditRoleService = auditRoleService;
+    }
+
     @Override
     public AuditUser asEntity(AuditUserDTO dto) {
         AuditUser user = new AuditUser();
@@ -27,6 +35,7 @@ public class UserMapper implements AuditUserMapper {
         dto.setRole(entity.getRole());
         dto.setUsername(entity.getUsername());
         dto.setUserId(entity.getUserId());
+        auditRoleService.findById(entity.getRole()).ifPresent(auditRole -> dto.setRoleName(auditRole.getName()));
         return dto;
     }
 

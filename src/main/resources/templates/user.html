@@ -18,12 +18,12 @@
             </h6>
         </div>
         <div class="card-body">
-            <div id="msg">
-                <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                    msg
-                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
-                </div>
-            </div>
+<!--            <div id="msg">-->
+<!--                <div class="alert alert-primary alert-dismissible fade show" role="alert">-->
+<!--                    msg-->
+<!--                    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="table-responsive">
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
@@ -31,15 +31,21 @@
                         <th>Username</th>
                         <th>Role</th>
                         <th>Active</th>
-                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user : ${users}"
                         th:id="${'rID'} + ${user.getUserId()}">
                         <td th:text="${user.getUsername()}"></td>
-                        <td th:text="${user.getRole()}"></td>
+                        <td th:text="${user.getRoleName()}"></td>
                         <td class="text-center">&nbsp;
+                            <a data-target="#"
+                               data-toggle="modal" href="javascript:void(0)"
+                               onclick="openEditModal(this.getAttribute('data-user_id'))"
+                               th:data-ent_id="${user.getUserId()}">
+                                <span class="fa fa-pen"></span>
+                            </a>
+                            &nbsp; &nbsp; &nbsp; &nbsp;
                             <a href="javascript:void(0)"
                                id="delete"
                                onclick="deleteUniverse(this.getAttribute('data-user_id'))"
@@ -49,14 +55,6 @@
                         </td>
                     </tr>
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Active</th>
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -132,6 +130,37 @@
                 }
             } catch (t) {
             }
+        }
+
+        const openEditModal = (id) => {
+            let entId = id;
+            $('#editEntModal').modal('show');
+            if(entId < 1){
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-user/" + entId;
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+
+                    if(res){
+                        $('#editEntModal').modal('show');
+                        $('#entityId').val(entId);
+                        setSelectedOption('#entUniv', res['universeId']);
+                        $('#entName').val(res['entityName']);
+                    }
+                }
+            } catch (t) { }
+
         }
 
         function deleteUniverse(id) {
