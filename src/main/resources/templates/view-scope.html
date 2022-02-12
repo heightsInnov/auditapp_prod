@@ -16,1626 +16,309 @@
             rel="stylesheet" type="text/css"/>
 
     <!-- Propeller Accordion -->
-    <link
-            href="https://opensource.propeller.in/components/floating-action-button/css/floating-action-button.css"
-            rel="stylesheet" type="text/css"/>
+<!--    <link-->
+<!--            href="https://opensource.propeller.in/components/floating-action-button/css/floating-action-button.css"-->
+<!--            rel="stylesheet" type="text/css"/>-->
 
-    <link
-            href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"
-            rel="stylesheet">
+<!--    <link-->
+<!--            href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"-->
+<!--            rel="stylesheet">-->
     <style>
         body {
             background: transparent;
         }
+
     </style>
 </th:block>
 <body>
 <div layout:fragment="content">
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">User Profile</h1>
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item">Dashboard</li>
-            <li class="breadcrumb-item active">Profile</li>
-        </ol>
-        <div class="row">
-            <div class="container">
-                <div class="main-body">
-                    <div id="msg"></div>
-                    <div class="alert alert-primary" role="alert" th:if="${output != null}">
-                        [[${output}]]
-                    </div>
-                    <div class="row gutters-sm">
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex flex-column align-items-center text-center">
-                                        <img
-                                                alt="Admin"
-                                                class="rounded-circle" id="passport" th:src="${user.employeeDetails.passport != null ? user.employeeDetails.passport : '/assets/img/passph.jpg'}" width="150">
-                                        <div class="mt-3">
-                                            <h4 class="mb-1"
-                                                th:text="${user.employeeDetails.emp_lastname}+' '+${user.employeeDetails.emp_firstname}"></h4>
-                                            <p class="text-secondary mb-1"
-                                               th:text="${user.employeeDetails.emp_id}+' - '+${user.employeeDetails.emp_username}"></p>
-                                            <p class="text-muted font-size-sm"
-                                               th:text="${user.employeeDetails.emp_present_posting_deployment}"></p>
+    <div class="container">
+        <h1 class="h3 mb-2 text-gray-800">Scope Details </h1>
+        <div class="main-body">
 
-                                            <div class="form-check form-switch"
-                                                 th:if="${session.role == 'ADMIN' && session.username != user.employeeDetails.emp_username}">
-                                                <input class="form-check-input" id="flexSwitchCheckDefault"
-                                                       onclick="changeRole(this.getAttribute('data-username'), this.getAttribute('data-currentRole'))"
-                                                       th:checked="${user.employeeDetails.emp_role == 'ADMIN'}"
-                                                       th:data-currentRole="${user.employeeDetails.emp_role}"
-                                                       th:data-username="${user.employeeDetails.emp_username}"
-                                                       type="checkbox"/>
-                                                <label class="form-check-label roleText"
-                                                       for="flexSwitchCheckDefault"
-                                                       th:text="${user.employeeDetails.emp_role}"></label> &nbsp;
-                                                <a href="javascript:void(0)"><i
-                                                        id="changeStatus"
-                                                        onclick="changeStatus(this.getAttribute('data-username'), this.getAttribute('data-currentStatus'))"
-                                                        th:class="${user.employeeDetails.isActive == 'Y' ? 'fa fa-unlock-alt ':'fa fa-lock'}"
-                                                        th:data-currentStatus="${user.employeeDetails.isActive}"
-                                                        th:data-username="${user.employeeDetails.emp_username}"
-                                                        title="Make user inactive"></i></a>
-                                            </div>
-                                            <button class="btn btn-success"
-                                                    th:if="${session.role == 'STAFF'}">ACTIVE
-                                            </button>
-                                        </div>
-                                    </div>
+            <div class="row gutters-sm">
+                <div class="col-md-5 mb-3">
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <div class="d-flex flex-column align-items-center text-center">-->
+<!--                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">-->
+<!--                                <div class="mt-3">-->
+<!--                                    <h4>John Doe</h4>-->
+<!--                                    <p class="text-secondary mb-1">Full Stack Developer</p>-->
+<!--                                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>-->
+<!--                                    <button class="btn btn-primary">Follow</button>-->
+<!--                                    <button class="btn btn-outline-primary">Message</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Audit Type</h6>
+                                <span class="text-secondary audit-type"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Audit Period</h6>
+                                <span class="text-secondary period"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Approval Status</h6>
+                                <span class="text-secondary approval"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Audit StartDate</h6>
+                                <span class="text-secondary startDate"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                <h6 class="mb-0">Audit EndDate</h6>
+                                <span class="text-secondary endDate"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Scope</h6>
                                 </div>
+                                <div class="col-sm-9 text-secondary scope">  </div>
                             </div>
-                            <div class="card mt-3">
-                                <ul class="list-group list-group-flush">
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/person-fill.svg}"
-                                                 width="24px"/> Oracle Id
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.oracleId}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/circle.svg}"
-                                                 width="24px"/> Total Leave Days
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_leave_days}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/x-circle.svg}"
-                                                 width="24px"/> Leave Days Left
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_leave_days_left}"></span>
-                                    </li>
-                                    <!--                                    <li hidden="hidden"-->
-                                    <!--                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">-->
-                                    <!--                                        <h6 class="mb-0">-->
-                                    <!--                                            <img th:src="@{/assets/img/user-check.svg}" width="24px"-->
-                                    <!--                                                 height="24px"/> Identity Type-->
-                                    <!--                                        </h6> <span class="text-secondary"-->
-                                    <!--                                                    th:text="${user.employeeDetails.emp_id_type}"></span>-->
-                                    <!--                                    </li>-->
-                                    <!--                                    <li-->
-                                    <!--                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">-->
-                                    <!--                                        <h6 class="mb-0">-->
-                                    <!--                                            <img th:src="@{/assets/img/hash.svg}" width="24px"-->
-                                    <!--                                                 height="24px"/> ID Card No.-->
-                                    <!--                                        </h6> <span class="text-secondary"-->
-                                    <!--                                                    th:text="${user.employeeDetails.emp_id_no}"></span>-->
-                                    <!--                                    </li>-->
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/hash.svg}"
-                                                 width="24px"/> Establishment File No.
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_establishment_file_no}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/hash.svg}"
-                                                 width="24px"/> PSO File No.
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_pso_file_no}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/hash.svg}"
-                                                 width="24px"/> Commission File No.
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_commission_file_no}"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="card mt-3">
-                                <ul class="list-group list-group-flush">
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/archive.svg}"
-                                                 width="24px"/> Date of First Appointment
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_date_of_first_employment}"></span>
-                                    </li>
-                                    <!--                                    <li hidden="hidden"-->
-                                    <!--                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">-->
-                                    <!--                                        <h6 class="mb-0">-->
-                                    <!--                                            <img th:src="@{/assets/img/thumbs-up.svg}" width="24px"-->
-                                    <!--                                                 height="24px"/> Employment Date-->
-                                    <!--                                        </h6> <span class="text-secondary"-->
-                                    <!--                                                    th:text="${user.employeeDetails.emp_employment_date}"></span>-->
-                                    <!--                                    </li>-->
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/map-pin.svg}"
-                                                 width="24px"/> Date Deployed to Present Ministry
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_present_posting_date}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/check-circle.svg}"
-                                                 width="24px"/> Confirmation Date
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_confirmation_date}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/briefcase.svg}"
-                                                 width="24px"/> Retirement Date
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_retirement_date}"></span>
-                                    </li>
-                                    <li
-                                            class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                        <h6 class="mb-0">
-                                            <img height="24px" th:src="@{/assets/img/user-plus.svg}"
-                                                 width="24px"/> Staff Creation Date
-                                        </h6> <span class="text-secondary"
-                                                    th:text="${user.employeeDetails.emp_creation_date}"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-0">Full Name</h6>
-                                                        </div>
-                                                        <div class="col-sm-9 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_lastname}+' '+' '+${user.employeeDetails.emp_middlename}+' '+${user.employeeDetails.emp_firstname}"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <h6 class="mb-0">Nationality</h6>
-                                                        </div>
-                                                        <div class="col-sm-8 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_nationality}"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-0">Email</h6>
-                                                        </div>
-                                                        <div class="col-sm-9 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_email}"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <h6 class="mb-0">State</h6>
-                                                        </div>
-                                                        <div class="col-sm-8 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_state}"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-0">Phone</h6>
-                                                        </div>
-                                                        <div class="col-sm-9 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_phone} + ${user.employeeDetails.emp_gsm_no == null?'':', '+user.employeeDetails.emp_gsm_no}"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <h6 class="mb-0">Local Government</h6>
-                                                        </div>
-                                                        <div class="col-sm-8 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_local_govt_ward}"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-0">D.O.B (Age)</h6>
-                                                        </div>
-                                                        <div class="col-sm-9 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_dob}+' ('+${user.employeeDetails.emp_age}+')'"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <h6 class="mb-0">Religion</h6>
-                                                        </div>
-                                                        <div class="col-sm-8 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_religion}"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <h6 class="mb-0">Address</h6>
-                                                        </div>
-                                                        <div class="col-sm-9 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_address}"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <h6 class="mb-0">Gender</h6>
-                                                        </div>
-                                                        <div class="col-sm-8 text-secondary"
-                                                             th:text="${user.employeeDetails.emp_gender == 'M' ? 'MALE' : user.employeeDetails.emp_gender == 'F' ? 'FEMALE' : user.employeeDetails.emp_gender == 'O' ? 'OTHERS' : ''}"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row"
-                                                 th:if="${session.username == user.employeeDetails.emp_username}">
-                                                <div class="col-sm-12">
-                                                    <a class="btn btn-dark btn-floating" data-bs-target="#personalDetails"
-                                                       data-bs-toggle="modal">
-                                                        <i class="fas fa-pen"></i>
-                                                    </a>
-                                                    <!--                                                    <a class="btn btn-dark" data-bs-toggle="modal"-->
-                                                    <!--                                                       data-bs-target="#personalDetails">Edit</a>-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Purpose</h6>
                                 </div>
+                                <div class="col-sm-9 text-secondary purpose"> </div>
                             </div>
-                            <div class="row gutters-sm">
-                                <div class="col-sm-12 mb-3">
-                                    <div class="card h-100">
-                                        <div class="row">
-                                            <div class="accordion" id="accordionExample">
-                                                <div id="entry_msg"></div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingOne">
-                                                        <button aria-controls="collapseOne" aria-expanded="false"
-                                                                class="accordion-button" data-bs-target="#collapseOne"
-                                                                data-bs-toggle="collapse" type="button">
-                                                            <strong>Education</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingOne"
-                                                         class="accordion-collapse collapse show"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseOne">
-                                                        <div class="accordion-body table-responsive-lg">
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th hidden="hidden" scope="col">#</th>
-                                                                    <th scope="col">Institution</th>
-                                                                    <th scope="col">Degree</th>
-                                                                    <th scope="col">Category</th>
-                                                                    <th scope="col">CGPA</th>
-                                                                    <th scope="col">Start Date</th>
-                                                                    <th scope="col">End Date</th>
-                                                                    <th scope="col"
-                                                                        th:if="${session.username == user.employeeDetails.emp_username}">
-                                                                        Action
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each="edu : ${user.education}"
-                                                                    th:id="${'rID'} + ${edu.edu_id}">
-                                                                    <td hidden="hidden" th:text="${edu.edu_id}"></td>
-                                                                    <td th:text="${edu.edu_institution}"></td>
-                                                                    <td th:text="${edu.edu_degree}"></td>
-                                                                    <td th:text="${edu.edu_category}"></td>
-                                                                    <td th:text="${edu.edu_cgpa}"></td>
-                                                                    <td th:text="${edu.edu_start_date}"></td>
-                                                                    <td th:text="${edu.edu_end_date}"></td>
-                                                                    <td><a
-                                                                            href="javascript:void(0)"
-                                                                            id="edu"
-                                                                            onclick="deleteEdu('education/', this.getAttribute('data-eduId'))"
-                                                                            th:data-eduId="${edu.edu_id}"
-                                                                            th:if="${session.username == user.employeeDetails.emp_username}"> <span
-                                                                            class="far fa-trash-alt"></span>
-                                                                    </a></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingTwo">
-                                                        <button aria-controls="collapseTwo" aria-expanded="false"
-                                                                class="accordion-button collapsed" data-bs-target="#collapseTwo"
-                                                                data-bs-toggle="collapse" type="button">
-                                                            <strong>Experience</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingTwo" class="accordion-collapse collapse"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseTwo">
-                                                        <div class="accordion-body table-responsive-lg">
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th hidden="hidden" scope="col">#</th>
-                                                                    <th scope="col">Organization</th>
-                                                                    <th scope="col">Designation</th>
-                                                                    <th scope="col">Responsibility</th>
-                                                                    <th scope="col">Start Date</th>
-                                                                    <th scope="col">End Date</th>
-                                                                    <th scope="col"
-                                                                        th:if="${session.username == user.employeeDetails.emp_username}">
-                                                                        Action
-                                                                    </th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each="exp : ${user.workExperience}"
-                                                                    th:id="${'rID'} + ${exp.exp_id}">
-                                                                    <td hidden="hidden" th:text="${exp.exp_id}"></td>
-                                                                    <td th:text="${exp.exp_organization}"></td>
-                                                                    <td th:text="${exp.exp_designation}"></td>
-                                                                    <td th:text="${exp.exp_responsibility}"></td>
-                                                                    <td th:text="${exp.exp_start_date}"></td>
-                                                                    <td th:text="${exp.exp_end_date}"></td>
-                                                                    <td><a
-                                                                            href="javascript:void(0)"
-                                                                            id="exp"
-                                                                            onclick="deleteExp('experience/', this.getAttribute('data-expId'))"
-                                                                            th:data-expId="${exp.exp_id}"
-                                                                            th:if="${session.username == user.employeeDetails.emp_username}">
-                                                                        <span class="far fa-trash-alt"></span>
-                                                                    </a></td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingThree">
-                                                        <button aria-controls="collapseThree" aria-expanded="false"
-                                                                class="accordion-button collapsed"
-                                                                data-bs-target="#collapseThree" data-bs-toggle="collapse"
-                                                                type="button">
-                                                            <strong>Family &#38; Next of Kin</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingThree"
-                                                         class="accordion-collapse collapse"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseThree">
-                                                        <div class="accordion-body">
-                                                            <div class="row">
-                                                                <div class="col-lg-6">
-                                                                    <div class="card">
-                                                                        <h5 class="card-header">Next of Kin</h5>
-                                                                        <div class="card-body">
-                                                                            <div class="row">
-                                                                                <div class="col-sm-4">
-                                                                                    <h6 class="mb-0">Name</h6>
-                                                                                </div>
-                                                                                <div class="col-sm-8 text-secondary"
-                                                                                     th:text="${user.nextOfKin.nok_name}"></div>
-                                                                            </div>
-                                                                            <hr/>
-                                                                            <div class="row">
-                                                                                <div class="col-sm-4">
-                                                                                    <h6 class="mb-0">Address</h6>
-                                                                                </div>
-                                                                                <div class="col-sm-8 text-secondary"
-                                                                                     th:text="${user.nextOfKin.nok_address}"></div>
-                                                                            </div>
-                                                                            <hr/>
-                                                                            <div class="row">
-                                                                                <div class="col-sm-4">
-                                                                                    <h6 class="mb-0">Phone</h6>
-                                                                                </div>
-                                                                                <div class="col-sm-8 text-secondary"
-                                                                                     th:text="${user.nextOfKin.nok_phone}"></div>
-                                                                            </div>
-                                                                            <hr/>
-                                                                            <div class="row">
-                                                                                <div class="col-sm-4">
-                                                                                    <h6 class="mb-0">Relationship</h6>
-                                                                                </div>
-                                                                                <div class="col-sm-8 text-secondary"
-                                                                                     th:text="${user.nextOfKin.nok_relationship}"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6">
-                                                                    <div class="card">
-                                                                        <h5 class="card-header">Family</h5>
-                                                                        <div class="card-body">
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.spouse_name != null}">
-                                                                                <div class="col-sm-4">
-                                                                                    <h6 class="mb-0">Spouse</h6>
-                                                                                </div>
-                                                                                <div class="col-sm-8 text-secondary"
-                                                                                     th:text="${user.family.spouse_name}"></div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.spouse_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child1_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child1_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child1_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child1_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child2_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child2_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child2_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child2_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child3_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child3_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child3_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child3_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child4_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child4_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child4_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child4_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child5_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child5_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child5_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child5_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child6_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child6_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child6_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child6_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child7_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child7_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child7_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr th:if="${user.family.child7_name != null}"/>
-                                                                            <div class="row"
-                                                                                 th:if="${user.family.child8_name != null}">
-                                                                                <div class="col-md-12">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Child</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child8_name}"></div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-4">
-                                                                                            <h6 class="mb-0">Date of
-                                                                                                Birth</h6>
-                                                                                        </div>
-                                                                                        <div class="col-sm-8 text-secondary"
-                                                                                             th:text="${user.family.child8_dob}"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingFour">
-                                                        <button aria-controls="collapseFour" aria-expanded="false"
-                                                                class="accordion-button collapsed" data-bs-target="#collapseFour"
-                                                                data-bs-toggle="collapse" type="button">
-                                                            <strong>User Document</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingFour" class="accordion-collapse collapse"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseFour">
-                                                        <div class="accordion-body table-responsive-lg">
-                                                            <table class="table table-striped" id="docsTable">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th hidden="hidden" scope="col">#</th>
-                                                                    <th scope="col">File Name</th>
-                                                                    <th scope="col">Upload Type</th>
-                                                                    <th scope="col">Download</th>
-                                                                    <th scope="col">Dated Uploaded</th>
-                                                                    <th scope="col">Action</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each="doc : ${userImgAndDoc}"
-                                                                    th:if="${userImgAndDoc != null}">
-                                                                    <td hidden="hidden" th:text="${doc.uploadId}"></td>
-                                                                    <td th:text="${doc.filename.substring(0, doc.filename.lastIndexOf('.'))}"></td>
-                                                                    <td th:text="${doc.uploadType}"></td>
-                                                                    <td><a target="blank" th:href="${doc.documentUrl}">
-                                                                        <span class="fa fa-download"></span>
-                                                                    </a>
-                                                                    </td>
-                                                                    <td th:text="${doc.dateUploaded}"></td>
-                                                                    <td>
-                                                                        <a
-                                                                                href="javascript:void(0)"
-                                                                                id="delete"
-                                                                                onclick="deleteUpload(this.getAttribute('data-id'), this.getAttribute('upload-id'))"
-                                                                                th:data-id="${session.oracleId}"
-                                                                                th:upload-id="${doc.uploadId}">
-                                                                            <span class="fa fa-trash"></span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingFive">
-                                                        <button aria-controls="collapseFive" aria-expanded="false"
-                                                                class="accordion-button collapsed" data-bs-target="#collapseFive"
-                                                                data-bs-toggle="collapse" type="button">
-                                                            <strong>Promotions</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingFive" class="accordion-collapse collapse"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseFive">
-                                                        <div class="accordion-body table-responsive-lg">
-                                                            <table class="table table-striped" id="docsTable">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th hidden="hidden" scope="col">#</th>
-                                                                    <th scope="col">Old Designation</th>
-                                                                    <th scope="col">New Designation</th>
-                                                                    <th scope="col">Grade Level</th>
-                                                                    <th scope="col">Effective Notional Date</th>
-                                                                    <th scope="col">Effective Financial Date</th>
-                                                                    <th scope="col">Action</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each="pro : ${user.promotions}"
-                                                                    th:id="${'rID'} + ${pro.promotion_id}">
-                                                                    <td hidden="hidden" th:text="${pro.promotion_id}"></td>
-                                                                    <td th:text="${pro.old_designation}"></td>
-                                                                    <td th:text="${pro.new_designation}"></td>
-                                                                    <td th:text="${pro.new_level}"></td>
-                                                                    <td th:text="${pro.promotion_notional_date}"></td>
-                                                                    <td th:text="${pro.promotion_financial_date}"></td>
-                                                                    <td>
-                                                                        <a
-                                                                                href="javascript:void(0)"
-                                                                                id="deleteProm"
-                                                                                onclick="deletePromotion(this.getAttribute('data-id'), this.getAttribute('promoId'))"
-                                                                                th:data-id="${session.oracleId}"
-                                                                                th:promoId="${pro.promotion_id}">
-                                                                            <span class="fa fa-trash"></span>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" id="headingSix">
-                                                        <button aria-controls="collapseFive" aria-expanded="false"
-                                                                class="accordion-button collapsed" data-bs-target="#collapseSix"
-                                                                data-bs-toggle="collapse" type="button">
-                                                            <strong>Query</strong>
-                                                        </button>
-                                                    </h2>
-                                                    <div aria-labelledby="headingSix" class="accordion-collapse collapse"
-                                                         data-bs-parent="#accordionExample"
-                                                         id="collapseSix">
-                                                        <div class="accordion-body table-responsive-lg">
-                                                            <table class="table table-striped" id="queryTable">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th hidden="hidden" scope="col">#</th>
-                                                                    <th scope="col">Query Type</th>
-                                                                    <th scope="col">Reason</th>
-                                                                    <th scope="col">Sender</th>
-                                                                    <th scope="col">Upload</th>
-                                                                    <th scope="col">Date</th>
-                                                                    <!--                                                                    <th scope="col">Action</th>-->
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <tr th:each="pro : ${queryList}"
-                                                                    th:id="${'rID'} + ${pro.queryId}">
-                                                                    <td hidden="hidden" th:text="${pro.queryId}"></td>
-                                                                    <td th:text="${pro.typeName}"></td>
-                                                                    <td th:text="${pro.reason}"></td>
-                                                                    <td th:text="${pro.sender}"></td>
-                                                                    <td>
-                                                                        <a th:href="${pro.uploadLink}"
-                                                                           th:if="${pro.uploadLink != null}">
-                                                                            <span class="fa fa-download"></span>
-                                                                        </a>
-                                                                    </td>
-                                                                    <td th:text="${pro.queryDate}"></td>
-                                                                    <!--                                                                    <td>-->
-                                                                    <!--                                                                        <a-->
-                                                                    <!--                                                                                th:promoId="${pro.queryId}"-->
-                                                                    <!--                                                                                onclick="deleteQuery(this.getAttribute('promoId'))"-->
-                                                                    <!--                                                                                href="javascript:void(0)"-->
-                                                                    <!--                                                                                id="deleteQry">-->
-                                                                    <!--                                                                            <span class="fa fa-trash"></span>-->
-                                                                    <!--                                                                        </a>-->
-                                                                    <!--                                                                    </td>-->
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Objective</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary objective">  </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Definition</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary definition">  </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Scheduled Date</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary schedule"> </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-info" href="#">Edit</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!-- Floating Action Button like Google Material -->
-    <div class="menu pmd-floating-action" role="navigation"
-         th:if="${session.username == user.employeeDetails.emp_username}">
-        <a
-                class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light"
-                data-bs-target="#createExperience" data-bs-toggle="modal"
-                data-title="Add Experience"> <span
-                class="pmd-floating-hidden">Add Experience</span> <i
-                class="material-icons">work</i>
-        </a> <a class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light" data-bs-target="#createEducation"
-                data-bs-toggle="modal"
-                data-title="Add Education"
-                href="javascript:void(0);"> <span class="pmd-floating-hidden">Add
-					Education</span> <i class="material-icons">school</i>
-    </a> <a class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light" data-bs-target="#createFamily"
-            data-bs-toggle="modal"
-            data-title="Add Family"
-            href="javascript:void(0);"> <span class="pmd-floating-hidden">Add/Edit
-					Family</span> <i class="material-icons">supervisor_account</i>
-    </a> <a class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light" data-bs-target="#uploadDocument"
-            data-bs-toggle="modal"
-            data-title="Upload Document"
-            href="javascript:void(0);"> <span class="pmd-floating-hidden">Upload
-					Document</span> <i class="material-icons">file_upload</i>
-    </a> <a class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light" data-bs-target="#resetPassword"
-            data-bs-toggle="modal"
-            data-title="Password Reset"
-            href="javascript:void(0);"> <span class="pmd-floating-hidden">Reset
-					Password</span> <i class="material-icons">lock</i>
-    </a>
-        <a class="pmd-floating-action-btn btn btn-sm pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-light" data-bs-target="#addPromotion"
-           data-bs-toggle="modal"
-           data-title="Add Promotion"
-           href="javascript:void(0);"> <span class="pmd-floating-hidden">Add Promotion</span>
-            <i class="material-icons">star_rate</i>
-        </a>
-        <a
-                class="pmd-floating-action-btn btn pmd-btn-fab pmd-btn-raised pmd-ripple-effect btn-info"
-                data-title="UPDATE" href="javascript:void(0);"> <span
-                class="pmd-floating-hidden">Primary</span> <i
-                class="material-icons pmd-sm">add</i>
-        </a>
-    </div>
 
-    <!-- Modal for creation of part profiles -->
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="createEducation"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Add
-                        Education</h5>
-                </div>
-                <form method="post"
-                      th:action="@{/employee/add-education/{username}(username=${session.username})}"
-                      th:object="${education}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <input class="form-control" id="school" name="school"
-                                   placeholder="Institution" required="required"
-                                   th:field="*{edu_institution}" type="text">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Billing history card-->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Audit Focus
+                            <button class="btn btn-sm btn-primary float-right" type="button" data-toggle="modal" data-target="#focusModal">Add New Focus</button>
                         </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="cgpa" name="cgpa" placeholder="CGPA"
-                                   step=".01" th:field="*{edu_cgpa}" type="number">
-                        </div>
-                        <div class="mb-3">
-                            <select class="form-select form-select-lg mb-3"
-                                    required="required" th:field="*{edu_degree}">
-                                <option value="">Select Degree</option>
-                                <option th:each="deg : ${degree}" th:text="${deg}"
-                                        th:value="${deg}"></option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <select class="form-select form-select-lg mb-3 text-sm"
-                                    required="required" th:field="*{edu_category}">
-                                <option value="">Select Leave Type</option>
-                                <option value="Primary">Primary</option>
-                                <option value="Secondary">Secondary</option>
-                                <option value="Tetiary">Tetiary</option>
-                                <option value="Others">Others</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="startDate" name="startDate"
-                                   required="required" th:field="*{edu_start_date}" title="Start Date"
-                                   type="date">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="endDate" name="endDate"
-                                   required="required" th:field="*{edu_end_date}" title="End Date"
-                                   type="date">
-                        </div>
-                        <input class="form-control" id="oracleId" name="oracleId"
-                               th:value="${session.oracleId}" type="hidden">
-                    </div>
-                    <div class="modal-footer">
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-danger" type="button" value="Clear"/>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="createExperience"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Add
-                        Experience</h5>
-                </div>
-                <form method="post" th:action="@{/employee/add-experience/{username}(username=${session.username})}"
-                      th:object="${experience}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <input class="form-control" id="org" name="org" placeholder="Organization"
-                                   required="required" th:field="*{exp_organization}"
-                                   type="text">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="position" name="position"
-                                   placeholder="Position" required="required"
-                                   th:field="*{exp_designation}" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="startDate" name="startDate"
-                                   required="required" th:field="*{exp_start_date}" title="End Date"
-                                   type="date">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="endDate" name="endDate"
-                                   required="required" th:field="*{exp_end_date}" title="End Date"
-                                   type="date">
-                        </div>
-                        <div class="mb-3">
-								<textarea class="form-control" id="jdesc" name="jdesc" placeholder="Job Description"
-                                          required="required" rows="5"
-                                          th:field="*{exp_responsibility}"></textarea>
-                        </div>
-                        <input class="form-control" id="oracleId" name="oracleId"
-                               th:value="${session.oracleId}" type="hidden">
-                    </div>
-                    <div class="modal-footer">
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-danger" type="button" value="Clear"></input>
-                        </div>
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="createFamily"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Add
-                        Family</h5>
-                </div>
-                <form method="post">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <input class="form-control" id="spouse" placeholder="Spouse Name"
-                                   required="required"
-                                   type="text">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="childname" name="childname"
-                                   placeholder="Child Name" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="childdob" name="childdob"
-                                   title="Child Date of Birth" type="date">
-                        </div>
-                        <div class="mb-3">
-                            <input class="btn btn-info" id="addChildBtn" name="addChildBtn"
-                                   type="button" value="Add Child"/>
-                        </div>
-                        <div class="mb-3">
-                            <div class="card-body">
-                                <table class="table table-striped">
+                        <div class="card-body p-0">
+                            <!-- Billing history table-->
+                            <div class="table-responsive table-billing-history">
+                                <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th>Action</th>
-                                        <th scope="col">Child Name</th>
-                                        <th scope="col">Child DOB</th>
+                                        <th class="border-gray-200" scope="col">-</th>
+                                        <th class="border-gray-200" scope="col">Scope</th>
+                                        <th class="border-gray-200" scope="col">Purpose</th>
+                                        <th class="border-gray-200" scope="col">Objective</th>
+                                        <th class="border-gray-200" scope="col">Definition</th>
+                                        <th class="border-gray-200" scope="col">scheduled Date</th>
                                     </tr>
                                     </thead>
-                                    <tbody id="childTable">
-
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Edit</a>
+                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>#39201</td>
+                                            <td>06/15/2021</td>
+                                            <td>$29.99</td>
+                                            <td>$29.99</td>
+                                            <td><span class="badge bg-light text-dark">Pending</span></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <input class="form-control" id="oracleId" name="oracleId"
-                               th:value="${session.oracleId}" type="hidden">
                     </div>
-                    <div class="modal-footer">
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-danger" type="button" value="Clear"/>
-                        </div>
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" id="btn_child" name="btn_child"
-                                    onclick="addFamily(this.getAttribute('data-username'))"
-                                    th:data-username="${session.username}" type="button">Submit
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="uploadDocument"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Upload
-                        Document</h5>
                 </div>
-                <form enctype="multipart/form-data" method="post"
-                      th:action="@{/document/upload-user-doc/{username}(username=${session.username})}"
-                      th:object="${edocModel}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <select class="form-select form-select-lg mb-3" id="upload"
-                                    required="required" th:field="*{upload_type}">
-                                <option value="">Select Upload Type</option>
-                                <option th:each="uptype : ${uploadTypes}"
-                                        th:text="${uptype.get('name')}"
-                                        th:value="${uptype.get('code')}"></option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="docfile" name="file" placeholder="Document"
-                                   type="file">
-                        </div>
-
-                        <input class="form-control" id="oracleId" name="oracleId"
-                               th:value="${session.oracleId}" type="hidden">
-                    </div>
-                    <div class="modal-footer">
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </div>
-    </div>
 
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="resetPassword"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Reset
-                        Password</h5>
-                </div>
-                <form method="post" th:action="@{/employee/reset-password}"
-                      th:object="${userpass}">
-                    <div class="modal-body">
-                        <div class="col-md-12">
-                            <div
-                                    id="message"
-                                    role="alert" th:class="${succcess != null ? 'alert alert-success alert-dismissible fade show' : 'alert  alert-danger alert-dismissible fade show'}"
-                                    th:if="${error != null || success != null}">
-                                [[${error}]]
-                                <button aria-label="Close" class="close" data-dismiss="alert"
-                                        type="button">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="mb-3 mb-md-0">
-                                    <input class="form-control" id="passwordOld" placeholder="Old password"
-                                           required="required" th:field="*{password}"
-                                           type="password">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="mb-3 mb-md-0">
-                                    <input class="form-control" id="passwordNew" placeholder="New password"
-                                           required="required" th:field="*{new_password}"
-                                           type="password">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="mb-3 mb-md-0">
-                                    <input class="form-control" id="passwordConfirm"
-                                           placeholder="Confirm new password" required="required"
-                                           th:field="*{confirmPassword}" type="password">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="mb-3 mb-md-0">
-                                    <input class="form-control" hidden="hidden" id="username"
-                                           name="username" th:value="${session.username}" type="text">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <div class="d-grid">
-                                    <button class="btn btn-primary" name="resetBtn" onclick="this.disabled=true;this.form.submit();"
-                                            type="submit">Reset
-                                        Password
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="personalDetails"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered"
-             role="dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Employee Details</h5>
-                </div>
-                <form method="post" th:action="@{/employee/edit-employee}" th:object="${personal}">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <input class="form-control" id="emailEdit" name="emailEdit"
-                                           placeholder="Email" th:field="*{emp_email}"
-                                           type="email">
-                                </div>
-                                <div class="mb-3">
-                                    <input class="form-control" id="phoneEdit"
-                                           name="phoneEdit" placeholder="Phone number" th:field="*{emp_phone}"
-                                           type="text">
-                                </div>
-                                <div class="col-md-12">
-                                    <select class="form-select form-select-lg mb-3"
-                                            id="maritalstatEdit" name="maritalstatEdit"
-                                            th:field="*{emp_marital_status}">
-                                        <option value="">Select Marital Status</option>
-                                        <option value="S">Single</option>
-                                        <option value="M">Married</option>
-                                        <option value="D">Divorced</option>
-                                        <option value="W">Widowed</option>
-                                        <option value="SP">Separated</option>
+        <!-- Modal -->
+        <div class="modal fade" id="focusModal" tabindex="-1" role="dialog" aria-labelledby="focusModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="user" method="post" th:action="@{/audit-focus/save}"
+                          th:object="${focus}">
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="universeSelect">Universe<span style="color: red">*</span></label>
+                                    <select class="form-control" id="universeSelect" required="required">
+                                        <!--                                    <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"-->
+                                        <!--                                            th:value="${uni.getUniverseId()}"></option>-->
                                     </select>
                                 </div>
-                                <div class="col-md-12">
-                                    <select class="form-select form-select-lg mb-3" id="idtypeEdit" name="idtype"
-                                            th:field="*{emp_id_type}">
-                                        <option value="">Select Identity Type</option>
-                                        <option value="NIN">National Identity Number</option>
-                                        <option value="INTLPASS">International Passport</option>
-                                        <option value="DRLIC">Drivers License</option>
-                                        <option value="VTRCRD">Voters Card</option>
+
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="entitySelect">Entity<span style="color: red">*</span></label>
+                                    <select class="form-control" id="entitySelect" required="required">
+                                        <option value="&nbsp;">Select Entity</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <input class="form-control" id="idNoEdit"
-                                           name="idNoEdit" placeholder="ID Card Number" th:field="*{emp_id_no}"
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopeName">Scope of Audit<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopeName" required="required"
                                            type="text">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="ppDateEdit">Date of Present Posting</label>
-                                    <input class="form-control" id="ppDateEdit"
-                                           name="ppDateEdit" th:field="*{emp_present_posting_date}" title="Date of posting to current department"
-                                           type="date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="leaveEdit">Total Leave No.</label>
-                                    <input class="form-control" id="leaveEdit"
-                                           name="leaveEdit" placeholder="Total Leave number entitled" th:field="*{emp_leave_days}"
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopePeriod">Scope Period (Weeks)<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopePeriod" required="required"
                                            type="number">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="oracleId">Oracle Id</label>
-                                    <input class="form-control" id="oracleId"
-                                           name="oracleId" placeholder="Staff Oracle Id No." th:field="*{oracleId}"
-                                           type="text">
-                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <input class="form-control" id="religion" name="religion"
-                                           placeholder="Religion" th:field="*{emp_religion}"
-                                           type="text">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopeStartDate">Start Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopeStartDate" required="required"
+                                           type="date"/>
                                 </div>
-                                <div class="mb-3">
-                                    <input class="form-control"
-                                           id="AddressEdit" name="AddressEdit"
-                                           placeholder="Current Address" th:field="*{emp_address}" title="Address"
-                                           type="text">
-                                </div>
-                                <div class="mb-3">
-                                    <select class="form-select form-select-lg mb-3" id="genderEdit"
-                                            th:field="*{emp_gender}">
-                                        <option value="">Select Gender</option>
-                                        <option value="M">Male</option>
-                                        <option value="F">Female</option>
-                                        <option value="O">Others</option>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="auditType">Audit Type<span style="color: red">*</span></label>
+                                    <select class="form-control" id="auditType" required="required" >
+                                        <option value="1">Routine</option>
+                                        <option value="2">Adhoc</option>
+                                        <option value="3">Spot check</option>
+                                        <option value="4">Follow-up</option>
+                                        <option value="5">Special investigation</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <select class="form-select form-select-lg mb-3" id="currdeptEdit"
-                                            name="currdeptEdit">
-                                        <option value="">Select Unit/Department</option>
-                                        <option th:each="dept : ${unit}" th:text="${dept.get('name')}"
-                                                th:value="${dept.get('code')}"></option>
-                                    </select>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="definition">Scope Definition</label>
+                                    <textarea class="form-control" id="definition" rows="5"
+                                    >
+                                    </textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <input class="form-control" id="ppdeploy"
-                                           name="ppdeploy" placeholder="Present Designation" th:field="*{emp_present_posting_deployment}"
-                                           type="text">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confDateEdit">Confirmation Date</label>
-                                    <input class="form-control" id="confDateEdit"
-                                           name="confDateEdit" th:field="*{emp_confirmation_date}" title="Confirmation Date"
-                                           type="date">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="profaff">Professional Affiliations</label>
-                                    <input class="form-control" id="profaff"
-                                           name="profaff" placeholder="Professional Affiliations" th:field="*{emp_professional_affiliation}"
-                                           type="text">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="objective">Objectives</label>
+                                    <textarea class="form-control" id="objective" rows="5"
+                                    >
+                                    </textarea>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <div
-                                        class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <input class="btn btn-danger" type="button" value="Clear"></input>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="purpose">Purpose</label>
+                                    <textarea class="form-control" id="purpose" rows="5"
+                                    >
+                                    </textarea>
                                 </div>
-                                <div
-                                        class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                    <button class="btn btn-primary" onclick="this.disabled=true;this.form.submit();"
-                                            type="submit">Submit
-                                    </button>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="endDate">End Date</label>
+                                    <input class="form-control" id="endDate"  type="date"/>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal" id="addPromotion"
-         role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Add
-                        Promotion</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <form method="post"
-                      th:action="@{/employee/add-promotion/{username}(username=${session.username})}"
-                      th:object="${promotion}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <input class="form-control" id="olevel" name="olevel"
-                                   placeholder="Old Grade Level" th:field="*{old_level}"
-                                   type="number">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="level" name="level"
-                                   placeholder="New Grade Level" required="required"
-                                   th:field="*{new_level}" type="number">
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" id="desig" name="desig" placeholder="New Designation"
-                                   th:field="*{new_designation}" type="text">
-                        </div>
-                        <div class="mb-3">
-                            <label for="notdate">Effective Notional Date</label>
-                            <input class="form-control" id="notdate" name="notdate" placeholder="Notional Date"
-                                   th:field="*{promotion_notional_date}" type="date">
-                        </div>
-                        <div class="mb-3">
-                            <label for="findate">Effective Financial Date</label>
-                            <input class="form-control" id="findate" name="findate" th:field="*{promotion_financial_date}"
-                                   type="date">
-                        </div>
-                        <input class="form-control" id="oracleId" name="oracleId"
-                               th:value="${session.oracleId}" type="hidden">
-                    </div>
-                    <div class="modal-footer">
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <input class="btn btn-danger" type="button" value="Clear"/>
-                        </div>
-                        <div
-                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 
 </div>
 <th:block layout:fragment="script">
-    <script
-            src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/custom.js}"></script>
     <script>
-        let tempData = [];
-        let j = 1;
 
-        $('#addChildBtn').on('click', () => {
+        $(document).ready(() => {
+            let scopeId = sessionStorage.getItem("scopeId");
+            getScope(scopeId);
+        })
+        const getScope = (id) =>{
 
-            let name = $('#childname').val();
-            let DOB = $('#childdob').val();
-
-            let data = {};
-            if (name !== "" || name == null) {
-                data["child_name"] = name;
-                data["child_dob"] = DOB;
-                console.log(data);
-                tempData.push(data);
-                j++;
-                //call table data
-                tableTemplate();
-                //clear data fields
-                clearData();
+            if(id < 1 ){
+                location = "/audit-scope";
             }
 
-        });
+            let xhr = new XMLHttpRequest();
+            let url = `/audit-scope/${id}`;
+            xhr.open('GET', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
 
-        function tableTemplate() {
-            document.getElementById('childTable').innerHTML = '';
-            let k = 0;
-            tempData.forEach(function (element, index, array) {
-                k++;
-                let data = '<tr>' +
-                    '<td>' + '<a href="javascript:void(0)" onclick="removeData(' + index + ')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"> <li class="fa fa-trash"></li></a>' + '</td>'
-                    + '<td>' + element["child_name"] + '</td>' +
-                    '<td>' + element["child_dob"] + '</td>' +
-                    '</tr>';
-                $('#childTable').append(data);
-            });
-        }
-
-        function removeData(index) {
-            tempData.splice(index, 1);
-            tableTemplate();
-        }
-
-        function changeRole(username, currentRole) {
-            $('#flexSwitchCheckDefault').attr('disabled', true);
-            let adminUser = "[[${session.username}]]";
-            if (confirm('Are you sure to change this user role?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/change-user-role/' + adminUser + '/' + username,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#flexSwitchCheckDefault').attr('disabled', false);
-                        $('.roleText').html(currentRole == 'ADMIN' ? 'STAFF' : 'ADMIN');
-                        currentRole == 'ADMIN' ? currentRole = 'STAFF' : currentRole = 'ADMIN';
-                        $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
-                        $('#msg').html(message(data.data));
-                    },
-                    error: function (responce) {
-                        $('#flexSwitchCheckDefault').attr('disabled', false);
-                        $('#msg').html(message("Something went wrong try again."));
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                    if(res){
+                        scopeTemp(res);
                     }
-                });
-            } else {
-                $('#flexSwitchCheckDefault').attr('disabled', false);
-                $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
-            }
-
+                }
+            } catch (t) { }
         }
 
-        function changeStatus(username, currentStatus) {
-            $('#changeStatus').attr('disabled', true);
-            if (confirm('Are you sure to disabled this user account?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/deactivate-employee/' + username + '/changestatus',
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
 
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
+        const scopeTemp = (data) => {
+           $('.scope').text(data.scopeOfAudit);
+           $('.purpose').text(data.scopePurpose);
+           $('.objective').text(data.scopeObjectives);
+           $('.definition').text(data.scopeDef);
+           $('.schedule').text(data.schedulledDate != null ? data.schedulledDate : '' );
 
-        }
-
-        function deleteEdu(entryName, entryId) {
-            $('#edu').attr('disabled', true);
-            if (confirm('Are you sure to delete this record?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-entry/' + entryName + entryId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#edu').attr('disabled', false);
-                        $('#entry_msg').html(message(data.data));
-                        $('#rID' + entryId).remove();
-                    },
-                    error: function (responce) {
-                        $('#edu').attr('disabled', false);
-                        $('#entry_msg').html(message("Something went wrong try again."));
-                    }
-                });
-            }
-        }
-
-        function deleteExp(entryName, entryId) {
-            $('#exp').attr('disabled', true);
-            if (confirm('Are you sure to delete this record?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-entry/' + entryName + entryId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message(data.data));
-                        $('#rID' + entryId).remove();
-                    },
-                    error: function (responce) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message("Something went wrong try again."));
-                    }
-                });
-            }
-        }
-
-        function message(msg) {
-            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				${msg}
-			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>`
-        }
-
-        function addFamily(username) {
-            let children = {'children': tempData};
-            children["spouse_name"] = $('#spouse').val();
-            console.log(JSON.stringify(children));
-            if (tempData.length > 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/employee/add-family/' + username,
-                    data: JSON.stringify(children),
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#entry_msg').html(message(data.data));
-                        tempData = [];
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function (responce) {
-                        console.log(responce);
-                        const errorCode = responce.responseJSON["responseCode"];
-                        $('#btn-child').attr("dissable", false).html("Next");
-                        if (errorCode === 99) {
-                            let res = "Your request failed make sure all required field are properly filled and try again.";
-                            $('#msg').html(msg(res, "warning"));
-                        } else {
-                            let res = "something went wrong try again later.";
-                            $('#msg').html(msg(res, "warning"));
-                        }
-                    }
-                });
-            }
-        }
-
-        function clearData() {
-            $('#childname').val("");
-            $('#childdob').val("");
-            $('#childname').focus();
-        }
-
-        function deleteUpload(oraId, uploadId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-upload/' + oraId + '/' + uploadId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
-        }
-
-        function deletePromotion(oraId, promoId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-promotion/' + promoId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
+           $('.audit-type').text(data.auditType);
+           $('.period').text(data.auditPeriod);
+           $('.approval').text(data.approvalStatus);
+           $('.startDate').text(data.auditStartDate);
+           $('.endDate').text(data.auditEndDate);
 
         }
     </script>

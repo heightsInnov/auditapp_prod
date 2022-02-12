@@ -1,10 +1,464 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" layout:decorate="@{layouts/_layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet">
+    <!-- Google Icon Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
+    <!-- Propeller Button -->
+    <link
+            href="https://opensource.propeller.in/components/button/css/button.css"
+            rel="stylesheet" type="text/css"/>
+
+    <!-- Propeller Accordion -->
+<!--    <link-->
+<!--            href="https://opensource.propeller.in/components/floating-action-button/css/floating-action-button.css"-->
+<!--            rel="stylesheet" type="text/css"/>-->
+
+<!--    <link-->
+<!--            href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"-->
+<!--            rel="stylesheet">-->
+    <style>
+        body {
+            background: transparent;
+        }
+
+    </style>
+</th:block>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <h1 class="h3 mb-2 text-gray-800">Scope Details </h1>
+        <div class="main-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Billing history card-->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Audit Focus
+                            <button class="btn btn-sm btn-primary float-right" type="button" data-toggle="modal" data-target="#focusModal">Add New Focus</button>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Billing history table-->
+                            <div class="table-responsive table-billing-history">
+                                <table class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-gray-200" scope="col">-</th>
+                                        <th class="border-gray-200" scope="col">Scope</th>
+                                        <th class="border-gray-200" scope="col">Purpose</th>
+                                        <th class="border-gray-200" scope="col">Objective</th>
+                                        <th class="border-gray-200" scope="col">Definition</th>
+                                        <th class="border-gray-200" scope="col">scheduled Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Edit</a>
+                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>#39201</td>
+                                            <td>06/15/2021</td>
+                                            <td>$29.99</td>
+                                            <td>$29.99</td>
+                                            <td><span class="badge bg-light text-dark">Pending</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="focusModal" tabindex="-1" role="dialog" aria-labelledby="focusModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="user" method="post" th:action="@{/audit-focus/save}"
+                          th:object="${focus}">
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="universeSelect">Universe<span style="color: red">*</span></label>
+                                    <select class="form-control" id="universeSelect" required="required">
+                                        <!--                                    <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"-->
+                                        <!--                                            th:value="${uni.getUniverseId()}"></option>-->
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="entitySelect">Entity<span style="color: red">*</span></label>
+                                    <select class="form-control" id="entitySelect" required="required">
+                                        <option value="&nbsp;">Select Entity</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopeName">Scope of Audit<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopeName" required="required"
+                                           type="text">
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopePeriod">Scope Period (Weeks)<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopePeriod" required="required"
+                                           type="number">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scopeStartDate">Start Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scopeStartDate" required="required"
+                                           type="date"/>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="auditType">Audit Type<span style="color: red">*</span></label>
+                                    <select class="form-control" id="auditType" required="required" >
+                                        <option value="1">Routine</option>
+                                        <option value="2">Adhoc</option>
+                                        <option value="3">Spot check</option>
+                                        <option value="4">Follow-up</option>
+                                        <option value="5">Special investigation</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="definition">Scope Definition</label>
+                                    <textarea class="form-control" id="definition" rows="5"
+                                    >
+                                    </textarea>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="objective">Objectives</label>
+                                    <textarea class="form-control" id="objective" rows="5"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="purpose">Purpose</label>
+                                    <textarea class="form-control" id="purpose" rows="5"
+                                    >
+                                    </textarea>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="endDate">End Date</label>
+                                    <input class="form-control" id="endDate"  type="date"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <!--                                <div class="col-md-6 mb-3 mb-sm-0">-->
+
+                                <!--                                </div>-->
+                                <div class="col-md-12 mb-3 mb-sm-0 text-right">
+                                    <button class="btn btn-sm w-25 btn-success" name="action" type="submit"
+                                            value="approve">
+                                        Send for Approval
+                                    </button>
+                                    <button class="btn btn-sm w-25 btn-primary" name="action" type="submit"
+                                            value="save">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<th:block layout:fragment="script">
+<!--    <script-->
+<!--            src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>-->
+<!--    <script-->
+<!--            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--    <script-->
+<!--            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>-->
+    <script th:src="@{/js/custom.js}"></script>
+    <script>
+        let tempData = [];
+        let j = 1;
+
+        $('#addChildBtn').on('click', () => {
+
+            let name = $('#childname').val();
+            let DOB = $('#childdob').val();
+
+            let data = {};
+            if (name !== "" || name == null) {
+                data["child_name"] = name;
+                data["child_dob"] = DOB;
+                console.log(data);
+                tempData.push(data);
+                j++;
+                //call table data
+                tableTemplate();
+                //clear data fields
+                clearData();
+            }
+
+        });
+
+        function tableTemplate() {
+            document.getElementById('childTable').innerHTML = '';
+            let k = 0;
+            tempData.forEach(function (element, index, array) {
+                k++;
+                let data = '<tr>' +
+                    '<td>' + '<a href="javascript:void(0)" onclick="removeData(' + index + ')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"> <li class="fa fa-trash"></li></a>' + '</td>'
+                    + '<td>' + element["child_name"] + '</td>' +
+                    '<td>' + element["child_dob"] + '</td>' +
+                    '</tr>';
+                $('#childTable').append(data);
+            });
+        }
+
+        function removeData(index) {
+            tempData.splice(index, 1);
+            tableTemplate();
+        }
+
+        function changeRole(username, currentRole) {
+            $('#flexSwitchCheckDefault').attr('disabled', true);
+            let adminUser = "[[${session.username}]]";
+            if (confirm('Are you sure to change this user role?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/change-user-role/' + adminUser + '/' + username,
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#flexSwitchCheckDefault').attr('disabled', false);
+                        $('.roleText').html(currentRole == 'ADMIN' ? 'STAFF' : 'ADMIN');
+                        currentRole == 'ADMIN' ? currentRole = 'STAFF' : currentRole = 'ADMIN';
+                        $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
+                        $('#msg').html(message(data.data));
+                    },
+                    error: function (responce) {
+                        $('#flexSwitchCheckDefault').attr('disabled', false);
+                        $('#msg').html(message("Something went wrong try again."));
+                    }
+                });
+            } else {
+                $('#flexSwitchCheckDefault').attr('disabled', false);
+                $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
+            }
+
+        }
+
+        function changeStatus(username, currentStatus) {
+            $('#changeStatus').attr('disabled', true);
+            if (confirm('Are you sure to disabled this user account?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/deactivate-employee/' + username + '/changestatus',
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#changeStatus').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+
+                    },
+                    error: function (responce) {
+                        $('#changeStatus').attr('disabled', false);
+                        $('#msg').html(message("Something went wrong try again."));
+                    }
+                });
+            } else {
+                $('#changeStatus').attr('disabled', false);
+            }
+
+        }
+
+        function deleteEdu(entryName, entryId) {
+            $('#edu').attr('disabled', true);
+            if (confirm('Are you sure to delete this record?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/delete-entry/' + entryName + entryId,
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#edu').attr('disabled', false);
+                        $('#entry_msg').html(message(data.data));
+                        $('#rID' + entryId).remove();
+                    },
+                    error: function (responce) {
+                        $('#edu').attr('disabled', false);
+                        $('#entry_msg').html(message("Something went wrong try again."));
+                    }
+                });
+            }
+        }
+
+        function deleteExp(entryName, entryId) {
+            $('#exp').attr('disabled', true);
+            if (confirm('Are you sure to delete this record?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/delete-entry/' + entryName + entryId,
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#exp').attr('disabled', false);
+                        $('#entry_msg').html(message(data.data));
+                        $('#rID' + entryId).remove();
+                    },
+                    error: function (responce) {
+                        $('#exp').attr('disabled', false);
+                        $('#entry_msg').html(message("Something went wrong try again."));
+                    }
+                });
+            }
+        }
+
+        function message(msg) {
+            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
+				${msg}
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>`
+        }
+
+        function addFamily(username) {
+            let children = {'children': tempData};
+            children["spouse_name"] = $('#spouse').val();
+            console.log(JSON.stringify(children));
+            if (tempData.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/employee/add-family/' + username,
+                    data: JSON.stringify(children),
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#entry_msg').html(message(data.data));
+                        tempData = [];
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function (responce) {
+                        console.log(responce);
+                        const errorCode = responce.responseJSON["responseCode"];
+                        $('#btn-child').attr("dissable", false).html("Next");
+                        if (errorCode === 99) {
+                            let res = "Your request failed make sure all required field are properly filled and try again.";
+                            $('#msg').html(msg(res, "warning"));
+                        } else {
+                            let res = "something went wrong try again later.";
+                            $('#msg').html(msg(res, "warning"));
+                        }
+                    }
+                });
+            }
+        }
+
+        function clearData() {
+            $('#childname').val("");
+            $('#childdob').val("");
+            $('#childname').focus();
+        }
+
+        function deleteUpload(oraId, uploadId) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this document?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/delete-user-upload/' + oraId + '/' + uploadId,
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#delete').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        $('#docsTable' + oraId).remove();
+                        document.location.reload();
+                    },
+                    error: function (responce) {
+                        $('#changeStatus').attr('disabled', false);
+                        $('#msg').html(
+                            message("Something went wrong try again."));
+                    }
+                });
+            } else {
+                $('#changeStatus').attr('disabled', false);
+            }
+
+        }
+
+        function deletePromotion(oraId, promoId) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this document?')) {
+                $.ajax({
+                    type: 'Get',
+                    url: '/employee/delete-user-promotion/' + promoId,
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': "application/json"
+                    },
+                    success: function (data) {
+                        $('#delete').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        $('#docsTable' + oraId).remove();
+                        document.location.reload();
+                    },
+                    error: function (responce) {
+                        $('#changeStatus').attr('disabled', false);
+                        $('#msg').html(
+                            message("Something went wrong try again."));
+                    }
+                });
+            } else {
+                $('#changeStatus').attr('disabled', false);
+            }
+
+        }
+    </script>
+</th:block>
+>>>>>>> 9202298161b98d8cbce537390fb894a474a07020
 </body>
 </html>

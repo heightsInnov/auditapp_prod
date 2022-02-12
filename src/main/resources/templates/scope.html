@@ -116,7 +116,7 @@
                 return;
             }
             let xhr = new XMLHttpRequest();
-            let url = "/audit-scope/" + entId;
+            let url = "/audit-scope/find-by-entity/" + entId;
             xhr.open('GET', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
@@ -139,12 +139,17 @@
             $('.table-bordered tbody').html('');
             data.forEach(x => {
                 let res = `<tr>
-                               // <td>${x.entityId}</td>
-                               // <td>${x.entityName}</td>
-                               // <td>
-                               //      <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>
-                               //      <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteEntity(${x.entityId})"><span class="fa fa-trash"></span></a>
-                               // </td>
+                               <td>${x.scopeOfAudit}</td>
+                               <td>${x.auditType}</td>
+                               <td>${x.auditPeriod}</td>
+                               <td>${x.auditStartDate}</td>
+                               <td>${x.userName}</td>
+                               <td>${x.approvalStatus}</td>
+                               <td>${x.createDate}</td>
+                               <td>
+                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>
+                                    <a href="/audit-scope/preview" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span></a>
+                               </td>
                         </tr>`;
 
                 $('.table-bordered tbody').append(res);

@@ -67,4 +67,9 @@ public class AuditFocusControllerImpl {
         AuditFocus auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
         return auditFocusMapper.asDTO(auditFocusService.update(auditFocus, id));
     }
+
+    @GetMapping("/execution")
+    public String auditExecution(){
+        return "execution";
+    }
 }
