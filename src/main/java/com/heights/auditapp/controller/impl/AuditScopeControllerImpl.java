@@ -105,4 +105,10 @@ public class AuditScopeControllerImpl {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
         return auditScopeMapper.asDTO(auditScopeService.update(auditScope, id));
     }
+
+    @GetMapping("/preview")
+    public String viewScope( Model model){
+        model.addAttribute("scope", new AuditScopeDTO());
+        return "view-scope";
+    }
 }
