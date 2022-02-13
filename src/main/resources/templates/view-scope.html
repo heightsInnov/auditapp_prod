@@ -177,7 +177,7 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="focusModal" tabindex="-1" role="dialog" aria-labelledby="focusModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
@@ -188,83 +188,108 @@
                     <form class="user" method="post" th:action="@{/audit-focus/save}"
                           th:object="${focus}">
                         <div class="modal-body">
+                            <input type="hidden" value="1" th:field="*{scopeId}">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="universeSelect">Universe<span style="color: red">*</span></label>
-                                    <select class="form-control" id="universeSelect" required="required">
-                                        <!--                                    <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"-->
-                                        <!--                                            th:value="${uni.getUniverseId()}"></option>-->
-                                    </select>
+                                    <label for="recipientname">Recipient Name<span style="color: red">*</span></label>
+                                    <input class="form-control" id="recipientname" required="required"
+                                          th:field="*{recipientName}" type="text">
                                 </div>
 
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="entitySelect">Entity<span style="color: red">*</span></label>
-                                    <select class="form-control" id="entitySelect" required="required">
-                                        <option value="&nbsp;">Select Entity</option>
+                                    <label for="recipientemail">Recipient Name<span style="color: red">*</span></label>
+                                    <input class="form-control" id="recipientemail" required="required"
+                                           th:field="*{recipientEmail}" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="areaoffocus">Area of Focus<span style="color: red">*</span></label>
+                                    <input class="form-control" id="areaoffocus" required="required"
+                                          th:field="*{areaOfFocus}" type="text">
+                                </div>
+
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="riskrating">Risk Rating<span style="color: red">*</span></label>
+                                    <select class="form-control" id="riskrating" required="required" th:field="*{riskRating}">
+                                        <option value="very high">Very High</option>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                        <option value="process improvement">Process Improvement</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scopeName">Scope of Audit<span style="color: red">*</span></label>
-                                    <input class="form-control" id="scopeName" required="required"
-                                           type="text">
+                                    <label for="exception">Focus Exception<span style="color: red">*</span></label>
+                                    <input class="form-control" id=exception required="required"
+                                          th:field="*{focusException}" type="text">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scopePeriod">Scope Period (Weeks)<span style="color: red">*</span></label>
-                                    <input class="form-control" id="scopePeriod" required="required"
-                                           type="number">
+                                    <label for="recommendation">Focus Recommendation</label>
+                                    <input class="form-control" id="recommendation" required="required"
+                                           th:field="*{focusRecommendation}" type="text">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scopeStartDate">Start Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="scopeStartDate" required="required"
-                                           type="date"/>
+                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scheduledate" required="required"
+                                           th:field="*{schedulledDate}" type="date">
+                                </div>
+
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="controlstatus">Control Status<span style="color: red">*</span></label>
+                                    <select class="form-control" id="controlstatus" required="required" th:field="*{controlStatus}">
+                                        <option value="Adequate">Adequate</option>
+                                        <option value="Partially Adequate">Partially Adequate</option>
+                                        <option value="Inadequate">Inadequate</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="startDate">Start Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="startDate" required="required"
+                                         th:field="*{startDate}"  type="date"/>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="auditType">Audit Type<span style="color: red">*</span></label>
-                                    <select class="form-control" id="auditType" required="required" >
-                                        <option value="1">Routine</option>
-                                        <option value="2">Adhoc</option>
-                                        <option value="3">Spot check</option>
-                                        <option value="4">Follow-up</option>
-                                        <option value="5">Special investigation</option>
+                                    <label for="duedate">End Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="duedate" required="required"
+                                          th:field="*{dueDate}" type="date"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12 mb-3 mb-sm-0">
+                                    <label for="workprogram">Work Program Start<span style="color: red">*</span></label>
+                                    <select class="form-control" id="workprogram" required="required" th:field="*{workProgramStart}">
+                                        <option value="SCHEDULED">SCHEDULED</option>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="IN-PROGRESS">IN-PROGRESS</option>
+                                        <option value="COMPLETED">COMPLETED</option>
                                     </select>
                                 </div>
                             </div>
                             <hr/>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="definition">Scope Definition</label>
-                                    <textarea class="form-control" id="definition" rows="5"
-                                    >
+                                    <label for="additionalinfo">Additional Info</label>
+                                    <textarea class="form-control" id="additionalinfo" rows="5"
+                                    th:field="*{requestAdditionalInfo}">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="objective">Objectives</label>
-                                    <textarea class="form-control" id="objective" rows="5"
-                                    >
+                                    <label for="comment">Comment</label>
+                                    <textarea class="form-control" id="comment" rows="5"
+                                    th:field="*{comments}">
                                     </textarea>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="purpose">Purpose</label>
-                                    <textarea class="form-control" id="purpose" rows="5"
-                                    >
-                                    </textarea>
-                                </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="endDate">End Date</label>
-                                    <input class="form-control" id="endDate"  type="date"/>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -278,9 +303,10 @@
 
         $(document).ready(() => {
             let scopeId = sessionStorage.getItem("scopeId");
-            getScope(scopeId);
-        })
-        const getScope = (id) =>{
+            getScope(scopeId == null ? 1 : scopeId);
+        });
+
+        const getScope = (id = 1) =>{
 
             // if(id < 1 ){
             //     location = "/audit-scope";

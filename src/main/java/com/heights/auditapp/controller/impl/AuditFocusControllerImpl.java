@@ -26,7 +26,7 @@ public class AuditFocusControllerImpl {
     }
 
 
-    @PostMapping
+    @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public AuditFocusDTO save(@RequestBody AuditFocusDTO auditFocusDTO) {
         AuditFocus auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
