@@ -101,7 +101,7 @@
                     //alert('Something went wrong try again!');
                 } else {
                     let res = JSON.parse(xhr.responseText);
-                    $('#entitySelect').html(`<option label="&nbsp;">Select Entity</option>`);
+                    $('#entitySelect').html(`<option value="0" label="Select Entity">Select Entity</option>`);
                     res.forEach(x => {
                         let res = `<option value="${x.entityId}">${x.entityName}</option>`;
                         $('#entitySelect').append(res);
@@ -158,6 +158,6 @@
     </script>
 
 </th:block>
-
+<!--/${x.scopeId}-->
 </body>
 </html>

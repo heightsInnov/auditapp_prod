@@ -80,6 +80,17 @@ public class AuditFocus {
     @Column(name = "WORK_PROGRAM_START")
     private String workProgramStart;
 
+    @Column(name = "PROGRESS_LEVEL")
+    private String progressLevel;
+
+    public String getProgressLevel() {
+        return progressLevel;
+    }
+
+    public void setProgressLevel(String progressLevel) {
+        this.progressLevel = progressLevel;
+    }
+
     public Long getFocusId() {
         return this.focusId;
     }

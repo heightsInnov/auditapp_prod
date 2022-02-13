@@ -27,6 +27,15 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
     private Long userName;
     private String viewFlag = "N";
     private String workProgramStart;
+    private int progressLevel;
+
+    public int getProgressLevel() {
+        return progressLevel;
+    }
+
+    public void setProgressLevel(int progressLevel) {
+        this.progressLevel = progressLevel;
+    }
 
     public AuditFocusDTO() {
     }

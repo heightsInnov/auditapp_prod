@@ -8,13 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-focus")
-@RestController
+@Controller
 public class AuditFocusControllerImpl {
     private final AuditFocusService auditFocusService;
     private final AuditFocusMapper auditFocusMapper;
@@ -68,7 +69,7 @@ public class AuditFocusControllerImpl {
         return auditFocusMapper.asDTO(auditFocusService.update(auditFocus, id));
     }
 
-    @GetMapping("/execution")
+    @GetMapping("/execute")
     public String auditExecution(){
         return "execution";
     }

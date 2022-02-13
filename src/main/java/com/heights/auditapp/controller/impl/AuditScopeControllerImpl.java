@@ -5,6 +5,7 @@ import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AuditScope;
+import com.heights.auditapp.service.AuditFocusService;
 import com.heights.auditapp.service.AuditScopeService;
 import com.heights.auditapp.service.AuditUniverseService;
 import com.heights.auditapp.service.AuditUserService;
@@ -26,14 +27,16 @@ public class AuditScopeControllerImpl {
     private final AuditUniverseService auditUniverseService;
     private final AuditScopeApproavalController auditScopeApproaval;
     private final AuditUserService auditUserService;
+    private final AuditFocusService auditFocusService;
 
     public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper, AuditUniverseService auditUniverseService,
-                                    AuditScopeApproavalController auditScopeApproaval, AuditUserService auditUserService) {
+                                    AuditScopeApproavalController auditScopeApproaval, AuditUserService auditUserService, AuditFocusService auditFocusService) {
         this.auditScopeService = auditScopeService;
         this.auditScopeMapper = auditScopeMapper;
         this.auditUniverseService = auditUniverseService;
         this.auditScopeApproaval = auditScopeApproaval;
         this.auditUserService = auditUserService;
+        this.auditFocusService = auditFocusService;
     }
 
     @GetMapping
@@ -63,7 +66,7 @@ public class AuditScopeControllerImpl {
     public String save(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
         model.addAttribute("response", auditScopeMapper.asDTO(auditScopeService.save(auditScope)));
-        return "create-scope";
+        return "redirect:/audit-scope/create";
     }
 
 
@@ -106,9 +109,11 @@ public class AuditScopeControllerImpl {
         return auditScopeMapper.asDTO(auditScopeService.update(auditScope, id));
     }
 
+//    @NotNull @PathVariable("scope") int scopeId,
     @GetMapping("/preview")
     public String viewScope( Model model){
         model.addAttribute("scope", new AuditScopeDTO());
+//        model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
         return "view-scope";
     }
 }
