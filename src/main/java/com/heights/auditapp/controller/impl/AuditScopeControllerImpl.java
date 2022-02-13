@@ -1,6 +1,7 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.controller.AuditScopeApproavalController;
+import com.heights.auditapp.dto.AuditFocusDTO;
 import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
@@ -68,9 +69,8 @@ public class AuditScopeControllerImpl {
 
 
     @GetMapping("/{id}")
-    public AuditScopeDTO findById(@PathVariable("id") Long id) {
-        AuditScope auditScope = auditScopeService.findById(id).orElse(null);
-        return auditScopeMapper.asDTO(auditScope);
+    public @ResponseBody AuditScopeDTO findById(@PathVariable("id") Long id) {
+        return auditScopeMapper.asDTO(auditScopeService.findById(id).orElse(null));
     }
 
     @GetMapping("/find-by-entity/{id}")
@@ -108,7 +108,7 @@ public class AuditScopeControllerImpl {
 
     @GetMapping("/preview")
     public String viewScope( Model model){
-        model.addAttribute("scope", new AuditScopeDTO());
+        model.addAttribute("focus", new AuditFocusDTO());
         return "view-scope";
     }
 }

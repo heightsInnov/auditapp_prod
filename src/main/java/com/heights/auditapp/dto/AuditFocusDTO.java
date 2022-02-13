@@ -5,28 +5,28 @@ import java.util.Date;
 public class AuditFocusDTO extends AbstractDTO<Long> {
     private Long focusId;
     private String approvalStatus = "D";
-    private String areaOfFocus;
+    private String areaOfFocus; //
     private String authStat = "A";
     private String comments;
-    private String controlStatus;
+    private String controlStatus; //
     private Date createDate = new Date();
-    private Date dueDate;
+    private Date dueDate; //
     private String exceptionFlag = "N";
-    private String focusException;
-    private String focusRecommendation;
-    private String recipientEmail;
-    private String recipientName;
+    private String focusException; //
+    private String focusRecommendation; //
+    private String recipientEmail; //
+    private String recipientName; //
     private String recordStat = "O";
     private String requestAdditionalInfo;
-    private String riskRating;
+    private String riskRating;  //
     private String scheduledFlag = "N";
-    private Date schedulledDate;
+    private Date schedulledDate;//
     private Long scopeId;
-    private Date startDate;
+    private Date startDate; //
     private String startFlag = "N";
     private Long userName;
     private String viewFlag = "N";
-    private String workProgramStart;
+    private String workProgramStart; //
 
     public AuditFocusDTO() {
     }

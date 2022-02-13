@@ -25,7 +25,7 @@ public class AuditFocusControllerImpl {
     }
 
 
-    @PostMapping
+    @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public AuditFocusDTO save(@RequestBody AuditFocusDTO auditFocusDTO) {
         AuditFocus auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
@@ -68,7 +68,7 @@ public class AuditFocusControllerImpl {
         return auditFocusMapper.asDTO(auditFocusService.update(auditFocus, id));
     }
 
-    @GetMapping("/execution")
+    @GetMapping("/audit-execution")
     public String auditExecution(){
         return "execution";
     }
