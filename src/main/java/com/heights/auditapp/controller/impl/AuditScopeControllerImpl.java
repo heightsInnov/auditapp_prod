@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,12 +112,11 @@ public class AuditScopeControllerImpl {
         return auditScopeMapper.asDTO(auditScopeService.update(auditScope, id));
     }
 
-//    @NotNull @PathVariable("scope") int scopeId,
-    @GetMapping("/preview")
-    public String viewScope( Model model){
+    @GetMapping("/preview/{scopeId}")
+    public String viewScope(@NotNull @PathVariable int scopeId, Model model){
         model.addAttribute("focus", new AuditFocusDTO());
         model.addAttribute("scope", new AuditScopeDTO());
-//        model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
+        model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
         return "view-scope";
     }
 }
