@@ -5,6 +5,7 @@ import com.heights.auditapp.dto.AuditFocusDTO;
 import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
+import com.heights.auditapp.model.AUDIT_TYPE;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditFocusService;
 import com.heights.auditapp.service.AuditScopeService;
@@ -50,6 +51,7 @@ public class AuditScopeControllerImpl {
     public String create(Model model){
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", new AuditScopeDTO());
+        model.addAttribute("auditType", AUDIT_TYPE.values());
         return "create-scope";
     }
 
