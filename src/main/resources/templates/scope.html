@@ -49,7 +49,7 @@
                         <th>Period</th>
                         <th>Start Date</th>
                         <th>User</th>
-                        <th>Approval Status</th>
+                        <th>Approval </br> Status</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
@@ -131,10 +131,13 @@
                                <td>${x.auditPeriod} week's </td>
                                <td>${x.auditStartDate}</td>
                                <td>${x.userName}</td>
-                               <td class="badge bg-info text-black">${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}</td>
-                               <td>${x.createDate}</td>
-                               <td>
-<!--                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>-->
+                               <td class="text-center">
+                                    <span class="badge badge-info">
+                                        ${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}
+                                    </span>
+                                </td>
+                               <td>${moment(x.createDate).format('YYYY-MM-DD')}</td>
+                               <td class="text-center">
                                     <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="showDetail(${x.scopeId})"><span class="fa fa-eye"></span></a>
                                </td>
                         </tr>`;
