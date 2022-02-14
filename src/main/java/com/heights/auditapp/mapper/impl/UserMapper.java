@@ -30,9 +30,7 @@ public class UserMapper implements AuditUserMapper {
         user.setUsername(dto.getUsername());
         String pass = utilHelper.generatePassword();
         String enc = Base64.getEncoder().encodeToString(pass.getBytes());
-        log.info("Your password is >> "+ pass);
-        user.setPassword(enc);//.replace("=",""));
-        log.info("Your enc password is >> "+ user.getPassword());
+        user.setPassword(enc);
         user.setRole(dto.getRole());
         return user;
     }

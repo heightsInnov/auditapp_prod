@@ -43,7 +43,7 @@
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
                         <tr>
-                            <th>Entity Id</th>
+                            <th>Unique Ref</th>
                             <th>Name</th>
                             <th>Action</th>
                         </tr>
@@ -52,7 +52,7 @@
                         <tr th:if="${entities != null}"
                             th:each="ent : ${entities}"
                             th:id="${'rID'} + ${ent.getEntityId()}">
-                            <td th:text="${ent.getEntityId()}"></td>
+                            <td th:text="${'DEM' + ent.getEntityId() + 'ENT'}"></td>
                             <td th:text="${ent.getEntityName()}"></td>
                             <td class="text-center">&nbsp;
                                 <a href="javascript:void(0)"
@@ -73,13 +73,6 @@
                         </tr>
 
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>Entity Id</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -98,6 +91,7 @@
                             <div class="mb-3">
                                 <label for="formUniverse">Select Universe</label>
                                 <select class="form-control" id="formUniverse" th:field="*{universeId}">
+                                    <option value="0">Select Universe</option>
                                     <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                             th:value="${uni.getUniverseId()}"></option>
                                 </select>

@@ -26,7 +26,7 @@
                 <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                     <thead>
                         <tr>
-                            <th>Universe Id</th>
+                            <th hidden="hidden">Universe Id</th>
                             <th>Name</th>
                             <th>Action</th>
                         </tr>
@@ -34,7 +34,7 @@
                     <tbody>
                         <tr th:each="univ : ${universe}"
                             th:id="${'rID'} + ${univ.getUniverseId()}">
-                            <td th:text="${univ.getUniverseId()}"></td>
+                            <td hidden="hidden" th:text="${univ.getUniverseId()}"></td>
                             <td th:text="${univ.getUniverseName()}"></td>
                             <td class="text-center">&nbsp;
                                 <a href="javascript:void(0)"
@@ -50,7 +50,7 @@
                     <tr>
                         <th>Universe Id</th>
                         <th>Name</th>
-                        <th>Action</th>
+                        <th hidden="hidden">Action</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -137,7 +137,7 @@
 
                     xhr.send();
                     if (xhr.status != 200) {
-                        location.reload();
+                        // location.reload();
                         //alert('Something went wrong try again!');
 
                        // $('#msg').html( message("Something went wrong try again."));
@@ -146,12 +146,14 @@
                         $('#msg').html(message(data.data));
                         $('#rID' + username).remove();
                         let res = JSON.parse(xhr.responseText);
-                        if(res){
-                            location.reload();
-                        }
+                        // if(res){
+                        //     location.reload();
+                        // }
 
                     }
-                } catch (t) {location.reload(); }
+                } catch (t) {
+                    // location.reload();
+                }
 
             } else {
                 $('#delete').attr('disabled', false);

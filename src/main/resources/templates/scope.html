@@ -56,19 +56,6 @@
                     </thead>
                     <tbody>
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th hidden="hidden">Scope Id</th>
-                        <th>Scope</th>
-                        <th>Audit Type</th>
-                        <th>Period</th>
-                        <th>Start Date</th>
-                        <th>User</th>
-                        <th>Approval Status</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
@@ -144,7 +131,7 @@
                                <td>${x.auditPeriod} week's </td>
                                <td>${x.auditStartDate}</td>
                                <td>${x.userName}</td>
-                               <td>${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}</td>
+                               <td class="badge bg-info text-black">${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}</td>
                                <td>${x.createDate}</td>
                                <td>
 <!--                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#" onclick="openEditModal(${x.entityId})"><span class="fa fa-pen"></span></a>-->

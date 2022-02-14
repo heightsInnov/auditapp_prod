@@ -4,12 +4,16 @@ import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AuditScope;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class ScopeMapper implements AuditScopeMapper {
     SimpleDateFormat sdf;
@@ -32,12 +36,18 @@ public class ScopeMapper implements AuditScopeMapper {
         entity.setRiskRating(dto.getRiskRating());
         entity.setFrequency(dto.getFrequency());
         entity.setAuditType(dto.getAuditType());
-        if(dto.getSchedulledDate()!= null)
-            entity.setSchedulledDate(sdf.parse(dto.getSchedulledDate()));
-        if(dto.getAuditStartDate()!= null)
-            entity.setAuditStartDate(sdf.parse(dto.getAuditStartDate()));
-        if(dto.getAuditEndDate()!= null && !dto.getAuditEndDate().equals(""))
-            entity.setAuditEndDate(sdf.parse(dto.getAuditEndDate()));
+		try {
+			if(dto.getSchedulledDate()!= null)
+				entity.setSchedulledDate(sdf.parse(dto.getSchedulledDate()));
+			if(dto.getAuditStartDate()!= null)
+	            entity.setAuditStartDate(sdf.parse(dto.getAuditStartDate()));
+	        if(dto.getAuditEndDate()!= null && !dto.getAuditEndDate().equals(""))
+	            entity.setAuditEndDate(sdf.parse(dto.getAuditEndDate()));
+		} catch (ParseException e) {
+		    entity.setSchedulledDate(new Date());
+		    entity.setAuditStartDate(new Date());
+		    entity.setAuditEndDate(new Date());
+		}
         entity.setApprovalStatus(dto.getApprovalStatus());
         entity.setUserName(dto.getUserName());
         entity.setRecordStat(dto.getRecordStat());
