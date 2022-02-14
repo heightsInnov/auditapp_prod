@@ -2,6 +2,7 @@ package com.heights.auditapp.mapper.impl;
 
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
+import com.heights.auditapp.model.AUDIT_TYPE;
 import com.heights.auditapp.model.AuditScope;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +60,7 @@ public class ScopeMapper implements AuditScopeMapper {
     @Override
     public AuditScopeDTO asDTO(AuditScope entity) {
         AuditScopeDTO dto = new AuditScopeDTO();
-        dto.setId(entity.getScopeId());
+        dto.setScopeId(entity.getScopeId());
         dto.setEntityId(entity.getEntityId());
         dto.setScopeOfAudit(entity.getScopeOfAudit());
         dto.setAuditPeriod(entity.getAuditPeriod());
@@ -68,7 +69,7 @@ public class ScopeMapper implements AuditScopeMapper {
         dto.setScopeObjectives(entity.getScopeObjectives());
         dto.setRiskRating(entity.getRiskRating());
         dto.setFrequency(entity.getFrequency());
-        dto.setAuditType(entity.getAuditType());
+        dto.setAuditType(AUDIT_TYPE.getEnumByString(Integer.parseInt(entity.getAuditType())));
         if(entity.getSchedulledDate()!= null)
             dto.setSchedulledDate(sdf.format(entity.getSchedulledDate()));
         if(entity.getAuditStartDate()!= null)

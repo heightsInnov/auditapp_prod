@@ -60,11 +60,9 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="auditType">Audit Type<span style="color: red">*</span></label>
                                     <select class="form-control" id="auditType" required="required" th:field="*{auditType}">
-                                        <option value="1">Routine</option>
-                                        <option value="2">Adhoc</option>
-                                        <option value="3">Spot check</option>
-                                        <option value="4">Follow-up</option>
-                                        <option value="5">Special investigation</option>
+                                        <option value="0">Select Audit Type</option>
+                                        <option th:each="aud : ${auditType}" th:text="${aud.name.replace('_',' ')}"
+                                                th:value="${aud.getId()}"></option>
                                     </select>
                                 </div>
                             </div>
