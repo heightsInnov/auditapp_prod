@@ -1,6 +1,5 @@
 package com.heights.auditapp.mapper.impl;
 
-import com.heights.auditapp.dto.AuditFocusDTO;
 import com.heights.auditapp.mapper.AuditFocusMapper;
 import com.heights.auditapp.model.AuditFocus;
 import org.springframework.stereotype.Component;

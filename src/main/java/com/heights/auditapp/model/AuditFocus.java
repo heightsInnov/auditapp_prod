@@ -1,14 +1,15 @@
 package com.heights.auditapp.model;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "AUDIT_FOCUS")
 public class AuditFocus {
     @Id
     @Column(name = "FOCUS_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long focusId;
 
     @Column(name = "APPROVAL_STATUS")
@@ -20,76 +21,35 @@ public class AuditFocus {
     @Column(name = "AUTH_STAT")
     private String authStat;
 
-    @Column(name = "COMMENTS")
-    private String comments;
-
     @Column(name = "CONTROL_STATUS")
     private String controlStatus;
 
     @Column(name = "CREATE_DATE")
-    private Date createDate;
-
-    @Column(name = "DUE_DATE")
-    private Date dueDate;
-
-    @Column(name = "EXCEPTION_FLAG")
-    private String exceptionFlag;
-
-    @Column(name = "FOCUS_EXCEPTION")
-    private String focusException;
-
-    @Column(name = "FOCUS_RECOMMENDATION")
-    private String focusRecommendation;
-
-    @Column(name = "RECIPIENT_EMAIL")
-    private String recipientEmail;
-
-    @Column(name = "RECIPIENT_NAME")
-    private String recipientName;
+    private java.sql.Date createDate;
 
     @Column(name = "RECORD_STAT")
     private String recordStat;
-
-    @Column(name = "REQUEST_ADDITIONAL_INFO")
-    private String requestAdditionalInfo;
-
-    @Column(name = "RISK_RATING")
-    private String riskRating;
 
     @Column(name = "SCHEDULED_FLAG")
     private String scheduledFlag;
 
     @Column(name = "SCHEDULLED_DATE")
-    private Date schedulledDate;
+    private java.sql.Date schedulledDate;
 
     @Column(name = "SCOPE_ID")
     private Long scopeId;
 
     @Column(name = "START_DATE")
-    private Date startDate;
+    private java.sql.Date startDate;
 
     @Column(name = "START_FLAG")
     private String startFlag;
 
     @Column(name = "USER_ID")
-    private Long userName;
-
-    @Column(name = "VIEW_FLAG")
-    private String viewFlag;
-
-    @Column(name = "WORK_PROGRAM_START")
-    private String workProgramStart;
+    private Long userId;
 
     @Column(name = "PROGRESS_LEVEL")
-    private String progressLevel;
-
-    public String getProgressLevel() {
-        return progressLevel;
-    }
-
-    public void setProgressLevel(String progressLevel) {
-        this.progressLevel = progressLevel;
-    }
+    private Long progressLevel;
 
     public Long getFocusId() {
         return this.focusId;
@@ -123,14 +83,6 @@ public class AuditFocus {
         this.authStat = authStat;
     }
 
-    public String getComments() {
-        return this.comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
     public String getControlStatus() {
         return this.controlStatus;
     }
@@ -139,60 +91,12 @@ public class AuditFocus {
         this.controlStatus = controlStatus;
     }
 
-    public Date getCreateDate() {
+    public java.sql.Date getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(java.sql.Date createDate) {
         this.createDate = createDate;
-    }
-
-    public Date getDueDate() {
-        return this.dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public String getExceptionFlag() {
-        return this.exceptionFlag;
-    }
-
-    public void setExceptionFlag(String exceptionFlag) {
-        this.exceptionFlag = exceptionFlag;
-    }
-
-    public String getFocusException() {
-        return this.focusException;
-    }
-
-    public void setFocusException(String focusException) {
-        this.focusException = focusException;
-    }
-
-    public String getFocusRecommendation() {
-        return this.focusRecommendation;
-    }
-
-    public void setFocusRecommendation(String focusRecommendation) {
-        this.focusRecommendation = focusRecommendation;
-    }
-
-    public String getRecipientEmail() {
-        return this.recipientEmail;
-    }
-
-    public void setRecipientEmail(String recipientEmail) {
-        this.recipientEmail = recipientEmail;
-    }
-
-    public String getRecipientName() {
-        return this.recipientName;
-    }
-
-    public void setRecipientName(String recipientName) {
-        this.recipientName = recipientName;
     }
 
     public String getRecordStat() {
@@ -203,22 +107,6 @@ public class AuditFocus {
         this.recordStat = recordStat;
     }
 
-    public String getRequestAdditionalInfo() {
-        return this.requestAdditionalInfo;
-    }
-
-    public void setRequestAdditionalInfo(String requestAdditionalInfo) {
-        this.requestAdditionalInfo = requestAdditionalInfo;
-    }
-
-    public String getRiskRating() {
-        return this.riskRating;
-    }
-
-    public void setRiskRating(String riskRating) {
-        this.riskRating = riskRating;
-    }
-
     public String getScheduledFlag() {
         return this.scheduledFlag;
     }
@@ -227,11 +115,11 @@ public class AuditFocus {
         this.scheduledFlag = scheduledFlag;
     }
 
-    public Date getSchedulledDate() {
+    public java.sql.Date getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(Date schedulledDate) {
+    public void setSchedulledDate(java.sql.Date schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
@@ -243,11 +131,11 @@ public class AuditFocus {
         this.scopeId = scopeId;
     }
 
-    public Date getStartDate() {
+    public java.sql.Date getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(java.sql.Date startDate) {
         this.startDate = startDate;
     }
 
@@ -259,27 +147,19 @@ public class AuditFocus {
         this.startFlag = startFlag;
     }
 
-    public Long getUserName() {
-        return this.userName;
+    public Long getUserId() {
+        return this.userId;
     }
 
-    public void setUserName(Long userName) {
-        this.userName = userName;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getViewFlag() {
-        return this.viewFlag;
+    public Long getProgressLevel() {
+        return this.progressLevel;
     }
 
-    public void setViewFlag(String viewFlag) {
-        this.viewFlag = viewFlag;
-    }
-
-    public String getWorkProgramStart() {
-        return this.workProgramStart;
-    }
-
-    public void setWorkProgramStart(String workProgramStart) {
-        this.workProgramStart = workProgramStart;
+    public void setProgressLevel(Long progressLevel) {
+        this.progressLevel = progressLevel;
     }
 }

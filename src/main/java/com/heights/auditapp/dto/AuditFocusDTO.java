@@ -1,59 +1,40 @@
 package com.heights.auditapp.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class AuditFocusDTO extends AbstractDTO<Long> {
     private Long focusId;
-    private String approvalStatus = "D";
+    private String approvalStatus = "N";
     private String areaOfFocus;
     private String authStat = "A";
-    private String comments;
-    private String controlStatus;
-    private Date createDate = new Date();
-    private Date dueDate;
-    private String exceptionFlag = "N";
-    private String focusException;
-    private String focusRecommendation;
-    private String recipientEmail;
-    private String recipientName;
+    private String controlStatus ;
+    private LocalDate createDate = LocalDate.now();
     private String recordStat = "O";
-    private String requestAdditionalInfo;
-    private String riskRating;
     private String scheduledFlag = "N";
-    private Date schedulledDate;
+    private LocalDate schedulledDate;
     private Long scopeId;
-    private Date startDate;
+    private LocalDate startDate;
     private String startFlag = "N";
-    private Long userName;
-    private String viewFlag = "N";
-    private String workProgramStart;
-    private int progressLevel;
-
-    public int getProgressLevel() {
-        return progressLevel;
-    }
-
-    public void setProgressLevel(int progressLevel) {
-        this.progressLevel = progressLevel;
-    }
+    private Long userId;
+    private Long progressLevel = 0L;
 
     public AuditFocusDTO() {
-    }
-
-    public Long getFocusId() {
-        return this.focusId;
     }
 
     public void setFocusId(Long focusId) {
         this.focusId = focusId;
     }
 
-    public String getApprovalStatus() {
-        return this.approvalStatus;
+    public Long getFocusId() {
+        return this.focusId;
     }
 
     public void setApprovalStatus(String approvalStatus) {
         this.approvalStatus = approvalStatus;
+    }
+
+    public String getApprovalStatus() {
+        return this.approvalStatus;
     }
 
     public void setAreaOfFocus(String areaOfFocus) {
@@ -64,20 +45,12 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         return this.areaOfFocus;
     }
 
-    public String getAuthStat() {
-        return this.authStat;
-    }
-
     public void setAuthStat(String authStat) {
         this.authStat = authStat;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getComments() {
-        return this.comments;
+    public String getAuthStat() {
+        return this.authStat;
     }
 
     public void setControlStatus(String controlStatus) {
@@ -88,60 +61,12 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         return this.controlStatus;
     }
 
-    public Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Date getDueDate() {
-        return this.dueDate;
-    }
-
-    public void setExceptionFlag(String exceptionFlag) {
-        this.exceptionFlag = exceptionFlag;
-    }
-
-    public String getExceptionFlag() {
-        return this.exceptionFlag;
-    }
-
-    public String getFocusException() {
-        return this.focusException;
-    }
-
-    public void setFocusException(String focusException) {
-        this.focusException = focusException;
-    }
-
-    public String getFocusRecommendation() {
-        return this.focusRecommendation;
-    }
-
-    public void setFocusRecommendation(String focusRecommendation) {
-        this.focusRecommendation = focusRecommendation;
-    }
-
-    public String getRecipientEmail() {
-        return this.recipientEmail;
-    }
-
-    public void setRecipientEmail(String recipientEmail) {
-        this.recipientEmail = recipientEmail;
-    }
-
-    public String getRecipientName() {
-        return this.recipientName;
-    }
-
-    public void setRecipientName(String recipientName) {
-        this.recipientName = recipientName;
     }
 
     public void setRecordStat(String recordStat) {
@@ -152,83 +77,59 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         return this.recordStat;
     }
 
-    public String getRequestAdditionalInfo() {
-        return this.requestAdditionalInfo;
-    }
-
-    public void setRequestAdditionalInfo(String requestAdditionalInfo) {
-        this.requestAdditionalInfo = requestAdditionalInfo;
-    }
-
-    public String getRiskRating() {
-        return this.riskRating;
-    }
-
-    public void setRiskRating(String riskRating) {
-        this.riskRating = riskRating;
+    public void setScheduledFlag(String scheduledFlag) {
+        this.scheduledFlag = scheduledFlag;
     }
 
     public String getScheduledFlag() {
         return this.scheduledFlag;
     }
 
-    public void setScheduledFlag(String scheduledFlag) {
-        this.scheduledFlag = scheduledFlag;
-    }
-
-    public Date getSchedulledDate() {
+    public LocalDate getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(Date schedulledDate) {
+    public void setSchedulledDate(LocalDate schedulledDate) {
         this.schedulledDate = schedulledDate;
-    }
-
-    public Long getScopeId() {
-        return this.scopeId;
     }
 
     public void setScopeId(Long scopeId) {
         this.scopeId = scopeId;
     }
 
-    public Date getStartDate() {
+    public Long getScopeId() {
+        return this.scopeId;
+    }
+
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
-    }
-
-    public String getStartFlag() {
-        return this.startFlag;
     }
 
     public void setStartFlag(String startFlag) {
         this.startFlag = startFlag;
     }
 
-    public Long getUserName() {
-        return this.userName;
+    public String getStartFlag() {
+        return this.startFlag;
     }
 
-    public void setUserName(Long userName) {
-        this.userName = userName;
+    public Long getUserId() {
+        return this.userId;
     }
 
-    public String getViewFlag() {
-        return this.viewFlag;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void setViewFlag(String viewFlag) {
-        this.viewFlag = viewFlag;
+    public Long getProgressLevel() {
+        return this.progressLevel;
     }
 
-    public String getWorkProgramStart() {
-        return this.workProgramStart;
-    }
-
-    public void setWorkProgramStart(String workProgramStart) {
-        this.workProgramStart = workProgramStart;
+    public void setProgressLevel(Long progressLevel) {
+        this.progressLevel = progressLevel;
     }
 }
