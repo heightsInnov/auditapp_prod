@@ -3,9 +3,11 @@ package com.heights.auditapp.mapper.impl;
 import com.heights.auditapp.dto.AuditFocusProceduresDTO;
 import com.heights.auditapp.mapper.AuditFocusProceduresMapper;
 import com.heights.auditapp.model.AuditFocusProcedures;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class FocusProcedureMapper implements AuditFocusProceduresMapper {
     @Override
     public AuditFocusProcedures asEntity(AuditFocusProceduresDTO dto) {

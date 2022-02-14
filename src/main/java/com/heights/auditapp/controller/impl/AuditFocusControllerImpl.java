@@ -7,10 +7,12 @@ import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +29,20 @@ public class AuditFocusControllerImpl {
 
 
     @PostMapping("/save")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AuditFocusDTO save(@RequestBody AuditFocusDTO auditFocusDTO) {
+    public String save(@ModelAttribute AuditFocusDTO auditFocusDTO, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute("userId") == null){
+            return "redirect:/";
+        }
+        auditFocusDTO.setUserId(Long.parseLong(session.getAttribute("userId").toString()));
         AuditFocus auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
-        return auditFocusMapper.asDTO(auditFocusService.save(auditFocus));
+        AuditFocusDTO  auditFocusDTO1 =  auditFocusMapper.asDTO(auditFocusService.save(auditFocus));
+        if(auditFocusDTO1 != null)
+            model.addAttribute("message", "Focus successfully created");
+        else
+            model.addAttribute("message", "Error creating focus, kindly check and try again");
+
+        return "redirect:/audit-scope/preview/"+auditFocusDTO.getScopeId();
     }
 
 

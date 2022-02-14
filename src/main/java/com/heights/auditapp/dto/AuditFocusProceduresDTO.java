@@ -1,12 +1,13 @@
 package com.heights.auditapp.dto;
 
+import java.time.LocalDate;
+
 public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
-    private Long id;
     private Long focusId;
     private String procedure;
-    private Date dateCreated;
+    private LocalDate dateCreated;
     private String authStat;
-    private Date dueDate;
+    private LocalDate dueDate;
     private String exceptionFlag;
     private String exception;
     private String recommendation;
@@ -16,8 +17,8 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
     private String additionalInfo;
     private String riskRating;
     private String scheduledFlag;
-    private Date schedulledDate;
-    private Date startDate;
+    private LocalDate schedulledDate;
+    private LocalDate startDate;
     private String startFlag;
     private String userId;
     private String workProgramStart;
@@ -26,14 +27,6 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
     private String comments;
 
     public AuditFocusProceduresDTO() {
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getFocusId() {
@@ -52,11 +45,11 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
         this.procedure = procedure;
     }
 
-    public java.sql.Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return this.dateCreated;
     }
 
-    public void setDateCreated(java.sql.Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -68,11 +61,11 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
         this.authStat = authStat;
     }
 
-    public java.sql.Date getDueDate() {
+    public LocalDate getDueDate() {
         return this.dueDate;
     }
 
-    public void setDueDate(java.sql.Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -148,19 +141,19 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
         this.scheduledFlag = scheduledFlag;
     }
 
-    public java.sql.Date getSchedulledDate() {
+    public LocalDate getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(java.sql.Date schedulledDate) {
+    public void setSchedulledDate(LocalDate schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
-    public java.sql.Date getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(java.sql.Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

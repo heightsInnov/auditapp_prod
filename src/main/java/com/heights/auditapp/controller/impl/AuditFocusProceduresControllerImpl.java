@@ -8,14 +8,14 @@ import com.heights.auditapp.service.AuditFocusProceduresService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequestMapping("/audit-focus-procedures")
-@RestController
+@RequestMapping("/audit-procedures")
+@Controller
 public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresController {
     private final AuditFocusProceduresService auditFocusProceduresService;
     private final AuditFocusProceduresMapper auditFocusProceduresMapper;
@@ -27,7 +27,6 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
 
     @Override
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public AuditFocusProceduresDTO save(@RequestBody AuditFocusProceduresDTO auditFocusProceduresDTO) {
         AuditFocusProcedures auditFocusProcedures = auditFocusProceduresMapper.asEntity(auditFocusProceduresDTO);
         return auditFocusProceduresMapper.asDTO(auditFocusProceduresService.save(auditFocusProcedures));

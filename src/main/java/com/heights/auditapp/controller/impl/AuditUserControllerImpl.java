@@ -91,6 +91,7 @@ public class AuditUserControllerImpl{
         if (tt != null) {
             AuditUserDTO auditUserDTO = auditUserMapper.asDTO(tt);
             session.setAttribute("username", auditUserDTO.getUsername());
+            session.setAttribute("userId", auditUserDTO.getUserId());
             session.setAttribute("role", auditUserDTO.getRole());
             return  "redirect:/dashboard";
         }

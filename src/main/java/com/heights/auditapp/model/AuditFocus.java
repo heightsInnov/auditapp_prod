@@ -1,15 +1,14 @@
 package com.heights.auditapp.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "AUDIT_FOCUS")
 public class AuditFocus {
     @Id
     @Column(name = "FOCUS_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long focusId;
 
     @Column(name = "APPROVAL_STATUS")
@@ -25,7 +24,7 @@ public class AuditFocus {
     private String controlStatus;
 
     @Column(name = "CREATE_DATE")
-    private java.sql.Date createDate;
+    private LocalDate createDate;
 
     @Column(name = "RECORD_STAT")
     private String recordStat;
@@ -34,13 +33,13 @@ public class AuditFocus {
     private String scheduledFlag;
 
     @Column(name = "SCHEDULLED_DATE")
-    private java.sql.Date schedulledDate;
+    private LocalDate schedulledDate;
 
     @Column(name = "SCOPE_ID")
     private Long scopeId;
 
     @Column(name = "START_DATE")
-    private java.sql.Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "START_FLAG")
     private String startFlag;
@@ -91,11 +90,11 @@ public class AuditFocus {
         this.controlStatus = controlStatus;
     }
 
-    public java.sql.Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(java.sql.Date createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
@@ -115,11 +114,11 @@ public class AuditFocus {
         this.scheduledFlag = scheduledFlag;
     }
 
-    public java.sql.Date getSchedulledDate() {
+    public LocalDate getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(java.sql.Date schedulledDate) {
+    public void setSchedulledDate(LocalDate schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
@@ -131,11 +130,11 @@ public class AuditFocus {
         this.scopeId = scopeId;
     }
 
-    public java.sql.Date getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(java.sql.Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

@@ -156,7 +156,8 @@
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Add Audit Procedure</a>
+                                                        <a class="dropdown-item" data-target="#procedureModal"
+                                                           data-toggle="modal" href="#">Add Audit Procedure</a>
                                                         <a class="dropdown-item" href="#">Edit</a>
                                                         <a class="dropdown-item" href="#">Delete</a>
                                                     </div>
@@ -179,7 +180,7 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="focusModal" tabindex="-1" role="dialog" aria-labelledby="focusModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
@@ -190,14 +191,16 @@
                     <form class="user" method="post" th:action="@{/audit-focus/save}"
                           th:object="${focus}">
                         <div class="modal-body">
-                            <input type="hidden" class="scope-id" value th:field="*{scopeId}">
+                            <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
                             <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
                                     <label for="areaoffocus">Area of Focus<span style="color: red">*</span></label>
                                     <input class="form-control" id="areaoffocus" required="required"
                                           th:field="*{areaOfFocus}" type="text">
                                 </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
                                     <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>
                                     <input class="form-control" id="scheduledate" required="required"
                                            th:field="*{schedulledDate}" type="date">
@@ -212,6 +215,46 @@
                 </div>
             </div>
         </div>
+
+        <div aria-hidden="true" aria-labelledby="procedureModalLabel" class="modal fade" id="procedureModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="user" method="post" th:action="@{/audit-focus/save}"
+                          th:object="${focus}">
+                        <div class="modal-body">
+                            <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="areaoffocus">Area of Focus<span style="color: red">*</span></label>
+                                    <input class="form-control" id="areaoffocus" required="required"
+                                           th:field="*{areaOfFocus}" type="text">
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="scheduledate" required="required"
+                                           th:field="*{schedulledDate}" type="date">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3" th:each="proc : ${procedures}">
+                                    <input class="form-control form-check" th:text="${proc.procedure}" type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -220,7 +263,11 @@
 
         $(document).ready(() => {
             let scopeId = sessionStorage.getItem("scopeId");
-            getScope(scopeId);
+            //getScope(scopeId);
+            let url = $(location).attr('href'),
+                parts = url.split("/"),
+                last_part = parts[parts.length-1];
+            $('.scope-id').val(last_part);
         });
 
         const getScope = (id = 1) =>{

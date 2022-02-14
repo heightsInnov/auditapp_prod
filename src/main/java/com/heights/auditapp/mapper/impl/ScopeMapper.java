@@ -69,7 +69,7 @@ public class ScopeMapper implements AuditScopeMapper {
         dto.setScopeObjectives(entity.getScopeObjectives());
         dto.setRiskRating(entity.getRiskRating());
         dto.setFrequency(entity.getFrequency());
-        dto.setAuditType(AUDIT_TYPE.getEnumByString(Integer.parseInt(entity.getAuditType())));
+        dto.setAuditType(AUDIT_TYPE.getEnumByString(Integer.parseInt(entity.getAuditType())).replace("_", " "));
         if(entity.getSchedulledDate()!= null)
             dto.setSchedulledDate(sdf.format(entity.getSchedulledDate()));
         if(entity.getAuditStartDate()!= null)
