@@ -53,4 +53,10 @@ public class HomeController {
                        HttpServletRequest req) {
         return "report";
     }
+
+    @GetMapping("/exception")
+    public String exception(final Model model,
+                         HttpServletRequest req) {
+        return "exception";
+    }
 }
