@@ -40,29 +40,29 @@
         </div>
         <div class="main-body">
 
-            <div class="row gutters-sm">
+            <div class="row gutters-sm" th:object="${scope}">
                 <div class="col-md-5 mb-3">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit Type</h6>
-                                <span class="text-secondary audit-type"></span>
+                                <span class="text-secondary audit-type" th:text="${scope.auditType}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit Period</h6>
-                                <span class="text-secondary period"></span>
+                                <span class="text-secondary period" th:text="${scope.auditPeriod}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Approval Status</h6>
-                                <span class="text-secondary approval"></span>
+                                <span class="text-secondary approval" th:text="${scope.approvalStatus}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit StartDate</h6>
-                                <span class="text-secondary startDate"></span>
+                                <span class="text-secondary startDate" th:text="${scope.auditStartDate}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit EndDate</h6>
-                                <span class="text-secondary endDate"></span>
+                                <span class="text-secondary endDate" th:text="${scope.auditEndDate}"></span>
                             </li>
                         </ul>
                     </div>
@@ -74,35 +74,35 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scope</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary scope">  </div>
+                                <div class="col-sm-9 text-secondary scope" th:text="${scope.scopeOfAudit}">  </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Purpose</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary purpose"> </div>
+                                <div class="col-sm-9 text-secondary purpose" th:text="${scope.scopePurpose}"> </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Objective</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary objective">  </div>
+                                <div class="col-sm-9 text-secondary objective" th:text="${scope.scopeObjectives}">  </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Definition</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary definition">  </div>
+                                <div class="col-sm-9 text-secondary definition" th:text="${scope.scopeDef}">  </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scheduled Date</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary schedule"> </div>
+                                <div class="col-sm-9 text-secondary schedule" th:text="${scope.schedulledDate}"> </div>
                             </div>
                             <hr>
                             <div class="row">
@@ -149,7 +149,7 @@
                                             <td>
                                                 <div class="progress mb-4">
                                                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                                         role="progressbar" style="width: ${f.progressLevel}+'%'"
+                                                         role="progressbar"
                                                          th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
                                                     : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
                                                     : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
@@ -164,8 +164,9 @@
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" data-target="#procedureModal"
-                                                           data-toggle="modal" href="#">Add Audit Procedure</a>
+                                                        <a class="dropdown-item" data-target="#"
+                                                           th:data-fcs_id="${f.getScopeId()}"
+                                                           data-toggle="modal" onclick="openProcedure(this.getAttribute('data-fcs_id'))" href="javascript:void(0)">Add Audit Procedure</a>
                                                         <a class="dropdown-item" href="#">Edit</a>
                                                         <a class="dropdown-item" href="#">Delete</a>
                                                     </div>
@@ -223,36 +224,67 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
+                        <h5 class="modal-title" id="procedureModalLabel">New Audit Focus</h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="user" method="post" th:action="@{/audit-focus/save}"
-                          th:object="${focus}">
+                    <form class="user" action="#">
+
                         <div class="modal-body">
-                            <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
+                            <div id="err"></div>
+                            <input class="scope-id" type="hidden" value="">
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                    <label for="procedureName">Procedure Name<span style="color: red">*</span></label>
+                                    <input class="form-control" id="procedureName" required="required" type="text">
+                                </div>
+
+                            </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="areaoffocus">Area of Focus<span style="color: red">*</span></label>
-                                    <input class="form-control" id="areaoffocus" required="required"
-                                           th:field="*{areaOfFocus}" type="text">
+                                    <label for="startDate">Start Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="startDate" required="required" type="date">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="scheduledate" required="required"
-                                           th:field="*{schedulledDate}" type="date">
+                                    <label for="endDate">End Date<span style="color: red">*</span></label>
+                                    <input class="form-control" id="endDate" required="required" type="date">
+
                                 </div>
                             </div>
-                            <div class="row form-group">
-                                <div class="col-md-3" th:each="proc : ${procedures}">
-                                    <input class="form-control form-check" th:text="${proc.procedure}" type="checkbox">
+                            <button class="btn btn-primary btn-procedure" type="button">
+                                <i class="fa fa-plus"></i>
+                            </button>
+
+<!--                            <div class="row form-group">-->
+<!--                                <div class="col-md-3" th:each="proc : ${procedures}">-->
+<!--                                    <input class="form-control form-check" th:text="${proc.procedure}" type="checkbox">-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                        <table class="table table-striped mt-3 procedure-table">
+                                            <thead>
+                                            <tr>
+                                                <th class="border-gray-200" scope="col">-</th>
+                                                <th class="border-gray-200" scope="col">Procedure Name</th>
+                                                <th class="border-gray-200" scope="col">Start Date</th>
+                                                <th class="border-gray-200" scope="col">End Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
                                 </div>
                             </div>
+
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <button class="btn btn-primary btn-send" type="button">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -272,48 +304,129 @@
                 last_part = parts[parts.length-1];
             $('.scope-id').val(last_part);
         });
-
-        const getScope = (id = 1) =>{
-
+        let focusId = '';
+        const openProcedure = (id) =>{
             if(id < 1 ){
-                location = "/audit-scope";
+                return;
+            }
+
+            focusId = id;
+            $('#procedureModal').modal('show');
+        };
+
+        let arrProcedure = [];
+
+        $('.btn-procedure').click(function(e) {
+
+            let procedure = $('#procedureName').val();
+            let startDate = $('#startDate').val();
+            let endDate = $('#endDate').val();
+
+            if(procedure == "" || procedure == null){
+                $('#err').html(message("Procedure Name is required!"));
+                $('#procedureName').focus();
+                return;
+            }
+            if(startDate == "" || startDate == null){
+                $('#err').html(message("Start date is required!"));
+                $('#startDate').focus();
+                return;
+            }
+            if(endDate == "" || endDate == null){
+                $('#err').html(message("End date is required!"));
+                $('#endDate').focus();
+                return;
+            }
+
+            let obj = {
+                'procedure': procedure,
+                'startDate': startDate,
+                'endDate': endDate
+            };
+
+            let existProcedure =  arrProcedure.filter(function(i) {
+                return i.procedure == obj.procedure;
+            });
+            console.log(existProcedure);
+            if(existProcedure.length > 0){
+                $('#err').html(message("Please you can\'t have same procedure name attached to a specific focus!"));
+                $('#procedureName').focus();
+                return;
+            }
+
+            arrProcedure.push(obj);
+
+            tempTable();
+            clearField();
+
+            obj = {};
+        });
+
+
+
+        const  clearField =() =>{
+            $('#procedureName').val('');
+            $('#startDate').val('');
+            $('#endDate').val('');
+            $('#procedureName').focus();
+        }
+
+        const tempTable = () =>{
+            $('.procedure-table tbody').html('');
+            arrProcedure.forEach( (x, index) => {
+                let res = `
+                    <tr>
+<!--                        <td><input type="checkbox" id="chk${index}" class="form-check"></td>-->
+                        <td><a href="javascript:void(0)" onclick="removeData(' + index + ')"
+                                class="btn btn-danger  btn-sm" data-toggle="tooltip"
+                                data-placement="top" title="Delete"> <li class="fa fa-trash"></li>
+                            </a>
+                        </td>
+                        <td>${x.procedure}</td>
+                        <td>${x.startDate}</td>
+                        <td>${x.endDate}</td>
+                    </tr>
+                   `;
+                $('.procedure-table tbody').append(res);
+            });
+        }
+
+        function removeData(index) {
+            arrProcedure.splice(index, 1);
+            tempTable();
+        }
+
+        $('.btn-send').click(() =>{
+            if(arrProcedure.length < 1){
+                $('#err').html(message("Add as many procedure for this focus!"));
+                $('#procedureName').focus();
+                return;
             }
 
             let xhr = new XMLHttpRequest();
-            let url = `/audit-scope/${id}`;
-            xhr.open('GET', url, false);
+            let url = `/audit-procedures`;
+            xhr.open('POST', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
             try {
 
-                xhr.send();
+                xhr.send(JSON.stringify(arrProcedure);
                 if (xhr.status != 200) {
                     //alert('Something went wrong try again!');
                 } else {
                     let res = JSON.parse(xhr.responseText);
                     console.log(res);
                     if(res){
-                        scopeTemp(res);
+
                     }
                 }
             } catch (t) { }
-        }
+        });
 
-
-        const scopeTemp = (data) => {
-           $('.scope-id').text(data.scopeId);
-           $('.scope').text(data.scopeOfAudit);
-           $('.purpose').text(data.scopePurpose);
-           $('.objective').text(data.scopeObjectives);
-           $('.definition').text(data.scopeDef);
-           $('.schedule').text(data.schedulledDate != null ? data.schedulledDate : '' );
-
-           $('.audit-type').text(data.auditType);
-           $('.period').text(data.auditPeriod);
-           $('.approval').text(data.approvalStatus);
-           $('.startDate').text(data.auditStartDate);
-           $('.endDate').text(data.auditEndDate);
-
+        const message = (msg) =>{
+            return `<div class="alert alert-primary" role="alert">
+                  ${msg}
+                </div>`
         }
     </script>
 </th:block>

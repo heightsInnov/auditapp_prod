@@ -116,7 +116,7 @@ public class AuditScopeControllerImpl {
     @GetMapping("/preview/{scopeId}")
     public String viewScope(@NotNull @PathVariable int scopeId, Model model){
         model.addAttribute("focus", new AuditFocusDTO());
-        model.addAttribute("scope", new AuditScopeDTO());
+        model.addAttribute("scope", auditScopeService.findById((long) scopeId).orElse(null));
         model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
         model.addAttribute("procedures", auditFocusProceduresService.findAll());
         return "view-scope";
