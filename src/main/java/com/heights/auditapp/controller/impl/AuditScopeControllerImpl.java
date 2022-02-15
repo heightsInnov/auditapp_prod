@@ -114,11 +114,15 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping("/preview/{scopeId}")
-    public String viewScope(@NotNull @PathVariable int scopeId, Model model){
+    public String viewScope(@NotNull @PathVariable long scopeId, Model model){
+        if(scopeId < 0L){
+            return "redirect:/audit-scope";
+        }
         model.addAttribute("focus", new AuditFocusDTO());
         model.addAttribute("scope", new AuditScopeDTO());
+        auditScopeService.findById(scopeId).ifPresent(auditScope -> model.addAttribute("scoped", auditScopeMapper.asDTO(auditScope)));
         model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
-        model.addAttribute("procedures", auditFocusProceduresService.findAll().stream().distinct());
+        model.addAttribute("procedures", auditFocusProceduresService.findAll().stream().distinct().collect(Collectors.toList()));
         return "view-scope";
     }
 

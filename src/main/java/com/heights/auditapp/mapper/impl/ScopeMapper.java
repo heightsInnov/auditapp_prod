@@ -92,7 +92,8 @@ public class ScopeMapper implements AuditScopeMapper {
             dto.setAuditStartDate(entity.getAuditStartDate());
         if (entity.getAuditEndDate() != null)
             dto.setAuditEndDate(entity.getAuditEndDate());
-        dto.setApprovalStatus(entity.getApprovalStatus());
+        if (entity.getApprovalStatus().equals("D")) dto.setApprovalStatus("DRAFT");
+        else dto.setApprovalStatus(entity.getApprovalStatus().equals("U") ? "UNDER REVIEW" : "COMPLETED");
         dto.setUserName(entity.getUserName());
         dto.setRecordStat(entity.getRecordStat());
         dto.setAuthStat(entity.getAuthStat());

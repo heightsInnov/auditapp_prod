@@ -1,6 +1,7 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
+import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +10,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
+
+    private final AuditFocusService auditFocusService;
+
+    public HomeController(AuditFocusService auditFocusService) {
+        this.auditFocusService = auditFocusService;
+    }
 
     @GetMapping("/dashboard")
     public String home(final Model model,
                        HttpServletRequest req) {
         model.addAttribute("dashboard", "");
+        model.addAttribute("foci",auditFocusService.findAll()
+                .stream()
+                .filter(x -> "Y".equals(x.getStartFlag()))
+                .collect(Collectors.toList()) );
         return "dashboard";
     }
 

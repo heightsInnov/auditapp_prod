@@ -46,23 +46,28 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit Type</h6>
-                                <span class="text-secondary audit-type"></span>
+                                <span class="text-secondary audit-type"
+                                      th:text="${scoped.getAuditType()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Proposed Period</h6>
-                                <span class="text-secondary period"></span>
+                                <span class="text-secondary period"
+                                      th:text="${scoped.getAuditPeriod()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Approval Status</h6>
-                                <span class="text-secondary approval"></span>
+                                <span class="text-secondary approval"
+                                      th:text="${scoped.getApprovalStatus()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit StartDate</h6>
-                                <span class="text-secondary startDate"></span>
+                                <span class="text-secondary startDate"
+                                      th:text="${scoped.getAuditStartDate()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit EndDate</h6>
-                                <span class="text-secondary endDate"></span>
+                                <span class="text-secondary endDate"
+                                      th:text="${scoped.getAuditEndDate()}"></span>
                             </li>
                         </ul>
                     </div>
@@ -74,35 +79,35 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scope</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary scope">  </div>
+                                <div class="col-sm-9 text-secondary scope" th:text="${scoped.getScopeOfAudit()}"> </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Purpose</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary purpose"> </div>
+                                <div class="col-sm-9 text-secondary purpose" th:text="${scoped.getScopePurpose()}"></div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Objective</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary objective">  </div>
+                                <div class="col-sm-9 text-secondary objective" th:text="${scoped.getScopeObjectives()}"></div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Definition</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary definition">  </div>
+                                <div class="col-sm-9 text-secondary definition" th:text="${scoped.getScopeDef()}"> </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scheduled Date</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary schedule"> </div>
+                                <div class="col-sm-9 text-secondary schedule" th:text="${scoped.getSchedulledDate()}"></div>
                             </div>
                             <hr>
                             <div class="row">
