@@ -6,6 +6,7 @@ import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AUDIT_TYPE;
+import com.heights.auditapp.model.AuditFocusProcedures;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.*;
 import org.springframework.data.domain.Page;
@@ -106,7 +107,6 @@ public class AuditScopeControllerImpl {
         return new PageImpl<>(dtoList, pageable, auditScopePage.getTotalElements());
     }
 
-
     @PutMapping("/{id}")
     public AuditScopeDTO update(@RequestBody AuditScopeDTO auditScopeDTO, @PathVariable("id") Long id) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
@@ -118,7 +118,14 @@ public class AuditScopeControllerImpl {
         model.addAttribute("focus", new AuditFocusDTO());
         model.addAttribute("scope", new AuditScopeDTO());
         model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
-        model.addAttribute("procedures", auditFocusProceduresService.findAll());
+        model.addAttribute("procedures", auditFocusProceduresService.findAll().stream().distinct());
         return "view-scope";
+    }
+
+    @GetMapping("/procedures/{focusId}")
+    public @ResponseBody List<AuditFocusProcedures> proceduresBy(@PathVariable Long focusId) {
+        return auditFocusProceduresService.findAll()
+                .stream()
+                .filter(x -> x.getFocusId().equals(focusId)).collect(Collectors.toList());
     }
 }

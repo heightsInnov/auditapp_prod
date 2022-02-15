@@ -20,11 +20,22 @@ public class AuditUser {
     @Column(name = "ROLE")
     private Long role;
 
+    @Column(name = "SUPERV_ROLE")
+    private Long supervisoryRole;
+
     @Column(name = "ISACTIVE")
     private char isActive = '1';
 
     @Column(name = "CREATED_DATE")
     private Date createdDate = new Date();
+
+    public Long getSupervisoryRole() {
+        return supervisoryRole;
+    }
+
+    public void setSupervisoryRole(Long supervisoryRole) {
+        this.supervisoryRole = supervisoryRole;
+    }
 
     public char getIsActive() {
         return isActive;

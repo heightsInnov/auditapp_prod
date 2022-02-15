@@ -1,22 +1,27 @@
 package com.heights.auditapp.dto;
 
-import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 public class AuditScopeDTO extends AbstractDTO<Long> {
-    private Long scopeId; //
-    private String scopeDef; //
-    private String approvalStatus = "D"; //auto
-    private String auditEndDate;//
-    private String auditPeriod; //
-    private String auditStartDate; //
-    private String auditType; //
+    private Long scopeId; 
+    private String scopeDef; 
+    private String approvalStatus = "D";
+    @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
+    private LocalDate auditEndDate;
+    private String auditPeriod;
+    @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
+    private LocalDate auditStartDate;
+    private String auditType; 
     private String authStat = "A";
-    private Date createDate = new Date();
-    private Long entityId; //
+    private LocalDate createDate = LocalDate.now();
+    private Long entityId; 
     private String frequency;
     private String recordStat = "O";
     private String riskRating;
-    private String schedulledDate;
+    @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
+    private LocalDate schedulledDate;
     private String scopeObjectives;
     private String scopeOfAudit;
     private String scopePurpose;
@@ -24,6 +29,30 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
     private Long auditScopesById;
 
     public AuditScopeDTO() {
+    }
+
+    public LocalDate getAuditEndDate() {
+        return auditEndDate;
+    }
+
+    public void setAuditEndDate(LocalDate auditEndDate) {
+        this.auditEndDate = auditEndDate;
+    }
+
+    public LocalDate getAuditStartDate() {
+        return auditStartDate;
+    }
+
+    public void setAuditStartDate(LocalDate auditStartDate) {
+        this.auditStartDate = auditStartDate;
+    }
+
+    public LocalDate getSchedulledDate() {
+        return schedulledDate;
+    }
+
+    public void setSchedulledDate(LocalDate schedulledDate) {
+        this.schedulledDate = schedulledDate;
     }
 
     public Long getScopeId() {
@@ -42,13 +71,6 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         this.approvalStatus = approvalStatus;
     }
 
-    public String getAuditEndDate() {
-        return this.auditEndDate;
-    }
-
-    public void setAuditEndDate(String auditEndDate) {
-        this.auditEndDate = auditEndDate;
-    }
 
     public void setAuditPeriod(String auditPeriod) {
         this.auditPeriod = auditPeriod;
@@ -56,14 +78,6 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
 
     public String getAuditPeriod() {
         return this.auditPeriod;
-    }
-
-    public String getAuditStartDate() {
-        return this.auditStartDate;
-    }
-
-    public void setAuditStartDate(String auditStartDate) {
-        this.auditStartDate = auditStartDate;
     }
 
     public String getAuditType() {
@@ -82,12 +96,12 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         return this.authStat;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public LocalDate getCreateDate() {
+        return this.createDate;
     }
 
-    public Date getCreateDate() {
-        return this.createDate;
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
     }
 
     public Long getEntityId() {
@@ -120,14 +134,6 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
 
     public void setRiskRating(String riskRating) {
         this.riskRating = riskRating;
-    }
-
-    public String getSchedulledDate() {
-        return this.schedulledDate;
-    }
-
-    public void setSchedulledDate(String schedulledDate) {
-        this.schedulledDate = schedulledDate;
     }
 
     public String getScopeDef() {

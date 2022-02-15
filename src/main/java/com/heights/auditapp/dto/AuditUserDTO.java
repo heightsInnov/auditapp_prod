@@ -7,9 +7,27 @@ public class AuditUserDTO extends AbstractDTO<Long> {
     private String username;
     private String password;
     private Long role;
+    private Long supvrole;
+    private String supvroleName;
     private Date createdDate;
     private String roleName;
     private String isActive;
+
+    public String getSupvroleName() {
+        return supvroleName;
+    }
+
+    public void setSupvroleName(String supvroleName) {
+        this.supvroleName = supvroleName;
+    }
+
+    public Long getSupvrole() {
+        return supvrole;
+    }
+
+    public void setSupvrole(Long supvrole) {
+        this.supvrole = supvrole;
+    }
 
     public String getRoleName() {
         return roleName;
