@@ -8,7 +8,6 @@ import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AUDIT_TYPE;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +19,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @RequestMapping("/audit-scope")
 @Controller
 public class AuditScopeControllerImpl {
@@ -31,6 +29,19 @@ public class AuditScopeControllerImpl {
     private final AuditUserService auditUserService;
     private final AuditFocusService auditFocusService;
     private final AuditFocusProceduresService auditFocusProceduresService;
+
+    public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper,
+                                    AuditUniverseService auditUniverseService, AuditScopeApproavalController auditScopeApproaval,
+                                    AuditUserService auditUserService, AuditFocusService auditFocusService,
+                                    AuditFocusProceduresService auditFocusProceduresService) {
+        this.auditScopeService = auditScopeService;
+        this.auditScopeMapper = auditScopeMapper;
+        this.auditUniverseService = auditUniverseService;
+        this.auditScopeApproaval = auditScopeApproaval;
+        this.auditUserService = auditUserService;
+        this.auditFocusService = auditFocusService;
+        this.auditFocusProceduresService = auditFocusProceduresService;
+    }
 
     @GetMapping
     public String load(Model model){

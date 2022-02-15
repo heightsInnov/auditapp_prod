@@ -7,6 +7,7 @@ import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +83,16 @@ public class AuditFocusControllerImpl {
     }
 
     @GetMapping("/execute")
-    public String auditExecution(){
+    public String auditExecution(Model model){
+        model.addAttribute("foci", auditFocusService.findAll());
         return "execution";
+    }
+
+    @GetMapping("/execute/{focusId}")
+    public @ResponseBody HttpStatus startExecution(@PathVariable long focusId){
+        if(auditFocusService.startExecution(focusId)){
+            return HttpStatus.OK;
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }

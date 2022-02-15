@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="@{layouts/_layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="style">
+
+</th:block>
+<body>
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Report</h1>
+    <!-- DataTales Example -->
+    <div class="row">
+
+        <!-- First Column -->
+        <div class="col-lg-4">
+            <!-- Custom Font Size Utilities -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Report Filter</h6>
+                </div>
+                <div class="card-body">
+                    <p class="text-xs">.text-xs</p>
+                    <p class="text-lg mb-0">.text-lg</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Third Column -->
+        <div class="col-lg-8">
+            <!-- Grayscale Utilities -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Reports</h6>
+                </div>
+                <div class="card-body">
+                    <div class="p-3 bg-gray-100">.bg-gray-100</div>
+                    <div class="p-3 bg-gray-200">.bg-gray-200</div>
+                    <div class="p-3 bg-gray-300">.bg-gray-300</div>
+                    <div class="p-3 bg-gray-400">.bg-gray-400</div>
+                    <div class="p-3 bg-gray-500 text-white">.bg-gray-500</div>
+                    <div class="p-3 bg-gray-600 text-white">.bg-gray-600</div>
+                    <div class="p-3 bg-gray-700 text-white">.bg-gray-700</div>
+                    <div class="p-3 bg-gray-800 text-white">.bg-gray-800</div>
+                    <div class="p-3 bg-gray-900 text-white">.bg-gray-900</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+
+    <!-- Page level plugins -->
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script th:src="@{/js/demo/datatables-demo.js}"></script>
+    <script>
+        const addUniverse = () => {
+            let uniName = $('#universeName').val();
+            if(uniName == "") {
+                alert("Universe name is required!");
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            let url = "/audit-universe/add-universe";
+            xhr.open('POST', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send(JSON.stringify({'universeName': uniName }));
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                    let data = JSON.parse(res).data;
+                    if (JSON.parse(res).success) {
+
+                    }
+
+                }
+            } catch (t) { }
+        }
+
+        function deleteUniverse(id) {
+            $('#delete').attr('disabled', true);
+            if (confirm('Are you sure to delete this Universe?')) {
+                let xhr = new XMLHttpRequest();
+                let url = "/audit-universe/" + id;
+                xhr.open('DELETE', url, false);
+                xhr.setRequestHeader("content-type", "application/json");
+                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+                try {
+
+                    xhr.send();
+                    if (xhr.status != 200) {
+                        // location.reload();
+                        //alert('Something went wrong try again!');
+
+                        // $('#msg').html( message("Something went wrong try again."));
+                    } else {
+                        $('#delete').attr('disabled', false);
+                        $('#msg').html(message(data.data));
+                        $('#rID' + username).remove();
+                        let res = JSON.parse(xhr.responseText);
+                        // if(res){
+                        //     location.reload();
+                        // }
+
+                    }
+                } catch (t) {
+                    // location.reload();
+                }
+
+            } else {
+                $('#delete').attr('disabled', false);
+            }
+
+        }
+
+        function message (msg){
+            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
+					${msg}
+				</div>`
+        }
+    </script>
+</th:block>
+</body>
+</html>

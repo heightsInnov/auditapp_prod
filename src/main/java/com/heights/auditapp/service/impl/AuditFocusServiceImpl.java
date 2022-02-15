@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +66,16 @@ public class AuditFocusServiceImpl implements AuditFocusService {
     @Override
     public boolean deleteByDtoId(Long dtoId) {
         return repository.deleteByFocusId(dtoId);
+    }
+
+    @Override
+    public boolean startExecution(Long focusId) {
+        try{
+            return repository.startExecution(focusId, LocalDate.now());
+        }catch (Exception ex){
+            return false;
+        }
+
     }
 
     @Override

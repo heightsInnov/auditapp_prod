@@ -35,4 +35,10 @@ public class HomeController {
         model.addAttribute("user", new AuditUserDTO());
         return "login";
     }
+
+    @GetMapping("/report")
+    public String report(final Model model,
+                       HttpServletRequest req) {
+        return "report";
+    }
 }
