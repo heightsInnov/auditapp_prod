@@ -50,8 +50,8 @@
                         <th>Audit Type</th>
                         <th>Period</th>
                         <th>Start Date</th>
-                        <th>User</th>
-                        <th>Approval </br> Status</th>
+                        <th hidden="hidden">User</th>
+                        <th>Status</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
@@ -86,7 +86,7 @@
             try {
 
                 xhr.send();
-                if (xhr.status != 200) {
+                if (xhr.status !== 200) {
                     //alert('Something went wrong try again!');
                 } else {
                     let res = JSON.parse(xhr.responseText);
@@ -132,7 +132,7 @@
                                <td>${x.auditType}</td>
                                <td>${x.auditPeriod} week's </td>
                                <td>${x.auditStartDate}</td>
-                               <td>${x.userName}</td>
+                               <td hidden="hidden">${x.userName}</td>
                                <td class="text-center">
                                     <span class="badge badge-info">
                                         ${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}

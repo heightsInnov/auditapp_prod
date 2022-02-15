@@ -32,6 +32,7 @@ public class UserMapper implements AuditUserMapper {
         String enc = Base64.getEncoder().encodeToString(pass.getBytes());
         user.setPassword(enc);
         user.setRole(dto.getRole());
+        user.setSupervisoryRole(dto.getSupvrole());
         return user;
     }
 
@@ -43,6 +44,9 @@ public class UserMapper implements AuditUserMapper {
         dto.setUsername(entity.getUsername());
         dto.setUserId(entity.getUserId());
         auditRoleService.findById(entity.getRole()).ifPresent(auditRole -> dto.setRoleName(auditRole.getName()));
+        dto.setSupvroleName("AUDIT ASSOCIATES".equals(dto.getRoleName())
+                ?"MANAGER"
+                :"CHIEF AUDIT");
         dto.setIsActive(entity.getIsActive() == '1'?"ACTIVE":"DISABLED");
         return dto;
     }

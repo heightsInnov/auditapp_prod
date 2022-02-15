@@ -40,29 +40,34 @@
         </div>
         <div class="main-body">
 
-            <div class="row gutters-sm" th:object="${scope}">
+            <div class="row gutters-sm">
                 <div class="col-md-5 mb-3">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit Type</h6>
-                                <span class="text-secondary audit-type" th:text="${scope.auditType}"></span>
+                                <span class="text-secondary audit-type"
+                                      th:text="${scoped.getAuditType()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0">Audit Period</h6>
-                                <span class="text-secondary period" th:text="${scope.auditPeriod}"></span>
+                                <h6 class="mb-0">Proposed Period</h6>
+                                <span class="text-secondary period"
+                                      th:text="${scoped.getAuditPeriod()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Approval Status</h6>
-                                <span class="text-secondary approval" th:text="${scope.approvalStatus}"></span>
+                                <span class="text-secondary approval"
+                                      th:text="${scoped.getApprovalStatus()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit StartDate</h6>
-                                <span class="text-secondary startDate" th:text="${scope.auditStartDate}"></span>
+                                <span class="text-secondary startDate"
+                                      th:text="${scoped.getAuditStartDate()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit EndDate</h6>
-                                <span class="text-secondary endDate" th:text="${scope.auditEndDate}"></span>
+                                <span class="text-secondary endDate"
+                                      th:text="${scoped.getAuditEndDate()}"></span>
                             </li>
                         </ul>
                     </div>
@@ -74,35 +79,35 @@
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scope</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary scope" th:text="${scope.scopeOfAudit}">  </div>
+                                <div class="col-sm-9 text-secondary scope" th:text="${scoped.getScopeOfAudit()}"> </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Purpose</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary purpose" th:text="${scope.scopePurpose}"> </div>
+                                <div class="col-sm-9 text-secondary purpose" th:text="${scoped.getScopePurpose()}"></div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Objective</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary objective" th:text="${scope.scopeObjectives}">  </div>
+                                <div class="col-sm-9 text-secondary objective" th:text="${scoped.getScopeObjectives()}"></div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Definition</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary definition" th:text="${scope.scopeDef}">  </div>
+                                <div class="col-sm-9 text-secondary definition" th:text="${scoped.getScopeDef()}"> </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Scheduled Date</h6>
                                 </div>
-                                <div class="col-sm-9 text-secondary schedule" th:text="${scope.schedulledDate}"> </div>
+                                <div class="col-sm-9 text-secondary schedule" th:text="${scoped.getSchedulledDate()}"></div>
                             </div>
                             <hr>
                             <div class="row">
@@ -149,7 +154,7 @@
                                             <td>
                                                 <div class="progress mb-4">
                                                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                                         role="progressbar"
+                                                         role="progressbar" style="width: ${f.progressLevel}+'%'"
                                                          th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
                                                     : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
                                                     : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
@@ -157,7 +162,7 @@
                                                     : 'progress-bar bg-success'}"></div>
                                                 </div>
                                             </td>
-                                            <td><span class="badge badge-info" th:text="${f.getRecordStat()}"></span></td>
+                                            <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -290,6 +295,74 @@
                 </div>
             </div>
         </div>
+
+        <div aria-hidden="true" aria-labelledby="procedureListModalLabel" class="modal fade" id="procedureListModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="procedureListModalLabel">New Audit Focus</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="user" method="post" th:action="@{/audit-focus/save}"
+                          th:object="${focus}">
+                        <div class="modal-body">
+                            <div class="table-responsive table-billing-history">
+                                <table class="table mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="border-gray-200" scope="col">Procedure</th>
+                                        <th class="border-gray-200" scope="col">Start Date</th>
+                                        <th class="border-gray-200" scope="col">End Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="p : ${proc}"
+                                        th:id="${'rID'} + ${p.getProcId}">
+                                        <td>
+                                            <a href="/audit-focus/page-query" th:text="${f.getAreaOfFocus()}"></a>
+                                        </td>
+                                        <td th:text="${f.getSchedulledDate()}"></td>
+                                        <td th:text="${f.getStartDate()}"></td>
+                                        <td>
+                                            <div class="progress mb-4">
+                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
+                                                     role="progressbar" style="width: ${f.progressLevel}+'%'"
+                                                     th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
+                                                    : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
+                                                    : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
+                                                    : f.progressLevel > 60 && f.progressLevel <= 80 ? 'progress-bar bg-info'
+                                                    : 'progress-bar bg-success'}"></div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button aria-expanded="false" class="btn btn-secondary text-white dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" type="button">
+                                                    Action
+                                                </button>
+                                                <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">
+                                                    <a class="dropdown-item" data-target="#procedureModal"
+                                                       data-toggle="modal" href="#">Add Audit Procedure</a>
+                                                    <a class="dropdown-item" href="#">Edit</a>
+                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -404,8 +477,8 @@
             }
 
             let xhr = new XMLHttpRequest();
-            let url = `/audit-procedures`;
-            xhr.open('POST', url, false);
+            let url = `/audit-scope/${id}`;
+            xhr.open('GET', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
             try {

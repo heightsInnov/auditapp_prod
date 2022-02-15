@@ -35,8 +35,8 @@
                         th:id="${'rID'} + ${user.getUserId()}">
                         <td th:text="${user.getUsername()}"></td>
                         <td th:text="${user.getRoleName()}"></td>
-                        <td th:text="${user.getRoleName()}"></td>
-                        <td th:class="${!user.getIsActive().equals('ACTIVE')?'badge badge-pill badge-danger':'badge badge-pill badge-success'}" th:text="${user.getIsActive()}"></td>
+                        <td th:text="${user.getSupvroleName()}"></td>
+                        <td><span th:class="${!user.getIsActive().equals('ACTIVE')?'badge badge-pill badge-danger':'badge badge-pill badge-success'}" th:text="${user.getIsActive()}"></span></td>
                         <td class="text-center">&nbsp;
                             <a data-target="#"
                                data-toggle="modal" href="javascript:void(0)"
@@ -78,6 +78,13 @@
                             <div class="mb-3">
                                 <label for="forRole">Role</label>
                                 <select class="form-control" id="forRole" th:field="*{role}">
+                                    <option th:each="rol : ${role}" th:text="${rol.getName()}"
+                                            th:value="${rol.getRoleId()}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="forSupvRole">Supervisory Role</label>
+                                <select class="form-control" id="forSupvRole" th:field="*{role}">
                                     <option th:each="rol : ${role}" th:text="${rol.getName()}"
                                             th:value="${rol.getRoleId()}"></option>
                                 </select>

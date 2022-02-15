@@ -1,7 +1,7 @@
 package com.heights.auditapp.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "AUDIT_SCOPE")
@@ -15,13 +15,13 @@ public class AuditScope {
     private String approvalStatus;
 
     @Column(name = "AUDIT_END_DATE")
-    private Date auditEndDate;
+    private LocalDate auditEndDate;
 
     @Column(name = "AUDIT_PERIOD")
     private String auditPeriod;
 
     @Column(name = "AUDIT_START_DATE")
-    private Date auditStartDate;
+    private LocalDate auditStartDate;
 
     @Column(name = "AUDIT_TYPE")
     private String auditType;
@@ -30,7 +30,7 @@ public class AuditScope {
     private String authStat;
 
     @Column(name = "CREATE_DATE")
-    private Date createDate;
+    private LocalDate createDate;
 
     @Column(name = "ENTITY_ID")
     private Long entityId;
@@ -45,7 +45,7 @@ public class AuditScope {
     private String riskRating;
 
     @Column(name = "SCHEDULLED_DATE")
-    private Date schedulledDate;
+    private LocalDate schedulledDate;
 
     @Column(name = "SCOPE_DEF")
     private String scopeDef;
@@ -81,11 +81,11 @@ public class AuditScope {
         this.approvalStatus = approvalStatus;
     }
 
-    public Date getAuditEndDate() {
+    public LocalDate getAuditEndDate() {
         return this.auditEndDate;
     }
 
-    public void setAuditEndDate(Date auditEndDate) {
+    public void setAuditEndDate(LocalDate auditEndDate) {
         this.auditEndDate = auditEndDate;
     }
 
@@ -97,11 +97,11 @@ public class AuditScope {
         this.auditPeriod = auditPeriod;
     }
 
-    public Date getAuditStartDate() {
+    public LocalDate getAuditStartDate() {
         return this.auditStartDate;
     }
 
-    public void setAuditStartDate(Date auditStartDate) {
+    public void setAuditStartDate(LocalDate auditStartDate) {
         this.auditStartDate = auditStartDate;
     }
 
@@ -121,11 +121,11 @@ public class AuditScope {
         this.authStat = authStat;
     }
 
-    public Date getCreateDate() {
+    public LocalDate getCreateDate() {
         return this.createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
@@ -161,11 +161,11 @@ public class AuditScope {
         this.riskRating = riskRating;
     }
 
-    public Date getSchedulledDate() {
+    public LocalDate getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(Date schedulledDate) {
+    public void setSchedulledDate(LocalDate schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
