@@ -154,7 +154,7 @@
                                             <td>
                                                 <div class="progress mb-4">
                                                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                                         role="progressbar" style="width: ${f.progressLevel}+'%'"
+                                                         role="progressbar" style="width: ${f.progressLevel} + '%'"
                                                          th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
                                                     : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
                                                     : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
@@ -305,8 +305,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="user" method="post" th:action="@{/audit-focus/save}"
-                          th:object="${focus}">
                         <div class="modal-body">
                             <div class="table-responsive table-billing-history">
                                 <table class="table mb-0">
@@ -318,48 +316,46 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="p : ${proc}"
-                                        th:id="${'rID'} + ${p.getProcId}">
-                                        <td>
-                                            <a href="/audit-focus/page-query" th:text="${f.getAreaOfFocus()}"></a>
-                                        </td>
-                                        <td th:text="${f.getSchedulledDate()}"></td>
-                                        <td th:text="${f.getStartDate()}"></td>
-                                        <td>
-                                            <div class="progress mb-4">
-                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                                     role="progressbar" style="width: ${f.progressLevel}+'%'"
-                                                     th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
-                                                    : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
-                                                    : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
-                                                    : f.progressLevel > 60 && f.progressLevel <= 80 ? 'progress-bar bg-info'
-                                                    : 'progress-bar bg-success'}"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button aria-expanded="false" class="btn btn-secondary text-white dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" type="button">
-                                                    Action
-                                                </button>
-                                                <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">
-                                                    <a class="dropdown-item" data-target="#procedureModal"
-                                                       data-toggle="modal" href="#">Add Audit Procedure</a>
-                                                    <a class="dropdown-item" href="#">Edit</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+<!--                                    <tr th:each="p : ${proc}"-->
+<!--                                        th:id="${'rID'} + ${p.getProcId}">-->
+<!--                                        <td>-->
+<!--                                            <a href="/audit-focus/page-query" th:text="${f.getAreaOfFocus()}"></a>-->
+<!--                                        </td>-->
+<!--                                        <td th:text="${f.getSchedulledDate()}"></td>-->
+<!--                                        <td th:text="${f.getStartDate()}"></td>-->
+<!--                                        <td>-->
+<!--                                            <div class="progress mb-4">-->
+<!--                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"-->
+<!--                                                     role="progressbar" style="width: ${f.progressLevel}+'%'"-->
+<!--                                                     th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'-->
+<!--                                                    : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'-->
+<!--                                                    : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'-->
+<!--                                                    : f.progressLevel > 60 && f.progressLevel <= 80 ? 'progress-bar bg-info'-->
+<!--                                                    : 'progress-bar bg-success'}"></div>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>-->
+<!--                                        <td>-->
+<!--                                            <div class="dropdown">-->
+<!--                                                <button aria-expanded="false" class="btn btn-secondary text-white dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" type="button">-->
+<!--                                                    Action-->
+<!--                                                </button>-->
+<!--                                                <div aria-labelledby="dropdownMenuButton" class="dropdown-menu">-->
+<!--                                                    <a class="dropdown-item" data-target="#procedureModal"-->
+<!--                                                       data-toggle="modal" href="#">Add Audit Procedure</a>-->
+<!--                                                    <a class="dropdown-item" href="#">Edit</a>-->
+<!--                                                    <a class="dropdown-item" href="#">Delete</a>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
-                            <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -435,9 +431,7 @@
             obj = {};
         });
 
-
-
-        const  clearField =() =>{
+        const  clearField = () =>{
             $('#procedureName').val('');
             $('#startDate').val('');
             $('#endDate').val('');
@@ -483,7 +477,7 @@
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
             try {
 
-                xhr.send(JSON.stringify(arrProcedure);
+                xhr.send(JSON.stringify(arrProcedure));
                 if (xhr.status != 200) {
                     //alert('Something went wrong try again!');
                 } else {

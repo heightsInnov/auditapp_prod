@@ -119,7 +119,6 @@ public class AuditScopeControllerImpl {
             return "redirect:/audit-scope";
         }
         model.addAttribute("focus", new AuditFocusDTO());
-        model.addAttribute("scope", auditScopeService.findById((long) scopeId).orElse(null));
         model.addAttribute("scope", new AuditScopeDTO());
         auditScopeService.findById(scopeId).ifPresent(auditScope -> model.addAttribute("scoped", auditScopeMapper.asDTO(auditScope)));
         model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
