@@ -442,7 +442,7 @@
             }
 
             let xhr = new XMLHttpRequest();
-            let url = `/audit-procedures`;
+            let url = `/audit-procedures/list/${focusId}`;
             xhr.open('POST', url, false);
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
