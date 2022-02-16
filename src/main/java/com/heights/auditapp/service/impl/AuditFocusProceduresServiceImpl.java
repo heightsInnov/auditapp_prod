@@ -2,12 +2,14 @@ package com.heights.auditapp.service.impl;
 
 import com.heights.auditapp.dao.AuditFocusProceduresRepository;
 import com.heights.auditapp.model.AuditFocusProcedures;
+import com.heights.auditapp.model.ControllerRaise;
 import com.heights.auditapp.service.AuditFocusProceduresService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +18,11 @@ import java.util.Optional;
 @Transactional
 public class AuditFocusProceduresServiceImpl implements AuditFocusProceduresService {
     private final AuditFocusProceduresRepository repository;
+    private final EntityManager entityManager;
 
-    public AuditFocusProceduresServiceImpl(AuditFocusProceduresRepository repository) {
+    public AuditFocusProceduresServiceImpl(AuditFocusProceduresRepository repository, EntityManager entityManager) {
         this.repository = repository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -60,5 +64,18 @@ public class AuditFocusProceduresServiceImpl implements AuditFocusProceduresServ
             return save(entity);
         }
         return null;
+    }
+
+    @Override
+    public List<ControllerRaise> getExceptions() {
+        return entityManager
+                .createNamedQuery("getProcessExceptions",
+                        ControllerRaise.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<AuditFocusProcedures> findByFocusId(Long focusId) {
+        return repository.findAllByFocusId(focusId);
     }
 }

@@ -1,6 +1,7 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
+import com.heights.auditapp.service.AuditFocusProceduresService;
 import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class HomeController {
 
     private final AuditFocusService auditFocusService;
+    private final AuditFocusProceduresService auditFocusProceduresService;
 
-    public HomeController(AuditFocusService auditFocusService) {
+    public HomeController(AuditFocusService auditFocusService, AuditFocusProceduresService auditFocusProceduresService) {
         this.auditFocusService = auditFocusService;
+        this.auditFocusProceduresService = auditFocusProceduresService;
     }
 
     @GetMapping("/dashboard")
@@ -57,6 +60,7 @@ public class HomeController {
     @GetMapping("/exception")
     public String exception(final Model model,
                          HttpServletRequest req) {
+        model.addAttribute("proc",auditFocusProceduresService.getExceptions());
         return "exception";
     }
 }
