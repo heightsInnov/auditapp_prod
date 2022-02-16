@@ -15,7 +15,7 @@ public interface AuditFocusProceduresController {
     AuditFocusProceduresDTO save(@RequestBody AuditFocusProceduresDTO auditFocusProcedures);
 
     @PostMapping
-    List<AuditFocusProceduresDTO> save(@RequestBody List<AuditFocusProceduresDTO> auditFocusProceduresDTO);
+    List<AuditFocusProceduresDTO> save(@RequestBody List<AuditFocusProceduresDTO> auditFocusProceduresDTO, Long focusId);
 
     @ApiOperation("Find by Id")
     AuditFocusProceduresDTO findById(@PathVariable("id") Long id);
