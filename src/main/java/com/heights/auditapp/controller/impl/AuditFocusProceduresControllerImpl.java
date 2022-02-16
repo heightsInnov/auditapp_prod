@@ -27,9 +27,16 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
 
     @Override
     @PostMapping
-    public AuditFocusProceduresDTO save(@RequestBody AuditFocusProceduresDTO auditFocusProceduresDTO) {
-        AuditFocusProcedures auditFocusProcedures = auditFocusProceduresMapper.asEntity(auditFocusProceduresDTO);
+    public AuditFocusProceduresDTO save(@ModelAttribute AuditFocusProceduresDTO auditFocusProcedure) {
+        AuditFocusProcedures auditFocusProcedures = auditFocusProceduresMapper.asEntity(auditFocusProcedure);
         return auditFocusProceduresMapper.asDTO(auditFocusProceduresService.save(auditFocusProcedures));
+    }
+
+    @Override
+    @PostMapping
+    public List<AuditFocusProceduresDTO> save(@ModelAttribute List<AuditFocusProceduresDTO> auditFocusProceduresDTO) {
+        List<AuditFocusProcedures> auditFocusProcedures = auditFocusProceduresMapper.asEntityList(auditFocusProceduresDTO);
+        return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.save(auditFocusProcedures));
     }
 
     @Override

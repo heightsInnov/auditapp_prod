@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface AuditFocusProceduresController {
     @ApiOperation("Add new data")
     AuditFocusProceduresDTO save(@RequestBody AuditFocusProceduresDTO auditFocusProcedures);
+
+    @PostMapping
+    List<AuditFocusProceduresDTO> save(@RequestBody List<AuditFocusProceduresDTO> auditFocusProceduresDTO);
 
     @ApiOperation("Find by Id")
     AuditFocusProceduresDTO findById(@PathVariable("id") Long id);

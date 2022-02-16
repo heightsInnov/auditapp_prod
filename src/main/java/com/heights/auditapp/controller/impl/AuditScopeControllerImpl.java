@@ -75,7 +75,6 @@ public class AuditScopeControllerImpl {
         return "redirect:/audit-scope/create";
     }
 
-
     @GetMapping("/{id}")
     public @ResponseBody AuditScopeDTO findById(@PathVariable("id") Long id) {
         return auditScopeMapper.asDTO(auditScopeService.findById(id).orElse(null));
@@ -90,7 +89,6 @@ public class AuditScopeControllerImpl {
     public boolean delete(@PathVariable("id") Long id) {
         return auditScopeService.deleteByDtoId(id);
     }
-
 
     @GetMapping("/get-all")
     public List<AuditScopeDTO> list() {
