@@ -86,6 +86,7 @@ public class AuditUserControllerImpl{
             model.addAttribute("message", "Invalid username or Password");
             return "redirect:/";
         }
+
         AuditUser tt = auditUserService.login(dto.getUsername(), dto.getPassword());
 
         if (tt != null) {
