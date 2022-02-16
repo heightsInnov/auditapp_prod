@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "AUDIT_FOCUS_PROCEDURES")
@@ -19,13 +20,13 @@ public class AuditFocusProcedures {
     private String procedure;
 
     @Column(name = "DATE_CREATED")
-    private java.sql.Date dateCreated;
+    private LocalDate dateCreated;
 
     @Column(name = "AUTH_STAT")
     private String authStat;
 
     @Column(name = "DUE_DATE")
-    private java.sql.Date dueDate;
+    private LocalDate dueDate;
 
     @Column(name = "EXCEPTION_FLAG")
     private String exceptionFlag;
@@ -55,10 +56,10 @@ public class AuditFocusProcedures {
     private String scheduledFlag;
 
     @Column(name = "SCHEDULLED_DATE")
-    private java.sql.Date schedulledDate;
+    private LocalDate schedulledDate;
 
     @Column(name = "START_DATE")
-    private java.sql.Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "START_FLAG")
     private String startFlag;
@@ -102,11 +103,11 @@ public class AuditFocusProcedures {
         this.procedure = procedure;
     }
 
-    public java.sql.Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return this.dateCreated;
     }
 
-    public void setDateCreated(java.sql.Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -118,11 +119,11 @@ public class AuditFocusProcedures {
         this.authStat = authStat;
     }
 
-    public java.sql.Date getDueDate() {
+    public LocalDate getDueDate() {
         return this.dueDate;
     }
 
-    public void setDueDate(java.sql.Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -198,19 +199,19 @@ public class AuditFocusProcedures {
         this.scheduledFlag = scheduledFlag;
     }
 
-    public java.sql.Date getSchedulledDate() {
+    public LocalDate getSchedulledDate() {
         return this.schedulledDate;
     }
 
-    public void setSchedulledDate(java.sql.Date schedulledDate) {
+    public void setSchedulledDate(LocalDate schedulledDate) {
         this.schedulledDate = schedulledDate;
     }
 
-    public java.sql.Date getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public void setStartDate(java.sql.Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
