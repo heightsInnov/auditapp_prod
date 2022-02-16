@@ -61,7 +61,7 @@
                                     <tr th:each="f : ${foci}"
                                         th:id="${'rID'} + ${f.getFocusId()}">
                                         <td>
-                                            <a href="/audit-focus/page-query" th:text="${f.getAreaOfFocus()}"></a>
+                                            <a href="/audit-procedures/focus-procedure" th:text="${f.getAreaOfFocus()}"></a>
                                         </td>
                                         <td th:text="${f.getSchedulledDate()}"></td>
                                         <td th:text="${f.getStartDate()}"></td>

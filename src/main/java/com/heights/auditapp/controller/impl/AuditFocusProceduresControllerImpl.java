@@ -81,4 +81,10 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
         AuditFocusProcedures auditFocusProcedures = auditFocusProceduresMapper.asEntity(auditFocusProceduresDTO);
         return auditFocusProceduresMapper.asDTO(auditFocusProceduresService.update(auditFocusProcedures, id));
     }
+
+
+    @GetMapping("/focus-procedure")
+    public String getFocusProcedure(){
+        return "focus-procedure";
+    }
 }
