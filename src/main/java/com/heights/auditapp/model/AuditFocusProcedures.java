@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Table(name = "AUDIT_FOCUS_PROCEDURES")
 public class AuditFocusProcedures {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
