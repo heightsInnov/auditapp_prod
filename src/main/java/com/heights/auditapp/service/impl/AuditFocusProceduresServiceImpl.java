@@ -73,4 +73,9 @@ public class AuditFocusProceduresServiceImpl implements AuditFocusProceduresServ
                         ControllerRaise.class)
                 .getResultList();
     }
+
+    @Override
+    public List<AuditFocusProcedures> findByFocusId(Long focusId) {
+        return repository.findAllByFocusId(focusId);
+    }
 }

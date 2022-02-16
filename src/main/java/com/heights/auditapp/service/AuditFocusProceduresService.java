@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AuditFocusProceduresService extends GenericService<AuditFocusProcedures, Long> {
     List<ControllerRaise> getExceptions();
+    List<AuditFocusProcedures> findByFocusId(Long focusId);
 }

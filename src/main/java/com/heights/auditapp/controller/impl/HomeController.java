@@ -60,7 +60,7 @@ public class HomeController {
     @GetMapping("/exception")
     public String exception(final Model model,
                          HttpServletRequest req) {
-        model.addAttribute("proc",auditFocusProceduresService.getExceptions();
+        model.addAttribute("proc",auditFocusProceduresService.getExceptions());
         return "exception";
     }
 }

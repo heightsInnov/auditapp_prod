@@ -34,7 +34,7 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
 
     @Override
     @PostMapping
-    public List<AuditFocusProceduresDTO> save(@ModelAttribute List<AuditFocusProceduresDTO> auditFocusProceduresDTO) {
+    public @ResponseBody List<AuditFocusProceduresDTO> save(@RequestBody List<AuditFocusProceduresDTO> auditFocusProceduresDTO) {
         List<AuditFocusProcedures> auditFocusProcedures = auditFocusProceduresMapper.asEntityList(auditFocusProceduresDTO);
         return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.save(auditFocusProcedures));
     }
@@ -56,6 +56,12 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
     @GetMapping
     public List<AuditFocusProceduresDTO> list() {
         return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
+    }
+
+    @Override
+    @GetMapping("/{focusId}")
+    public @ResponseBody List<AuditFocusProceduresDTO> list(@PathVariable Long focusId) {
+        return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findByFocusId(focusId));
     }
 
     @Override
