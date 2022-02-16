@@ -7,7 +7,6 @@ import java.time.LocalDate;
 @Table(name = "AUDIT_FOCUS_PROCEDURES")
 public class AuditFocusProcedures {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +18,7 @@ public class AuditFocusProcedures {
     private String procedure;
 
     @Column(name = "DATE_CREATED")
-    private LocalDate dateCreated;
+    private LocalDate dateCreated = LocalDate.now();
 
     @Column(name = "AUTH_STAT")
     private String authStat;

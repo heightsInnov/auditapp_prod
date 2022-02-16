@@ -13,7 +13,7 @@ public class FocusProcedureMapper implements AuditFocusProceduresMapper {
     @Override
     public AuditFocusProcedures asEntity(AuditFocusProceduresDTO dto) {
         AuditFocusProcedures entity = new AuditFocusProcedures();
-        entity.setFocusId(dto.getId());
+        entity.setFocusId(dto.getFocusId());
         entity.setAdditionalInfo(dto.getAdditionalInfo());
         entity.setScheduledFlag(dto.getScheduledFlag());
         entity.setSchedulledDate(dto.getSchedulledDate());
@@ -41,7 +41,7 @@ public class FocusProcedureMapper implements AuditFocusProceduresMapper {
     @Override
     public AuditFocusProceduresDTO asDTO(AuditFocusProcedures dto) {
         AuditFocusProceduresDTO entity = new AuditFocusProceduresDTO();
-        entity.setFocusId(dto.getId());
+        entity.setFocusId(dto.getFocusId());
         entity.setAdditionalInfo(dto.getAdditionalInfo());
         entity.setScheduledFlag(dto.getScheduledFlag());
         entity.setSchedulledDate(dto.getSchedulledDate());
