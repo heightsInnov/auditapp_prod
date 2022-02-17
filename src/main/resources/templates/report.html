@@ -20,8 +20,23 @@
                     <h6 class="m-0 font-weight-bold text-primary">Report Filter</h6>
                 </div>
                 <div class="card-body">
-                    <p class="text-xs">.text-xs</p>
-                    <p class="text-lg mb-0">.text-lg</p>
+                    <div class="mb-3">
+                        <label for="sort">Coverage</label>
+                        <select class="form-control" id="sort">
+                            <option value="very high">Scope</option>
+                            <option value="high">Focus</option>
+                            <option value="high">Procedure</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="startDate">From</label>
+                        <input class="form-control" id="startDate" required="required" type="date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate">To</label>
+                        <input class="form-control" id="endDate" required="required" type="date">
+                    </div>
                 </div>
             </div>
 
@@ -35,15 +50,30 @@
                     <h6 class="m-0 font-weight-bold text-primary">Reports</h6>
                 </div>
                 <div class="card-body">
-                    <div class="p-3 bg-gray-100">.bg-gray-100</div>
-                    <div class="p-3 bg-gray-200">.bg-gray-200</div>
-                    <div class="p-3 bg-gray-300">.bg-gray-300</div>
-                    <div class="p-3 bg-gray-400">.bg-gray-400</div>
-                    <div class="p-3 bg-gray-500 text-white">.bg-gray-500</div>
-                    <div class="p-3 bg-gray-600 text-white">.bg-gray-600</div>
-                    <div class="p-3 bg-gray-700 text-white">.bg-gray-700</div>
-                    <div class="p-3 bg-gray-800 text-white">.bg-gray-800</div>
-                    <div class="p-3 bg-gray-900 text-white">.bg-gray-900</div>
+                    <div class="row">
+                        <div class="col-md-6 text-right mb-3">
+                            <button class="btn btn-default border-danger btn-lg" type="button">
+                                <img th:src=" @{/img/pdf.png}" width="150" height="140">
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-default border-secondary btn-lg" type="button">
+                                <img th:src=" @{/img/excel.png}" width="150" height="auto">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 text-right">
+                            <button class="btn btn-default border-primary btn-lg" type="button">
+                                <img th:src=" @{/img/word.png}" width="150" height="auto">
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-default border-danger btn-lg" type="button">
+                                <img th:src=" @{/img/powerpoint.svg}" width="150" height="auto">
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

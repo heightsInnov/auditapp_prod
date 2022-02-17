@@ -60,7 +60,7 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
     }
 
     @Override
-    @GetMapping("/{focusId}")
+    @GetMapping("/procedure/{focusId}")
     public @ResponseBody List<AuditFocusProceduresDTO> list(@PathVariable Long focusId) {
         return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findByFocusId(focusId));
     }
