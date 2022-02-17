@@ -391,7 +391,7 @@
                 return;
             }
 
-            if(startDate < endDate ){
+            if(startDate > endDate ){
                 $('#err').html(message("Due date can'\t be greater than start date!",'warning'));
                 $('#endDate').focus();
                 return;
@@ -429,7 +429,7 @@
         }
 
         const tempTable = () =>{
-            if(!focusId){
+            if(focusId != ''){
                 $('.procedure-table tbody').html('');
             }
             arrProcedure.forEach( (x, index) => {
