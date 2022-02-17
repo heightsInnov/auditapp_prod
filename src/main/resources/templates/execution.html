@@ -61,12 +61,15 @@
                                     <tr th:each="f : ${foci}"
                                         th:id="${'rID'} + ${f.getFocusId()}">
                                         <td>
-                                            <a href="/audit-procedures/focus-procedure" th:text="${f.getAreaOfFocus()}"></a>
+                                            <a href="javascript:void(0)"
+                                               th:data_focId="${f.getFocusId()}"
+                                               onclick="getProcedure(this.getAttribute('data_focId'))"
+                                               th:text="${f.getAreaOfFocus()}"></a><span class="badge badge-primary" th:text="${foci.size()}"></span>
                                         </td>
                                         <td th:text="${f.getSchedulledDate()}"></td>
                                         <td th:text="${f.getStartDate()}"></td>
                                         <td>
-                                            <div class="progress mb-4">
+                                            <div class="progress">
                                                 <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
                                                      role="progressbar" style="width: ${f.progressLevel}+'%'"
                                                      th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
@@ -78,7 +81,7 @@
                                         </td>
                                         <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>
                                         <td>
-                                            <button class="btn btn-success" type="button"><i class="fa fa-play"></i></button>
+                                            <button class="btn btn-success btn-sm" type="button"><i class="fa fa-play"></i></button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -203,264 +206,14 @@
 
 </div>
 <th:block layout:fragment="script">
-<!--    <script-->
-<!--            src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>-->
-<!--    <script-->
-<!--            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<!--    <script-->
-<!--            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>-->
-    <script th:src="@{/js/custom.js}"></script>
+
     <script>
-        let tempData = [];
-        let j = 1;
-
-        $('#addChildBtn').on('click', () => {
-
-            let name = $('#childname').val();
-            let DOB = $('#childdob').val();
-
-            let data = {};
-            if (name !== "" || name == null) {
-                data["child_name"] = name;
-                data["child_dob"] = DOB;
-                console.log(data);
-                tempData.push(data);
-                j++;
-                //call table data
-                tableTemplate();
-                //clear data fields
-                clearData();
+        const getProcedure = (id) => {
+            if(id < 1) {
+                return;
             }
-
-        });
-
-        function tableTemplate() {
-            document.getElementById('childTable').innerHTML = '';
-            let k = 0;
-            tempData.forEach(function (element, index, array) {
-                k++;
-                let data = '<tr>' +
-                    '<td>' + '<a href="javascript:void(0)" onclick="removeData(' + index + ')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"> <li class="fa fa-trash"></li></a>' + '</td>'
-                    + '<td>' + element["child_name"] + '</td>' +
-                    '<td>' + element["child_dob"] + '</td>' +
-                    '</tr>';
-                $('#childTable').append(data);
-            });
-        }
-
-        function removeData(index) {
-            tempData.splice(index, 1);
-            tableTemplate();
-        }
-
-        function changeRole(username, currentRole) {
-            $('#flexSwitchCheckDefault').attr('disabled', true);
-            let adminUser = "[[${session.username}]]";
-            if (confirm('Are you sure to change this user role?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/change-user-role/' + adminUser + '/' + username,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#flexSwitchCheckDefault').attr('disabled', false);
-                        $('.roleText').html(currentRole == 'ADMIN' ? 'STAFF' : 'ADMIN');
-                        currentRole == 'ADMIN' ? currentRole = 'STAFF' : currentRole = 'ADMIN';
-                        $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
-                        $('#msg').html(message(data.data));
-                    },
-                    error: function (responce) {
-                        $('#flexSwitchCheckDefault').attr('disabled', false);
-                        $('#msg').html(message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#flexSwitchCheckDefault').attr('disabled', false);
-                $('#flexSwitchCheckDefault').attr("data-currentRole", currentRole);
-            }
-
-        }
-
-        function changeStatus(username, currentStatus) {
-            $('#changeStatus').attr('disabled', true);
-            if (confirm('Are you sure to disabled this user account?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/deactivate-employee/' + username + '/changestatus',
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
-
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
-        }
-
-        function deleteEdu(entryName, entryId) {
-            $('#edu').attr('disabled', true);
-            if (confirm('Are you sure to delete this record?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-entry/' + entryName + entryId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#edu').attr('disabled', false);
-                        $('#entry_msg').html(message(data.data));
-                        $('#rID' + entryId).remove();
-                    },
-                    error: function (responce) {
-                        $('#edu').attr('disabled', false);
-                        $('#entry_msg').html(message("Something went wrong try again."));
-                    }
-                });
-            }
-        }
-
-        function deleteExp(entryName, entryId) {
-            $('#exp').attr('disabled', true);
-            if (confirm('Are you sure to delete this record?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-entry/' + entryName + entryId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message(data.data));
-                        $('#rID' + entryId).remove();
-                    },
-                    error: function (responce) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message("Something went wrong try again."));
-                    }
-                });
-            }
-        }
-
-        function message(msg) {
-            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				${msg}
-			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>`
-        }
-
-        function addFamily(username) {
-            let children = {'children': tempData};
-            children["spouse_name"] = $('#spouse').val();
-            console.log(JSON.stringify(children));
-            if (tempData.length > 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/employee/add-family/' + username,
-                    data: JSON.stringify(children),
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#entry_msg').html(message(data.data));
-                        tempData = [];
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function (responce) {
-                        console.log(responce);
-                        const errorCode = responce.responseJSON["responseCode"];
-                        $('#btn-child').attr("dissable", false).html("Next");
-                        if (errorCode === 99) {
-                            let res = "Your request failed make sure all required field are properly filled and try again.";
-                            $('#msg').html(msg(res, "warning"));
-                        } else {
-                            let res = "something went wrong try again later.";
-                            $('#msg').html(msg(res, "warning"));
-                        }
-                    }
-                });
-            }
-        }
-
-        function clearData() {
-            $('#childname').val("");
-            $('#childdob').val("");
-            $('#childname').focus();
-        }
-
-        function deleteUpload(oraId, uploadId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-upload/' + oraId + '/' + uploadId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
-        }
-
-        function deletePromotion(oraId, promoId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-promotion/' + promoId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
+            sessionStorage.setItem('focusId', id);
+            location = "/audit-procedures/focus-procedure";
         }
     </script>
 </th:block>

@@ -35,30 +35,21 @@
     <div class="container">
         <div class="main-body">
             <div class="row">
-                <div class="col-md-9 mx-auto">
-                    <h1 class="h3 mb-2 text-gray-800">Procedure Management</h1>
+                <div class="col-md-12">
+                    <h1 class="h3 mb-2 text-gray-800">Process Management</h1>
                     <!-- Billing history card-->
                     <div class="card mb-4">
                         <div class="card-header">
                             Focus Procedure
                         </div>
                         <div class="card-body p-0">
-                            <div class="dropdown-list dropdown-menu-right shadow"
-                                 aria-labelledby="messagesDropdown">
-                                <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary"
-                                   href="#" data-toggle="modal" data-target="#focusModal">
-                                    <div class="dropdown-list-image mr-3">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Start Date: <small>2-12/2022</small>
-                                            <span class="float-right">End Date: <small>3-12-2022</small></span>
-                                        </div>
-                                    </div>
-                                </a>
 
+                            <div class="dropdown-list dropdown-menu-right shadow focus-procedure"
+                                 aria-labelledby="messagesDropdown">
+
+<!--                                <div class="progress">-->
+<!--                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--                                </div>-->
                             </div>
 
                         </div>
@@ -72,7 +63,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="focusModalLabel">Procedure Setting</h5>
+                        <h5 class="modal-title" id="focusModalLabel">Execution Setting</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -95,17 +86,16 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="controlstatus">Control Status<span style="color: red">*</span></label>
-                                    <select class="form-control" id="controlstatus" required="required">
+                                    <label for="controlstatus">Control Status</label>
+                                    <select class="form-control" id="controlstatus">
                                         <option value="Adequate">Adequate</option>
                                         <option value="Partially Adequate">Partially Adequate</option>
                                         <option value="Inadequate">Inadequate</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="riskrating">Risk Rating<span style="color: red">*</span></label>
-                                    <select class="form-control" id="riskrating" required="required"
-                                           >
+                                    <label for="riskrating">Risk Rating</label>
+                                    <select class="form-control" id="riskrating">
                                         <option value="very high">Very High</option>
                                         <option value="high">High</option>
                                         <option value="medium">Medium</option>
@@ -116,31 +106,15 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="exception">Focus Exception<span style="color: red">*</span></label>
-                                    <input class="form-control" id=exception required="required"
-                                            type="text">
+                                    <label for="exception">Exception</label>
+                                    <textarea class="form-control" id="exception" rows="5">
+                                    </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="recommendation">Focus Recommendation</label>
-                                    <input class="form-control" id="recommendation" required="required"
-                                           type="text">
-                                </div>
-                            </div>
+                                    <label for="recommendation">Recommendation</label>
+                                    <textarea class="form-control" id="recommendation" rows="5">
+                                    </textarea>
 
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="startDate">Schedule Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="startDate" required="required"
-                                             type="date"/>
-                                </div>
-                                <div class="col-md-6 mb-3 mb-sm-0">
-                                    <label for="workprogram">Work Program Start<span style="color: red">*</span></label>
-                                    <select class="form-control" id="workprogram" required="required" >
-                                        <option value="SCHEDULED">SCHEDULED</option>
-                                        <option value="ACTIVE">ACTIVE</option>
-                                        <option value="IN-PROGRESS">IN-PROGRESS</option>
-                                        <option value="COMPLETED">COMPLETED</option>
-                                    </select>
                                 </div>
                             </div>
                             <hr/>
@@ -162,6 +136,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary btn-completed">Mark as Completed</button>
                         </div>
                     </form>
                 </div>
@@ -173,136 +148,64 @@
 <th:block layout:fragment="script">
 
     <script>
-        let tempData = [];
-        let j = 1;
+        $(document).ready(() => {
+            let focusId = sessionStorage.getItem("focusId");
+            console.log(focusId);
+            getProcedure(focusId);
+        });
 
-        function deleteExp(entryName, entryId) {
-            $('#exp').attr('disabled', true);
-            if (confirm('Are you sure to delete this record?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-entry/' + entryName + entryId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message(data.data));
-                        $('#rID' + entryId).remove();
-                    },
-                    error: function (responce) {
-                        $('#exp').attr('disabled', false);
-                        $('#entry_msg').html(message("Something went wrong try again."));
+        const getProcedure = (id) => {
+            console.log('here');
+            let xhr = new XMLHttpRequest();
+            let url = `/audit-procedures/procedure/${id}`;
+            xhr.open('Get', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+
+                xhr.send();
+                if (xhr.status != 200) {
+                    //alert('Something went wrong try again!');
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                    if(res){
+                        procedureTable(res);
                     }
+                }
+            } catch (t) { }
+        }
+
+
+        const procedureTable = (data) => {
+            if(data){
+                $('.focus-procedure').html('');
+                data.forEach( (x, index) => {
+                    let res = `
+                    <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary"
+                                   href="#" data-toggle="modal" data-target="#focusModal">
+                                    <div class="dropdown-list-image mr-3">
+                                        <button class="btn btn-success btn-sm" onclick="startExecution()" type="button"><i class="fa fa-play"></i></button>
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">${x.procedure}</div>
+                                        <div class="small text-gray-500">Start Date: <small>${x.startDate}</small>
+                                            <span class="ml-3">End Date: <small>${x.dueDate}</small> </span>
+                                            <span class="ml-3 badge badge-success">Pending</span>
+                                        </div>
+
+                                    </div>
+                                </a>
+                   `;
+                    $('.focus-procedure').append(res);
                 });
+            }else{
+                $('.focus-procedure').html(' <div class="text-truncate">Procedure not added created one!</div>');
             }
         }
 
-        function message(msg) {
-            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-				${msg}
-			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>`
-        }
-
-        function addFamily(username) {
-            let children = {'children': tempData};
-            children["spouse_name"] = $('#spouse').val();
-            console.log(JSON.stringify(children));
-            if (tempData.length > 0) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/employee/add-family/' + username,
-                    data: JSON.stringify(children),
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#entry_msg').html(message(data.data));
-                        tempData = [];
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1000);
-                    },
-                    error: function (responce) {
-                        console.log(responce);
-                        const errorCode = responce.responseJSON["responseCode"];
-                        $('#btn-child').attr("dissable", false).html("Next");
-                        if (errorCode === 99) {
-                            let res = "Your request failed make sure all required field are properly filled and try again.";
-                            $('#msg').html(msg(res, "warning"));
-                        } else {
-                            let res = "something went wrong try again later.";
-                            $('#msg').html(msg(res, "warning"));
-                        }
-                    }
-                });
-            }
-        }
-
-        function clearData() {
-            $('#childname').val("");
-            $('#childdob').val("");
-            $('#childname').focus();
-        }
-
-        function deleteUpload(oraId, uploadId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-upload/' + oraId + '/' + uploadId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
-        }
-
-        function deletePromotion(oraId, promoId) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this document?')) {
-                $.ajax({
-                    type: 'Get',
-                    url: '/employee/delete-user-promotion/' + promoId,
-                    headers: {
-                        Authorization: token,
-                        'Content-Type': "application/json"
-                    },
-                    success: function (data) {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#docsTable' + oraId).remove();
-                        document.location.reload();
-                    },
-                    error: function (responce) {
-                        $('#changeStatus').attr('disabled', false);
-                        $('#msg').html(
-                            message("Something went wrong try again."));
-                    }
-                });
-            } else {
-                $('#changeStatus').attr('disabled', false);
-            }
-
-        }
+        const  startExecution =() => alert(confirm("Are you sure to start this procedure execution"))
     </script>
 </th:block>
 </body>
