@@ -8,4 +8,5 @@ import java.util.List;
 public interface AuditScopeService extends GenericService<AuditScope, Long> {
     boolean deleteByDtoId(Long dtoId);
     List<AuditScope> findByEntityId(Long entityId);
+    long countByUsernameAndApprovalStatus(String email);
 }

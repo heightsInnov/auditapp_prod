@@ -3,6 +3,7 @@ package com.heights.auditapp.mapper.impl;
 import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AUDIT_TYPE;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditScope;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public class ScopeMapper implements AuditScopeMapper {
         if (dto.getAuditEndDate() != null)
             entity.setAuditEndDate(dto.getAuditEndDate());
 
-        entity.setApprovalStatus(dto.getApprovalStatus());
+        entity.setApprovalStatus(dto.getApprovalStatus().name());
         entity.setUserName(dto.getUserName());
         entity.setRecordStat(dto.getRecordStat());
         entity.setAuthStat(dto.getAuthStat());
@@ -92,8 +93,7 @@ public class ScopeMapper implements AuditScopeMapper {
             dto.setAuditStartDate(entity.getAuditStartDate());
         if (entity.getAuditEndDate() != null)
             dto.setAuditEndDate(entity.getAuditEndDate());
-        if (entity.getApprovalStatus().equals("D")) dto.setApprovalStatus("DRAFT");
-        else dto.setApprovalStatus(entity.getApprovalStatus().equals("U") ? "UNDER REVIEW" : "COMPLETED");
+        dto.setApprovalStatus(Approval_Status.valueOf(entity.getApprovalStatus()));
         dto.setUserName(entity.getUserName());
         dto.setRecordStat(entity.getRecordStat());
         dto.setAuthStat(entity.getAuthStat());

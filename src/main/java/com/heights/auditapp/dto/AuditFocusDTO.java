@@ -1,6 +1,7 @@
 package com.heights.auditapp.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -13,9 +14,11 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
     private LocalDate createDate = LocalDate.now();
     private String recordStat = "O";
     private String scheduledFlag = "N";
+    @Nullable
     @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
     private LocalDate schedulledDate;
     private Long scopeId;
+    @Nullable
     private LocalDate startDate;
     private String startFlag = "N";
     private Long userId;

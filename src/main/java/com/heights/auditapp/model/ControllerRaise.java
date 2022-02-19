@@ -1,19 +1,10 @@
 package com.heights.auditapp.model;
 
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
 @SqlResultSetMapping(
         name = "procedureExceptionMapping",
@@ -21,7 +12,6 @@ import java.io.Serializable;
                 @ConstructorResult(
                         targetClass = ControllerRaise.class,
                         columns = {
-                                @ColumnResult(name = "id"),
                                 @ColumnResult(name = "universe"),
                                 @ColumnResult(name = "entity"),
                                 @ColumnResult(name = "focus"),
@@ -31,20 +21,23 @@ import java.io.Serializable;
                                 @ColumnResult(name = "riskRating"),
                                 @ColumnResult(name = "recommendation"),
                                 @ColumnResult(name = "reference"),
-                                @ColumnResult(name = "auditor")
+                                @ColumnResult(name = "auditor"),
+                                @ColumnResult(name = "scope")
                         }
                 )
         }
 )
 @NamedNativeQuery(name = "getProcessExceptions",
-        query = "select row_number() over () as id, d.UNIVERSE_NAME, c.ENTITY_NAME, b.AREA_OF_FOCUS, a.PROCEDURE, a.EXCEPTION, a.EXCEPTION_FLAG, a.RISK_RATING, \n" +
-                "a.RECOMMENDATION, a.ID, e.USERNAME, f.SCOPE_OF_AUDIT \n" +
-                "from AUDIT_FOCUS_PROCEDURES a, AUDIT_FOCUS b, AUDIT_ENTITY c, AUDIT_UNIVERSE d, AUDIT_USER e, AUDIT_SCOPE f\n" +
-                "where a.FOCUS_ID = b.FOCUS_ID\n" +
-                "and b.SCOPE_ID = f.SCOPE_ID \n" +
-                "and f.ENTITY_ID = c.ENTITY_ID \n" +
-                "and c.UNIVERSE_ID = d.UNIVERSE_ID \n" +
-                "and a.USER_ID = e.USER_ID ",
+        query = "select row_number() over (order by a.ID) as id, d.UNIVERSE_NAME as universe, c.ENTITY_NAME as entity, " +
+                "b.AREA_OF_FOCUS as focus, a.PROCEDURE as process, a.EXCEPTION as findings," +
+                " a.EXCEPTION_FLAG as status, a.RISK_RATING as riskRating, " +
+                "a.RECOMMENDATION as recommendation, a.ID as reference, e.USERNAME as auditor, f.SCOPE_OF_AUDIT as scope " +
+                "from AUDIT_FOCUS_PROCEDURES a, AUDIT_FOCUS b, AUDIT_ENTITY c, AUDIT_UNIVERSE d, AUDIT_USER e, AUDIT_SCOPE f " +
+                "where a.FOCUS_ID = b.FOCUS_ID " +
+                "and b.SCOPE_ID = f.SCOPE_ID " +
+                "and f.ENTITY_ID = c.ENTITY_ID " +
+                "and c.UNIVERSE_ID = d.UNIVERSE_ID " +
+                "and a.USER_ID = e.USER_ID order by a.DATE_CREATED",
         resultSetMapping = "procedureExceptionMapping")
 public class ControllerRaise implements Serializable {
     @Id
@@ -59,6 +52,131 @@ public class ControllerRaise implements Serializable {
     String recommendation;
     String reference;
     String auditor;
+    String scope;
+
+    public ControllerRaise(String universe,
+                           String entity,
+                           String focus,
+                           String process,
+                           String findings,
+                           String status,
+                           String riskRating,
+                           String recommendation,
+                           String reference,
+                           String auditor,
+                           String scope) {
+        this.universe = universe;
+        this.entity = entity;
+        this.focus = focus;
+        this.process = process;
+        this.findings = findings;
+        this.status = status;
+        this.riskRating = riskRating;
+        this.recommendation = recommendation;
+        this.reference = reference;
+        this.auditor = auditor;
+        this.scope = scope;
+    }
+
+    public ControllerRaise(){
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUniverse() {
+        return universe;
+    }
+
+    public void setUniverse(String universe) {
+        this.universe = universe;
+    }
+
+    public String getEntity() {
+        return entity;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
+    }
+
+    public String getFocus() {
+        return focus;
+    }
+
+    public void setFocus(String focus) {
+        this.focus = focus;
+    }
+
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
+    }
+
+    public String getFindings() {
+        return findings;
+    }
+
+    public void setFindings(String findings) {
+        this.findings = findings;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRiskRating() {
+        return riskRating;
+    }
+
+    public void setRiskRating(String riskRating) {
+        this.riskRating = riskRating;
+    }
+
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
 
     @Override
     public boolean equals(Object o) {

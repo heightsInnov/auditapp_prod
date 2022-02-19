@@ -11,4 +11,6 @@ public interface AuditScopeRepository extends PagingAndSortingRepository<AuditSc
     boolean existsByEntityIdAndScopeOfAudit(Long entityId, String scope);
     boolean deleteByScopeId(Long scopeId);
     List<AuditScope> findAllByEntityId(Long entityId);
+    long countAllByUserNameAndApprovalStatus(String username, String approvalStatus);
+    long countAllByApprovalStatus(String approvalStatus);
 }

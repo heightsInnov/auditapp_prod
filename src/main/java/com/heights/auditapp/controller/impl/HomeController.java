@@ -1,16 +1,23 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
+import com.heights.auditapp.model.Approval_Status;
+import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.service.AuditFocusProceduresService;
 import com.heights.auditapp.service.AuditFocusService;
+import com.heights.auditapp.service.AuditScopeService;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Controller
@@ -18,20 +25,47 @@ public class HomeController {
 
     private final AuditFocusService auditFocusService;
     private final AuditFocusProceduresService auditFocusProceduresService;
+    private final AuditScopeService auditScopeService;
 
-    public HomeController(AuditFocusService auditFocusService, AuditFocusProceduresService auditFocusProceduresService) {
+    public HomeController(AuditFocusService auditFocusService, AuditFocusProceduresService auditFocusProceduresService, AuditScopeService auditScopeService) {
         this.auditFocusService = auditFocusService;
         this.auditFocusProceduresService = auditFocusProceduresService;
+        this.auditScopeService = auditScopeService;
     }
 
     @GetMapping("/dashboard")
     public String home(final Model model,
-                       HttpServletRequest req) {
+                       HttpServletRequest req, @Nullable @RequestParam("email") String email) {
+
+        List<AuditFocus> foc = auditFocusService.findAll();
+        AtomicInteger ongoing = new AtomicInteger();
+        AtomicInteger scheduled = new AtomicInteger();
+        AtomicInteger completed = new AtomicInteger();
+
+        foc.forEach(x -> {
+            if("S".equals(x.getStartFlag()))
+                ongoing.getAndIncrement();
+            else if("D".equals(x.getStartFlag()))
+                scheduled.getAndIncrement();
+            else
+                completed.getAndIncrement();
+        });
+
         model.addAttribute("dashboard", "");
-        model.addAttribute("foci",auditFocusService.findAll()
+        model.addAttribute("foci", foc
                 .stream()
-                .filter(x -> "Y".equals(x.getStartFlag()))
+                .filter(x -> "S".equals(x.getStartFlag()))
                 .collect(Collectors.toList()) );
+        model.addAttribute("ongoing", ongoing);
+        model.addAttribute("completed", completed);
+        model.addAttribute("scheduled", scheduled);
+        model.addAttribute("approvalScope",
+                auditScopeService
+                        .findAll()
+                        .stream()
+                        .filter(x -> Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus()))
+                        .collect(Collectors.toList()));
+        model.addAttribute("approvals", auditScopeService.countByUsernameAndApprovalStatus(email));
         return "dashboard";
     }
 

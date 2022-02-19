@@ -24,8 +24,8 @@
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Ongoing Audit
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${ongoingApprovals == null ? 0 :
-                                ongoingApprovals}]]
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${ongoing == null ? 0 :
+                                ongoing}]]
                             </div>
                         </div>
                         <div class="col-auto">
@@ -45,8 +45,8 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Pending Approvals
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${pendingApprovals == null ? 0 :
-                                pendingApprovals}]]
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${approvals == null ? 0 :
+                                approvals}]]
                             </div>
                         </div>
                         <div class="col-auto">
@@ -67,8 +67,8 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">[[${scheduledAudit == null
-                                        ? 0 : scheduledAudit}]]
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">[[${scheduled == null
+                                        ? 0 : scheduled}]]
                                     </div>
                                 </div>
                             </div>
@@ -90,8 +90,8 @@
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Completed Audits
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${completedAudit == null ? 0 :
-                                completedAudit}]]
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">[[${completed == null ? 0 :
+                                completed}]]
                             </div>
                         </div>
                         <div class="col-auto">
@@ -177,24 +177,26 @@
                                     <th>Frequency</th>
                                     <th>Start Date</th>
                                     <th>User</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!--                        <tr th:each="univ : ${universe}"-->
-                                <!--                            th:id="${'rID'} + ${univ.getUniverseId()}">-->
-                                <!--                            <td th:text="${univ.getUniverseId()}"></td>-->
-                                <!--                            <td th:text="${univ.getUniverseName()}"></td>-->
-                                <!--                            <td class="text-center">&nbsp;-->
-                                <!--                                <a href="javascript:void(0)"-->
-                                <!--                                   id="delete"-->
-                                <!--                                   th:data-univ_id="${univ.getUniverseId()}"-->
-                                <!--                                   onclick="deleteUniverse(this.getAttribute('data-univ_id'))">-->
-                                <!--                                    <span class="fa fa-trash"></span>-->
-                                <!--                                </a>-->
-                                <!--                            </td>-->
-                                <!--                        </tr>-->
+                                    <tr th:each="app : ${approvalScope}"
+                                        th:id="${'rID'} + ${app.getScopeId()}">
+                                        <td hidden="hidden" th:text="${app.getScopeId()}"></td>
+                                        <td th:text="${app.getScopeOfAudit()}"></td>
+                                        <td th:text="${app.getFrequency()}"></td>
+                                        <td th:text="${app.getAuditStartDate()}"></td>
+                                        <td th:text="${app.getUserName()}"></td>
+                                        <td class="text-center">&nbsp;
+                                            <a href="javascript:void(0)"
+                                               id="delete"
+                                               onclick="deleteUniverse(this.getAttribute('data-univ_id'))"
+                                               th:data-univ_id="${app.getScopeId()}">
+                                                <span class="fa fa-check"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -215,9 +217,6 @@
                     <div class="chart-bar">
                         <canvas id="myBarChart"></canvas>
                     </div>
-                    <hr>
-                    Styling for the bar chart can be found in the
-                    <code>/js/demo/chart-bar-demo.js</code> file.
                 </div>
             </div>
         </div>
@@ -234,9 +233,6 @@
                     <div class="chart-pie pt-4">
                         <canvas id="myPieChart"></canvas>
                     </div>
-                    <hr>
-                    Styling for the donut chart can be found in the
-                    <code>/js/demo/chart-pie-demo.js</code> file.
                 </div>
             </div>
         </div>

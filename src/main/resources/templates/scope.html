@@ -48,11 +48,11 @@
                         <th hidden="hidden">Scope Id</th>
                         <th>Scope</th>
                         <th>Audit Type</th>
-                        <th>Period</th>
                         <th>Start Date</th>
+                        <th>End Date</th>
                         <th hidden="hidden">User</th>
+                        <th>Progress</th>
                         <th>Status</th>
-                        <th>Date</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -130,15 +130,19 @@
                 let res = `<tr>
                                <td>${x.scopeOfAudit}</td>
                                <td>${x.auditType}</td>
-                               <td>${x.auditPeriod} week's </td>
                                <td>${x.auditStartDate}</td>
+                               <td>${moment(x.auditEndDate).format('YYYY-MM-DD')}</td>
                                <td hidden="hidden">${x.userName}</td>
+                               <td>
+                                    <div class="progress">
+                                    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
+                                         role="progressbar" style="width: 20%"
+                               </td>
                                <td class="text-center">
                                     <span class="badge badge-info">
-                                        ${x.approvalStatus == 'D' ? 'DRAFT' : x.approvalStatus == 'U' ? 'UNDER-REVIEW' : 'COMPLETED'}
+                                        ${x.approvalStatus}
                                     </span>
                                 </td>
-                               <td>${moment(x.createDate).format('YYYY-MM-DD')}</td>
                                <td class="text-center">
                                     <a href="/audit-scope/preview/${x.scopeId}" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span></a>
                                </td>

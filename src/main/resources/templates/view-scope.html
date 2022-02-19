@@ -201,7 +201,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="focusModalLabel">New Audit Focus</h5>
+                        <h5 class="modal-title" id="focusModalLabel">Create Focus</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -217,13 +217,12 @@
                                           th:field="*{areaOfFocus}" type="text">
                                 </div>
                             </div>
-                            <div class="row form-group">
-                                <div class="col-sm-12 mb-3 mb-sm-0">
-                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="scheduledate" required="required"
-                                           th:field="*{schedulledDate}" type="date">
-                                </div>
-                            </div>
+<!--                            <div class="row form-group">-->
+<!--                                <div class="col-sm-12 mb-3 mb-sm-0">-->
+<!--                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="scheduledate" th:field="*{schedulledDate}" type="date">-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -235,10 +234,10 @@
         </div>
 
         <div aria-hidden="true" aria-labelledby="procedureModalLabel" class="modal fade" id="procedureModal" role="dialog" tabindex="-1">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="procedureModalLabel">New Audit Focus</h5>
+                        <h5 class="modal-title" id="procedureModalLabel">Add Focus Procedures</h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -255,17 +254,17 @@
                                 </div>
 
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="startDate">Start Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="startDate" required="required" type="date">
-                                </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="endDate">Due Date<span style="color: red">*</span></label>
-                                    <input class="form-control" id="endDate" required="required" type="date">
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="startDate">Start Date<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="startDate" required="required" type="date">-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="endDate">Due Date<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="endDate" required="required" type="date">-->
 
-                                </div>
-                            </div>
+<!--                                </div>-->
+<!--                            </div>-->
                             <button class="btn btn-primary btn-procedure" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
@@ -284,8 +283,8 @@
                                             <tr>
                                                 <th class="border-gray-200" scope="col">-</th>
                                                 <th class="border-gray-200" scope="col">Procedure Name</th>
-                                                <th class="border-gray-200" scope="col">Start Date</th>
-                                                <th class="border-gray-200" scope="col">Due Date</th>
+<!--                                                <th class="border-gray-200" scope="col">Start Date</th>-->
+<!--                                                <th class="border-gray-200" scope="col">Due Date</th>-->
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -293,8 +292,8 @@
 
                                                 <td></td>
                                                 <td th:text="${proc.procedure}"></td>
-                                                <td th:text="${proc.startDate}"></td>
-                                                <td th:text="${proc.dueDate}"></td>
+<!--                                                <td th:text="${proc.startDate}"></td>-->
+<!--                                                <td th:text="${proc.dueDate}"></td>-->
                                             </tr>
 
                                             </tbody>
@@ -313,10 +312,10 @@
         </div>
 
         <div aria-hidden="true" aria-labelledby="procedureListModalLabel" class="modal fade" id="procedureListModal" role="dialog" tabindex="-1">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="procedureListModalLabel">Active Focus Procedure</h5>
+                        <h5 class="modal-title" id="procedureListModalLabel">Procedures</h5>
                         <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -327,8 +326,8 @@
                                     <thead>
                                     <tr>
                                         <th class="border-gray-200" scope="col">Procedure</th>
-                                        <th class="border-gray-200" scope="col">Start Date</th>
-                                        <th class="border-gray-200" scope="col">Due Date</th>
+<!--                                        <th class="border-gray-200" scope="col">Start Date</th>-->
+<!--                                        <th class="border-gray-200" scope="col">Due Date</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -372,35 +371,33 @@
         $('.btn-procedure').click(function(e) {
 
             let procedure = $('#procedureName').val();
-            let startDate = $('#startDate').val();
-            let endDate = $('#endDate').val();
+            // let startDate = $('#startDate').val();
+            // let endDate = $('#endDate').val();
 
             if(procedure == "" || procedure == null){
                 $('#err').html(message("Procedure Name is required!", 'warning'));
                 $('#procedureName').focus();
                 return;
             }
-            if(startDate == "" || startDate == null){
-                $('#err').html(message("Start date is required!", 'warning'));
-                $('#startDate').focus();
-                return;
-            }
-            if(endDate == "" || endDate == null){
-                $('#err').html(message("Due date is required!",'warning'));
-                $('#endDate').focus();
-                return;
-            }
+            // if(startDate == "" || startDate == null){
+            //     $('#err').html(message("Start date is required!", 'warning'));
+            //     $('#startDate').focus();
+            //     return;
+            // }
+            // if(endDate == "" || endDate == null){
+            //     $('#err').html(message("Due date is required!",'warning'));
+            //     $('#endDate').focus();
+            //     return;
+            // }
 
-            if(startDate > endDate ){
-                $('#err').html(message("Due date can'\t be greater than start date!",'warning'));
-                $('#endDate').focus();
-                return;
-            }
+            // if(startDate > endDate ){
+            //     $('#err').html(message("Due date can'\t be greater than start date!",'warning'));
+            //     $('#endDate').focus();
+            //     return;
+            // }
 
             let obj = {
                 'procedure': procedure,
-                'startDate': startDate,
-                'dueDate': endDate
             };
 
             let existProcedure =  arrProcedure.filter(function(i) {
@@ -423,8 +420,8 @@
 
         const  clearField = () =>{
             $('#procedureName').val('');
-            $('#startDate').val('');
-            $('#endDate').val('');
+            // $('#startDate').val('');
+            // $('#endDate').val('');
             $('#procedureName').focus();
         }
 
@@ -441,8 +438,6 @@
                             </a>
                         </td>
                         <td>${x.procedure}</td>
-                        <td>${x.startDate}</td>
-                        <td>${x.dueDate}</td>
                     </tr>
                    `;
                 $('.procedure-table tbody').append(res);

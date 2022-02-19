@@ -1,5 +1,6 @@
 package com.heights.auditapp.dto;
 
+import com.heights.auditapp.model.Approval_Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -7,7 +8,7 @@ import java.time.LocalDate;
 public class AuditScopeDTO extends AbstractDTO<Long> {
     private Long scopeId; 
     private String scopeDef; 
-    private String approvalStatus = "D";
+    private Approval_Status approvalStatus = Approval_Status.DRAFT;
     @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
     private LocalDate auditEndDate;
     private String auditPeriod;
@@ -63,11 +64,11 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         this.scopeId = scopeId;
     }
 
-    public String getApprovalStatus() {
+    public Approval_Status getApprovalStatus() {
         return this.approvalStatus;
     }
 
-    public void setApprovalStatus(String approvalStatus) {
+    public void setApprovalStatus(Approval_Status approvalStatus) {
         this.approvalStatus = approvalStatus;
     }
 

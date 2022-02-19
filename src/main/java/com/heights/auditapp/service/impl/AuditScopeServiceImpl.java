@@ -1,6 +1,7 @@
 package com.heights.auditapp.service.impl;
 
 import com.heights.auditapp.dao.AuditScopeRepository;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
 import org.springframework.data.domain.Page;
@@ -95,5 +96,10 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     @Override
     public List<AuditScope> findByEntityId(Long entityId) {
         return repository.findAllByEntityId(entityId);
+    }
+
+    @Override
+    public long countByUsernameAndApprovalStatus(String email) {
+        return email == null ? repository.countAllByApprovalStatus(Approval_Status.AWAITING_APPROVAL.name()) : repository.countAllByUserNameAndApprovalStatus(email, Approval_Status.AWAITING_APPROVAL.name());
     }
 }
