@@ -2,6 +2,7 @@ package com.heights.auditapp.mapper.impl;
 
 import com.heights.auditapp.dto.AuditFocusDTO;
 import com.heights.auditapp.mapper.AuditFocusMapper;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocus;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class FocusMapper implements AuditFocusMapper {
         entity.setStartDate(dto.getStartDate());
         entity.setStartFlag(dto.getStartFlag());
         entity.setControlStatus(dto.getControlStatus());
-        entity.setApprovalStatus(dto.getApprovalStatus());
+        entity.setApprovalStatus(dto.getApprovalStatus().name());
         entity.setRecordStat(dto.getRecordStat());
         entity.setAuthStat(dto.getAuthStat());
         entity.setCreateDate(dto.getCreateDate());
@@ -40,7 +41,7 @@ public class FocusMapper implements AuditFocusMapper {
         dto.setStartDate(entity.getStartDate());
         dto.setStartFlag(entity.getStartFlag());
         dto.setControlStatus(entity.getControlStatus());
-        dto.setApprovalStatus(entity.getApprovalStatus());
+        dto.setApprovalStatus(Approval_Status.valueOf(entity.getApprovalStatus()));
         dto.setRecordStat(entity.getRecordStat());
         dto.setAuthStat(entity.getAuthStat());
         dto.setCreateDate(entity.getCreateDate());

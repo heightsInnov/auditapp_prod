@@ -47,6 +47,8 @@ public class AuditScopeControllerImpl {
     @GetMapping
     public String load(Model model){
         model.addAttribute("universe", auditUniverseService.findAll());
+        model.addAttribute("scope", new AuditScopeDTO());
+        model.addAttribute("user", auditUserService.findAll());
         return "scope";
     }
 
@@ -55,6 +57,7 @@ public class AuditScopeControllerImpl {
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", new AuditScopeDTO());
         model.addAttribute("auditType", AUDIT_TYPE.values());
+        model.addAttribute("user", auditUserService.findAll());
         return "create-scope";
     }
 
@@ -129,5 +132,14 @@ public class AuditScopeControllerImpl {
         return auditFocusProceduresService.findAll()
                 .stream()
                 .filter(x -> x.getFocusId().equals(focusId)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/assign")
+    public String assignAuditee(@ModelAttribute AuditScopeDTO auditScopeDTO){
+        if(auditScopeDTO.getScopeId() < 0L){
+            return "redirect:/audit-scope";
+        }
+        auditScopeService.updateScopeAuditor(auditScopeDTO.getScopeId(), auditScopeDTO.getUserName());
+    return "redirect:/audit-scope";
     }
 }

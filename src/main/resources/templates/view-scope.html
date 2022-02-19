@@ -50,14 +50,9 @@
                                       th:text="${scoped.getAuditType()}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                <h6 class="mb-0">Proposed Period</h6>
-                                <span class="text-secondary period"
-                                      th:text="${scoped.getAuditPeriod()}"></span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Approval Status</h6>
                                 <span class="text-secondary approval"
-                                      th:text="${scoped.getApprovalStatus()}"></span>
+                                      th:text="${scoped.getApprovalStatus().name().replace('_', ' ')}"></span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 class="mb-0">Audit StartDate</h6>
@@ -146,6 +141,7 @@
                                         <th class="border-gray-200" scope="col">Start Date</th>
                                         <th class="border-gray-200" scope="col">Progress</th>
                                         <th class="border-gray-200" scope="col">Status</th>
+                                        <th class="border-gray-200" scope="col">Start</th>
                                         <th class="border-gray-200" scope="col">-</th>
                                     </tr>
                                     </thead>
@@ -171,7 +167,15 @@
                                                     : 'progress-bar bg-success'}"></div>
                                                 </div>
                                             </td>
-                                            <td><span class="badge badge-info" th:text="${'Y' == (f.getStartFlag()) ? 'ACTIVE':'SCHEDULED'}"></span></td>
+                                            <td><span class="badge badge-info" th:text="${f.getApprovalStatus()}"></span></td>
+                                            <td>
+                                                <a href="javascript:void(0)"
+                                                   id="delete"
+                                                   onclick="startFocus(this.getAttribute('data-focus_id'))"
+                                                   th:data-univ_id="${f.getFocusId()}">
+                                                    <span class="fa fa-play-circle"></span>
+                                                </a>
+                                            </td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary text-white dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
@@ -252,29 +256,16 @@
                                     <label for="procedureName">Procedure Name<span style="color: red">*</span></label>
                                     <input class="form-control" id="procedureName" required="required" type="text">
                                 </div>
-
                             </div>
-<!--                            <div class="form-group row">-->
-<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
-<!--                                    <label for="startDate">Start Date<span style="color: red">*</span></label>-->
-<!--                                    <input class="form-control" id="startDate" required="required" type="date">-->
-<!--                                </div>-->
-<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
-<!--                                    <label for="endDate">Due Date<span style="color: red">*</span></label>-->
-<!--                                    <input class="form-control" id="endDate" required="required" type="date">-->
-
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                    <label for="procedureDesc">Procedure Description</label>
+                                    <textarea class="form-control" id="procedureDesc" rows="5" type="text"></textarea>
+                                </div>
+                            </div>
                             <button class="btn btn-primary btn-procedure" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
-
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-md-3" th:each="proc : ${procedures}">-->
-<!--                                    <input class="form-control form-check" th:text="${proc.procedure}" type="checkbox">-->
-<!--                                </div>-->
-<!--                            </div>-->
-
                             <div class="row">
                                 <div class="col-md-12">
 
@@ -283,8 +274,6 @@
                                             <tr>
                                                 <th class="border-gray-200" scope="col">-</th>
                                                 <th class="border-gray-200" scope="col">Procedure Name</th>
-<!--                                                <th class="border-gray-200" scope="col">Start Date</th>-->
-<!--                                                <th class="border-gray-200" scope="col">Due Date</th>-->
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -292,8 +281,6 @@
 
                                                 <td></td>
                                                 <td th:text="${proc.procedure}"></td>
-<!--                                                <td th:text="${proc.startDate}"></td>-->
-<!--                                                <td th:text="${proc.dueDate}"></td>-->
                                             </tr>
 
                                             </tbody>
@@ -323,13 +310,6 @@
                         <div class="modal-body">
                             <div class="table-responsive table-billing-history">
                                 <table class="table mb-0 procedure-list-table">
-                                    <thead>
-                                    <tr>
-                                        <th class="border-gray-200" scope="col">Procedure</th>
-<!--                                        <th class="border-gray-200" scope="col">Start Date</th>-->
-<!--                                        <th class="border-gray-200" scope="col">Due Date</th>-->
-                                    </tr>
-                                    </thead>
                                     <tbody>
 
                                     </tbody>
@@ -371,6 +351,7 @@
         $('.btn-procedure').click(function(e) {
 
             let procedure = $('#procedureName').val();
+            let description = $('#procedureDesc').val();
             // let startDate = $('#startDate').val();
             // let endDate = $('#endDate').val();
 
@@ -379,25 +360,10 @@
                 $('#procedureName').focus();
                 return;
             }
-            // if(startDate == "" || startDate == null){
-            //     $('#err').html(message("Start date is required!", 'warning'));
-            //     $('#startDate').focus();
-            //     return;
-            // }
-            // if(endDate == "" || endDate == null){
-            //     $('#err').html(message("Due date is required!",'warning'));
-            //     $('#endDate').focus();
-            //     return;
-            // }
-
-            // if(startDate > endDate ){
-            //     $('#err').html(message("Due date can'\t be greater than start date!",'warning'));
-            //     $('#endDate').focus();
-            //     return;
-            // }
 
             let obj = {
                 'procedure': procedure,
+                'description': description
             };
 
             let existProcedure =  arrProcedure.filter(function(i) {
@@ -420,6 +386,7 @@
 
         const  clearField = () =>{
             $('#procedureName').val('');
+            $('#procedureDesc').val('');
             // $('#startDate').val('');
             // $('#endDate').val('');
             $('#procedureName').focus();
@@ -509,8 +476,6 @@
                 let res = `
                     <tr>
                         <td>${x.procedure}</td>
-                        <td>${x.startDate}</td>
-                        <td>${x.dueDate}</td>
                     </tr>
                    `;
                 $('.procedure-list-table tbody').append(res);

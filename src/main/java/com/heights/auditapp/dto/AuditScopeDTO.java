@@ -28,6 +28,15 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
     private String scopePurpose;
     private String userName;
     private Long auditScopesById;
+    private Long assignedTo;
+
+    public Long getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Long assignedTo) {
+        this.assignedTo = assignedTo;
+    }
 
     public AuditScopeDTO() {
     }

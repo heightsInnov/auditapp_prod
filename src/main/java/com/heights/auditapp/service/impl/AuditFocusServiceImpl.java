@@ -24,7 +24,10 @@ public class AuditFocusServiceImpl implements AuditFocusService {
 
     @Override
     public AuditFocus save(AuditFocus entity) {
-        return repository.save(entity);
+        if(repository.existsByScopeIdAndAreaOfFocus(entity.getScopeId(), entity.getAreaOfFocus()))
+            return entity;
+        else
+            return repository.save(entity);
     }
 
     @Override

@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface AuditFocusRepository extends PagingAndSortingRepository<AuditFocus, Long> {
     boolean deleteByFocusId(Long focusId);
-    @Query(nativeQuery=true, value="update AUDIT_FOCUS set START_DATE = :startDate, START_FLAG = 'T' where FOCUS_ID = :focusId")
+    @Query(nativeQuery=true, value="update AUDIT_FOCUS set START_DATE = :startDate, START_FLAG =  where FOCUS_ID = :focusId")
     boolean startExecution(Long focusId, LocalDate startDate);
     List<AuditFocus> findAllByScopeId(Long scopeId);
+    boolean existsByScopeIdAndAreaOfFocus(Long scopeId, String areaOfFocus);
 }

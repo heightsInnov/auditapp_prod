@@ -2,6 +2,7 @@ package com.heights.auditapp.mapper.impl;
 
 import com.heights.auditapp.dto.AuditFocusProceduresDTO;
 import com.heights.auditapp.mapper.AuditFocusProceduresMapper;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocusProcedures;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,8 @@ public class FocusProcedureMapper implements AuditFocusProceduresMapper {
         entity.setRiskRating(dto.getRiskRating());
         entity.setWorkProgramStart(dto.getWorkProgramStart());
         entity.setProgressLevel(dto.getProgressLevel());
+        entity.setDescription(dto.getDescription());
+        entity.setStatus(dto.getStatus().name());
         return entity;
     }
 
@@ -63,6 +66,8 @@ public class FocusProcedureMapper implements AuditFocusProceduresMapper {
         entity.setRiskRating(dto.getRiskRating());
         entity.setWorkProgramStart(dto.getWorkProgramStart());
         entity.setProgressLevel(dto.getProgressLevel());
+        entity.setDescription(dto.getDescription());
+        entity.setStatus(Approval_Status.valueOf(dto.getStatus()));
         return entity;
     }
 

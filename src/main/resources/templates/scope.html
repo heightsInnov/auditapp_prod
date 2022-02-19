@@ -34,7 +34,7 @@
     <div class="card mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Audit Scope
-                <a  class="btn btn-info mr-2 float-right" href="/audit-scope/create">
+                <a class="btn btn-info mr-2 float-right" href="/audit-scope/create">
                     <span class="fa fa-plus float-right"></span>
                 </a>
             </h6>
@@ -53,12 +53,46 @@
                         <th hidden="hidden">User</th>
                         <th>Progress</th>
                         <th>Status</th>
+                        <th>Assign</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="assignModalLabel" class="modal fade" id="assignModal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="focusModalLabel">Assign Auditor</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="user" method="post" th:action="@{/audit-scope/assign}"
+                      th:object="${scope}">
+                    <div class="modal-body">
+                        <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <label for="forAuditor">Auditor</label>
+                                <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
+                                    <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
+                                            th:value="${rol.getUsername()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -73,9 +107,9 @@
     <script th:src="@{/js/demo/datatables-demo.js}"></script>
 
     <script>
-        $('#universeSelect').on('change', () =>{
+        $('#universeSelect').on('change', () => {
             let uniId = $('#universeSelect').val();
-            if(uniId < 1 ){
+            if (uniId < 1) {
                 return;
             }
             let xhr = new XMLHttpRequest();
@@ -96,12 +130,13 @@
                         $('#entitySelect').append(res);
                     })
                 }
-            } catch (t) { }
+            } catch (t) {
+            }
         });
 
-        $('#entitySelect').on('change', () =>{
+        $('#entitySelect').on('change', () => {
             let entId = $('#entitySelect').val();
-            if(entId < 1 ){
+            if (entId < 1) {
                 return;
             }
             let xhr = new XMLHttpRequest();
@@ -117,11 +152,12 @@
                 } else {
                     let res = JSON.parse(xhr.responseText);
                     console.log(res);
-                   if(res){
-                       scopeTemp(res);
-                   }
+                    if (res) {
+                        scopeTemp(res);
+                    }
                 }
-            } catch (t) { }
+            } catch (t) {
+            }
         });
 
         const scopeTemp = (data) => {
@@ -143,6 +179,9 @@
                                         ${x.approvalStatus}
                                     </span>
                                 </td>
+                                <td class="text-center">
+                                    <a data-toggle="modal" data-target="#assignModal" class="btn btn-warning btn-sm"><span class="fa fa-user"></span></a>
+                               </td>
                                <td class="text-center">
                                     <a href="/audit-scope/preview/${x.scopeId}" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span></a>
                                </td>

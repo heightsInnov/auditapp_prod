@@ -1,9 +1,14 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditFocusDTO;
+import com.heights.auditapp.dto.AuditFocusProceduresDTO;
 import com.heights.auditapp.mapper.AuditFocusMapper;
+import com.heights.auditapp.mapper.AuditFocusProceduresMapper;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocus;
+import com.heights.auditapp.service.AuditFocusProceduresService;
 import com.heights.auditapp.service.AuditFocusService;
+import com.heights.auditapp.service.AuditScopeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,28 +27,37 @@ import java.util.stream.Collectors;
 public class AuditFocusControllerImpl {
     private final AuditFocusService auditFocusService;
     private final AuditFocusMapper auditFocusMapper;
+    private final AuditFocusProceduresMapper auditFocusProceduresMapper;
+    private final AuditScopeService auditScopeService;
+    private final AuditFocusProceduresService auditFocusProceduresService;
 
-    public AuditFocusControllerImpl(AuditFocusService auditFocusService, AuditFocusMapper auditFocusMapper) {
+    public AuditFocusControllerImpl(AuditFocusService auditFocusService, AuditFocusMapper auditFocusMapper, AuditFocusProceduresMapper auditFocusProceduresMapper, AuditScopeService auditScopeService, AuditFocusProceduresService auditFocusProceduresService) {
         this.auditFocusService = auditFocusService;
         this.auditFocusMapper = auditFocusMapper;
+        this.auditFocusProceduresMapper = auditFocusProceduresMapper;
+        this.auditScopeService = auditScopeService;
+        this.auditFocusProceduresService = auditFocusProceduresService;
     }
 
 
     @PostMapping("/save")
     public String save(@ModelAttribute AuditFocusDTO auditFocusDTO, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        if(session.getAttribute("userId") == null){
+        if (session.getAttribute("userId") == null) {
             return "redirect:/";
         }
         auditFocusDTO.setUserId(Long.parseLong(session.getAttribute("userId").toString()));
+        auditScopeService
+                .findById(auditFocusDTO.getScopeId())
+                .ifPresent(auditScope -> auditFocusDTO.setSchedulledDate(auditScope.getAuditStartDate()));
         AuditFocus auditFocus = auditFocusMapper.asEntity(auditFocusDTO);
-        AuditFocusDTO  auditFocusDTO1 =  auditFocusMapper.asDTO(auditFocusService.save(auditFocus));
-        if(auditFocusDTO1 != null)
+        AuditFocusDTO auditFocusDTO1 = auditFocusMapper.asDTO(auditFocusService.save(auditFocus));
+        if (auditFocusDTO1 != null)
             model.addAttribute("message", "Focus successfully created");
         else
             model.addAttribute("message", "Error creating focus, kindly check and try again");
 
-        return "redirect:/audit-scope/preview/"+auditFocusDTO.getScopeId();
+        return "redirect:/audit-scope/preview/" + auditFocusDTO.getScopeId();
     }
 
 
@@ -83,14 +97,25 @@ public class AuditFocusControllerImpl {
     }
 
     @GetMapping("/execute")
-    public String auditExecution(Model model){
-        model.addAttribute("foci", auditFocusService.findAll());
+    public String auditExecution(Model model) {
+        List<AuditFocusDTO> auditFocus = auditFocusMapper.asDTOList(auditFocusService.findAll());
+        List<AuditFocusProceduresDTO> procedures = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
+        for (AuditFocusDTO focus : auditFocus) {
+            long procCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId())).count();
+            focus.setProcedureCount(procCount);
+            if(procCount > 0) {
+                long compCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId()) && x.getStatus().equals(Approval_Status.COMPLETED)).count();
+                focus.setProgressLevel(compCount > 0 ? (compCount / procCount) * 100 : 0);
+            }
+        }
+        model.addAttribute("foci", auditFocus);
         return "execution";
     }
 
     @GetMapping("/execute/{focusId}")
-    public @ResponseBody HttpStatus startExecution(@PathVariable long focusId){
-        if(auditFocusService.startExecution(focusId)){
+    public @ResponseBody
+    HttpStatus startExecution(@PathVariable long focusId) {
+        if (auditFocusService.startExecution(focusId)) {
             return HttpStatus.OK;
         }
         return HttpStatus.INTERNAL_SERVER_ERROR;

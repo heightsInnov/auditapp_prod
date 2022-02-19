@@ -60,6 +60,7 @@ public class ScopeMapper implements AuditScopeMapper {
         entity.setRecordStat(dto.getRecordStat());
         entity.setAuthStat(dto.getAuthStat());
         entity.setCreateDate(dto.getCreateDate());
+        entity.setAssignedTo(dto.getAssignedTo());
         entity.setAuditPeriod(String.valueOf(ChronoUnit.WEEKS.between(dto.getAuditStartDate(), dto.getAuditEndDate())));
         return entity;
     }
@@ -98,6 +99,7 @@ public class ScopeMapper implements AuditScopeMapper {
         dto.setRecordStat(entity.getRecordStat());
         dto.setAuthStat(entity.getAuthStat());
         dto.setCreateDate(entity.getCreateDate());
+        dto.setAssignedTo(entity.getAssignedTo());
         return dto;
     }
 }

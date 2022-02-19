@@ -1,5 +1,6 @@
 package com.heights.auditapp.dto;
 
+import com.heights.auditapp.model.Approval_Status;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
@@ -7,7 +8,7 @@ import java.time.LocalDate;
 
 public class AuditFocusDTO extends AbstractDTO<Long> {
     private Long focusId;
-    private String approvalStatus = "N";
+    private Approval_Status approvalStatus = Approval_Status.SCHEDULED;
     private String areaOfFocus;
     private String authStat = "A";
     private String controlStatus ;
@@ -23,6 +24,15 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
     private String startFlag = "N";
     private Long userId;
     private Long progressLevel = 0L;
+    private long procedureCount = 0;
+
+    public long getProcedureCount() {
+        return procedureCount;
+    }
+
+    public void setProcedureCount(long procedureCount) {
+        this.procedureCount = procedureCount;
+    }
 
     public AuditFocusDTO() {
     }
@@ -35,12 +45,12 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         return this.focusId;
     }
 
-    public void setApprovalStatus(String approvalStatus) {
-        this.approvalStatus = approvalStatus;
+    public Approval_Status getApprovalStatus() {
+        return this.approvalStatus;
     }
 
-    public String getApprovalStatus() {
-        return this.approvalStatus;
+    public void setApprovalStatus(Approval_Status approvalStatus) {
+        this.approvalStatus = approvalStatus;
     }
 
     public void setAreaOfFocus(String areaOfFocus) {

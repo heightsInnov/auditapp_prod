@@ -5,5 +5,7 @@ public enum Approval_Status {
     APPROVED,
     ACTIVE,
     DRAFT,
-    COMPLETED
+    COMPLETED,
+    SCHEDULED,
+    PENDING
 }

@@ -1,5 +1,7 @@
 package com.heights.auditapp.dto;
 
+import com.heights.auditapp.model.Approval_Status;
+
 import java.time.LocalDate;
 
 public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
@@ -25,6 +27,24 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
     private Long progressLevel;
     private String controlStatus;
     private String comments;
+    private String description;
+    private Approval_Status status = Approval_Status.PENDING;
+
+    public Approval_Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Approval_Status status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public AuditFocusProceduresDTO() {
     }

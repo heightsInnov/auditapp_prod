@@ -102,4 +102,9 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     public long countByUsernameAndApprovalStatus(String email) {
         return email == null ? repository.countAllByApprovalStatus(Approval_Status.AWAITING_APPROVAL.name()) : repository.countAllByUserNameAndApprovalStatus(email, Approval_Status.AWAITING_APPROVAL.name());
     }
+
+    @Override
+    public AuditScope updateScopeAuditor(long scopeId, String email) {
+        return repository.updateScopeAuditor(scopeId, email);
+    }
 }

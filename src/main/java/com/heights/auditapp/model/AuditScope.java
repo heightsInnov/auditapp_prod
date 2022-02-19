@@ -65,6 +65,17 @@ public class AuditScope {
     @Column(name = "AUDIT_SCOPES_BY_ID")
     private Long auditScopesById;
 
+    @Column(name = "ASSIGNED_TO")
+    private Long assignedTo;
+
+    public Long getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Long assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
     public Long getScopeId() {
         return this.scopeId;
     }

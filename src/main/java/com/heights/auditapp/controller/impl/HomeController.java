@@ -43,9 +43,9 @@ public class HomeController {
         AtomicInteger completed = new AtomicInteger();
 
         foc.forEach(x -> {
-            if("S".equals(x.getStartFlag()))
+            if(Approval_Status.ACTIVE.name().equals(x.getApprovalStatus()))
                 ongoing.getAndIncrement();
-            else if("D".equals(x.getStartFlag()))
+            else if(Approval_Status.SCHEDULED.name().equals(x.getApprovalStatus()))
                 scheduled.getAndIncrement();
             else
                 completed.getAndIncrement();
