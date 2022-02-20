@@ -34,10 +34,8 @@
                             Focus Procedure
                         </div>
                         <div class="card-body p-0">
-
                             <div class="dropdown-list dropdown-menu-right shadow focus-procedure"
                                  aria-labelledby="messagesDropdown">
-
                             </div>
 
                         </div>
@@ -51,30 +49,18 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="focusModalLabel">Execution Setting</h5>
+                        <h5 class="modal-title" id="focusModalLabel">Execution Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="user" method="post">
+                    <form class="user" method="post" th:action="@{/audit-procedures}">
                         <div class="modal-body">
-<!--                            <div class="form-group row">-->
-<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
-<!--                                    <label for="recipientname">Recipient Name</label>-->
-<!--                                    <input class="form-control" id="recipientname" required="required"-->
-<!--                                          type="text">-->
-<!--                                </div>-->
-
-<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
-<!--                                    <label for="recipientemail">Recipient Email</label>-->
-<!--                                    <input class="form-control" id="recipientemail" required="required"-->
-<!--                                            type="text">-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="form-group row">
+                                <input hidden="hidden" id="procId" type="text" value=""/>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="controlstatus">Control Status</label>
-                                    <select class="form-control" id="controlstatus">
+                                    <select class="form-control" id="controlstatus" name="controlStatus">
                                         <option>Select Control Status</option>
                                         <option value="Adequate">Adequate</option>
                                         <option value="Partially Adequate">Partially Adequate</option>
@@ -83,7 +69,7 @@
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="riskrating">Risk Rating</label>
-                                    <select class="form-control" id="riskrating">
+                                    <select class="form-control" id="riskrating" name="riskRating">
                                         <option>Select Rating</option>
                                         <option value="very high">Very High</option>
                                         <option value="high">High</option>
@@ -96,12 +82,12 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="exception">Exception</label>
-                                    <textarea class="form-control" id="exception" rows="5">
+                                    <textarea class="form-control" id="exception" name="exception" rows="5">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="recommendation">Recommendation</label>
-                                    <textarea class="form-control" id="recommendation" rows="5">
+                                    <textarea class="form-control" id="recommendation" name="recommendation" rows="5">
                                     </textarea>
 
                                 </div>
@@ -110,12 +96,12 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="additionalinfo">Additional Info</label>
-                                    <textarea class="form-control" id="additionalinfo" rows="5">
+                                    <textarea class="form-control" id="additionalinfo" name="additionalInfo" rows="5">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="comment">Comment</label>
-                                    <textarea class="form-control" id="comment" rows="5">
+                                    <textarea class="form-control" id="comment" name="comments" rows="5">
                                     </textarea>
                                 </div>
                             </div>
@@ -137,7 +123,6 @@
     <script>
         $(document).ready(() => {
             let focusId = sessionStorage.getItem("focusId");
-            console.log(focusId);
             getProcedure(focusId);
         });
 
@@ -170,17 +155,14 @@
                 data.forEach( (x, index) => {
                     let res = `
                     <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary"
-                                   href="#" data-toggle="modal" data-target="#focusModal">
+                                   href="#" data-toggle="modal" data-target="#focusModal" style="pointer-events: ${x.startFlag}">
                                     <div class="dropdown-list-image mr-3">
-                                        <button class="btn btn-success btn-sm" onclick="startExecution()" type="button"><i class="fa fa-play"></i></button>
-                                        <div class="status-indicator bg-success"></div>
+                                        <span><i class="fa fa-tasks"></i></span>
                                     </div>
                                     <div class="font-weight-bold">
-                                        <div class="text-truncate">${x.procedure}</div>
-                                        <div class="small text-gray-500">
-                                            <span class="ml-3 badge badge-${x.status === 'COMPLETED' ? 'success' : 'warning'}">${x.status}</span>
+                                        <div class="text-truncate">${x.procedure}
+                                        <span class="ml-3 badge badge-${x.status === 'COMPLETED' ? 'success' : 'warning'}">${x.status}</span>
                                         </div>
-
                                     </div>
                                 </a>
                    `;
