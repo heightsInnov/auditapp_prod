@@ -53,8 +53,9 @@
                                         <th class="border-gray-200" scope="col">Scheduled Date</th>
                                         <th class="border-gray-200" scope="col">Start Date</th>
                                         <th class="border-gray-200" scope="col">Progress</th>
+                                        <th class="border-gray-200" scope="col" th:if="${session.role !='AUDIT_ASSOCIATES'}">Auditor</th>
                                         <th class="border-gray-200" scope="col">Status</th>
-                                        <th class="border-gray-200" scope="col">Action</th>
+                                        <th class="border-gray-200" scope="col">Level</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -64,7 +65,7 @@
                                             <a href="javascript:void(0)"
                                                th:data_focId="${f.getId()}"
                                                onclick="getProcedure(this.getAttribute('data_focId'))"
-                                               th:text="${f.getAreaOfFocus()}"></a><span class="badge badge-primary" th:text="${f.getProcedureCount()}"></span>
+                                               th:text="${f.getAreaOfFocus()}"></a><span class="badge badge-warning" th:text="${f.getProcedureCount()}"></span>
                                         </td>
                                         <td th:text="${f.getSchedulledDate()}"></td>
                                         <td th:text="${f.getStartDate()}"></td>
@@ -79,9 +80,15 @@
                                                     : 'progress-bar bg-success'}"></div>
                                             </div>
                                         </td>
+                                        <td th:if="${session.role !='AUDIT_ASSOCIATES'}" th:text="${f.getStartedBy()}"></td>
                                         <td><span class="badge badge-info" th:text="${f.getApprovalStatus()}"></span></td>
                                         <td>
-                                            <button class="btn btn-success btn-sm" type="button"><i class="fa fa-play"></i></button>
+                                            <a class="btn btn-info btn-sm" th:href="@{/audit-focus/execute/{focusId}(focusId=${f.getId()})}" th:if="${f.getStartDate() == null}" th:style="${'pointer-events: ' + f.getStartFlag()}">
+                                                <span><i class="fa fa-play-circle"></i></span>
+                                            </a>
+                                            <a class="btn btn-warning btn-sm" href="#" style="pointer-events: none" th:if="${f.getStartDate() != null}">
+                                                <span><i class="fa fa-chain"></i></span>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>

@@ -50,6 +50,17 @@ public class AuditFocus {
     @Column(name = "PROGRESS_LEVEL")
     private Long progressLevel;
 
+    @Column(name = "STARTED_BY")
+    private String startedBy;
+
+    public String getStartedBy() {
+        return startedBy;
+    }
+
+    public void setStartedBy(String startedBy) {
+        this.startedBy = startedBy;
+    }
+
     public Long getFocusId() {
         return this.focusId;
     }

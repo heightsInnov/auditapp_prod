@@ -3,8 +3,10 @@ package com.heights.auditapp.controller.impl;
 import com.heights.auditapp.controller.AuditFocusProceduresController;
 import com.heights.auditapp.dto.AuditFocusProceduresDTO;
 import com.heights.auditapp.mapper.AuditFocusProceduresMapper;
+import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.model.AuditFocusProcedures;
 import com.heights.auditapp.service.AuditFocusProceduresService;
+import com.heights.auditapp.service.AuditFocusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-procedures")
@@ -19,10 +22,12 @@ import java.util.stream.Collectors;
 public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresController {
     private final AuditFocusProceduresService auditFocusProceduresService;
     private final AuditFocusProceduresMapper auditFocusProceduresMapper;
+    private final AuditFocusService auditFocusService;
 
-    public AuditFocusProceduresControllerImpl(AuditFocusProceduresService auditFocusProceduresService, AuditFocusProceduresMapper auditFocusProceduresMapper) {
+    public AuditFocusProceduresControllerImpl(AuditFocusProceduresService auditFocusProceduresService, AuditFocusProceduresMapper auditFocusProceduresMapper, AuditFocusService auditFocusService) {
         this.auditFocusProceduresService = auditFocusProceduresService;
         this.auditFocusProceduresMapper = auditFocusProceduresMapper;
+        this.auditFocusService = auditFocusService;
     }
 
     @Override
@@ -62,7 +67,10 @@ public class AuditFocusProceduresControllerImpl implements AuditFocusProceduresC
     @Override
     @GetMapping("/procedure/{focusId}")
     public @ResponseBody List<AuditFocusProceduresDTO> list(@PathVariable Long focusId) {
-        return auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findByFocusId(focusId));
+        Optional<AuditFocus> focus = auditFocusService.findById(focusId);
+        List<AuditFocusProceduresDTO> listDto = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findByFocusId(focusId));
+        focus.ifPresent(auditFocus -> listDto.forEach(x -> x.setStartFlag(auditFocus.getStartFlag().equals("none")?"auto":"none")));
+        return listDto;
     }
 
     @Override

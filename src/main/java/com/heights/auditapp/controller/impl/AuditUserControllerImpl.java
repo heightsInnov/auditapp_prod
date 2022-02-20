@@ -3,6 +3,7 @@ package com.heights.auditapp.controller.impl;
 import com.heights.auditapp.dto.AuditUserDTO;
 import com.heights.auditapp.mapper.AuditRoleMapper;
 import com.heights.auditapp.mapper.AuditUserMapper;
+import com.heights.auditapp.model.AuditRole;
 import com.heights.auditapp.model.AuditUser;
 import com.heights.auditapp.service.AuditRoleService;
 import com.heights.auditapp.service.AuditUserService;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequestMapping("/audit-user")
@@ -93,7 +95,10 @@ public class AuditUserControllerImpl{
             AuditUserDTO auditUserDTO = auditUserMapper.asDTO(tt);
             session.setAttribute("username", auditUserDTO.getUsername());
             session.setAttribute("userId", auditUserDTO.getUserId());
-            session.setAttribute("role", auditUserDTO.getRole());
+            Optional<AuditRole> r = auditRoleService.findById(auditUserDTO.getRole());
+            String name = "";
+            if(r.isPresent()) name = r.get().getName();
+            session.setAttribute("role", name);
             return  "redirect:/dashboard";
         }
         redirect.addFlashAttribute("message", "Invalid username or password");

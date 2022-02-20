@@ -15,16 +15,25 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
     private LocalDate createDate = LocalDate.now();
     private String recordStat = "O";
     private String scheduledFlag = "N";
+    private String startedBy;
     @Nullable
     @DateTimeFormat(fallbackPatterns = "yyyy-MM-dd")
     private LocalDate schedulledDate;
     private Long scopeId;
     @Nullable
     private LocalDate startDate;
-    private String startFlag = "N";
+    private String startFlag = "auto";
     private Long userId;
     private int progressLevel = 0;
     private int procedureCount = 0;
+
+    public String getStartedBy() {
+        return startedBy;
+    }
+
+    public void setStartedBy(String startedBy) {
+        this.startedBy = startedBy;
+    }
 
     public int getProcedureCount() {
         return procedureCount;
