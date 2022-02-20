@@ -16,6 +16,7 @@ import com.heights.auditapp.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -159,5 +160,14 @@ public class AuditScopeControllerImpl {
         }
         auditScopeService.updateScopeAuditor(auditScopeDTO.getScopeId(), auditScopeDTO.getUserName());
     return "redirect:/audit-scope";
+    }
+
+    @GetMapping("/execute/{universeId}")
+    public String auditExecution(Model model,@Nullable @PathVariable long universeId) {
+        universeId = universeId == 0L ? 61L : universeId;
+        List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
+        dtos = auditScopeService.getScopeProgressLevel(dtos);
+        model.addAttribute("scope", dtos);
+        return "execution-scope";
     }
 }

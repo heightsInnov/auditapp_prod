@@ -1,7 +1,10 @@
 package com.heights.auditapp.service.impl;
 
+import com.heights.auditapp.dao.AuditFocusRepository;
 import com.heights.auditapp.dao.AuditScopeRepository;
+import com.heights.auditapp.dto.AuditScopeDTO;
 import com.heights.auditapp.model.Approval_Status;
+import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
 import org.springframework.data.domain.Page;
@@ -19,9 +22,11 @@ import java.util.Optional;
 @Transactional
 public class AuditScopeServiceImpl implements AuditScopeService {
     private final AuditScopeRepository repository;
+    private final AuditFocusRepository focusRepository;
 
-    public AuditScopeServiceImpl(AuditScopeRepository repository) {
+    public AuditScopeServiceImpl(AuditScopeRepository repository, AuditFocusRepository focusRepository) {
         this.repository = repository;
+        this.focusRepository = focusRepository;
     }
 
     @Override
@@ -106,5 +111,23 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     @Override
     public AuditScope updateScopeAuditor(long scopeId, String email) {
         return repository.updateScopeAuditor(scopeId, email);
+    }
+
+    @Override
+    public List<AuditScope> findScopeByUniverseId(Long universeId) {
+        return repository.findScopeByUniverseId(universeId);
+    }
+
+    public List<AuditScopeDTO> getScopeProgressLevel(List<AuditScopeDTO> auditScopeDTOS){
+        for (AuditScopeDTO dto: auditScopeDTOS) {
+            List<AuditFocus> focusList = focusRepository.findAllByScopeId(dto.getScopeId());
+            long counter = focusList.stream().filter(x -> x.getApprovalStatus().equals(Approval_Status.COMPLETED.name())).count();
+            int size = focusList.size();
+            if(size > 0) {
+                long cc = (counter*100)/size;
+                dto.setProgressLevel(counter > 0 ? (int) cc : 0);
+            }
+        }
+        return auditScopeDTOS;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -96,9 +97,9 @@ public class AuditFocusControllerImpl {
         return auditFocusMapper.asDTO(auditFocusService.update(auditFocus, id));
     }
 
-    @GetMapping("/execute")
-    public String auditExecution(Model model) {
-        List<AuditFocusDTO> auditFocus = auditFocusMapper.asDTOList(auditFocusService.findAll());
+    @GetMapping("/execute-list/{scopeId}")
+    public String auditExecution(Model model, @PathVariable long scopeId, @Nullable @RequestParam("scopatunama") String title) {
+        List<AuditFocusDTO> auditFocus = auditFocusMapper.asDTOList(auditFocusService.findAuditFocusByScope(scopeId));
         List<AuditFocusProceduresDTO> procedures = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
         for (AuditFocusDTO focus : auditFocus) {
             long procCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId())).count();
@@ -110,6 +111,7 @@ public class AuditFocusControllerImpl {
             }
         }
         model.addAttribute("foci", auditFocus);
+        model.addAttribute("title", title);
         return "execution-focus";
     }
 
