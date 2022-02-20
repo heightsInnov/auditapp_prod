@@ -24,6 +24,17 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
     <th:block layout:fragment="style"></th:block>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script>
+        const username = "[[${session.username}]]";
+        $(function() {
+            if(!username){
+                location = '/';
+                return;
+            }
+        });
+
+    </script>
 </head>
 
 <body id="page-top">
@@ -172,8 +183,7 @@
 
             </nav>
             <!-- End of Topbar -->
-
-]            <!-- Begin Page Content -->
+            <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <div layout:fragment="content"></div>
@@ -239,6 +249,7 @@
                 <div class="mb-3">
                     <label for="entUniv">Select Universe</label>
                     <select class="form-control" id="entUniv">
+                        <option label="&nbsp;"></option>
                         <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                 th:value="${uni.getUniverseId()}"></option>
                     </select>
@@ -246,14 +257,14 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-                <a class="btn btn-primary" href="/">Change</a>
+<!--                <a class="btn btn-primary btn-change" href="javascript:void(0)">Change</a>-->
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 <script th:src="@{/js/moment.js}"></script>
@@ -266,7 +277,28 @@
 <script th:src="@{/js/sb-admin-2.min.js}"></script>
 
 <script>
+    $(document).ready(function() {
 
+        if(username){
+            let getUniverse = sessionStorage.getItem('universe-' + username);
+
+            if(getUniverse == '' || getUniverse == null){
+                alert('Set your current universe!');
+                $('#universeModal').modal('show');
+                return;
+            }
+        }
+    });
+
+    $('#entUniv').change(() => {
+        let universe = $('#entUniv').val();
+        if(universe == '' || null){
+            return;
+        }
+
+        sessionStorage.setItem("universe-"+ username, universe);
+        location.reload();
+    });
 </script>
 <th:block layout:fragment="script"></th:block>
 </body>
