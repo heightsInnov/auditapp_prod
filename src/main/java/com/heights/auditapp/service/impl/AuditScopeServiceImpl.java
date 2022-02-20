@@ -7,6 +7,7 @@ import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.AuditScopeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 public class AuditScopeServiceImpl implements AuditScopeService {
@@ -121,11 +123,11 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     public List<AuditScopeDTO> getScopeProgressLevel(List<AuditScopeDTO> auditScopeDTOS){
         for (AuditScopeDTO dto: auditScopeDTOS) {
             List<AuditFocus> focusList = focusRepository.findAllByScopeId(dto.getScopeId());
-            long counter = focusList.stream().filter(x -> x.getApprovalStatus().equals(Approval_Status.COMPLETED.name())).count();
             int size = focusList.size();
+            long counter = focusList.stream().filter(x -> x.getApprovalStatus().equals(Approval_Status.COMPLETED.name())).count();
             if(size > 0) {
-                long cc = (counter*100)/size;
-                dto.setProgressLevel(counter > 0 ? (int) cc : 0);
+                int cc = ((int)counter*100)/size;
+                dto.setProgressLevel(counter > 0 ? cc : 0);
             }
         }
         return auditScopeDTOS;

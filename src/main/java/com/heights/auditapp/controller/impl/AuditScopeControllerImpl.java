@@ -94,7 +94,9 @@ public class AuditScopeControllerImpl {
 
     @GetMapping("/find-by-entity/{id}")
     public @ResponseBody List<AuditScopeDTO> findByEntityId(@PathVariable("id") Long entityId) {
-        return auditScopeMapper.asDTOList(auditScopeService.findByEntityId(entityId));
+        List<AuditScopeDTO> scopes = auditScopeMapper.asDTOList(auditScopeService.findByEntityId(entityId));
+        scopes = auditScopeService.getScopeProgressLevel(scopes);
+        return scopes;
     }
 
     @DeleteMapping("/{id}")
