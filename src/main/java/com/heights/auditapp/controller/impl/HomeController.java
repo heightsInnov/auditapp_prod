@@ -1,11 +1,13 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditUserDTO;
+import com.heights.auditapp.mapper.AuditUniverseMapper;
 import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocus;
 import com.heights.auditapp.service.AuditFocusProceduresService;
 import com.heights.auditapp.service.AuditFocusService;
 import com.heights.auditapp.service.AuditScopeService;
+import com.heights.auditapp.service.AuditUniverseService;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +28,15 @@ public class HomeController {
     private final AuditFocusService auditFocusService;
     private final AuditFocusProceduresService auditFocusProceduresService;
     private final AuditScopeService auditScopeService;
+    private final AuditUniverseService auditUniverseService;
+    private final AuditUniverseMapper auditUniverseMapper;
 
-    public HomeController(AuditFocusService auditFocusService, AuditFocusProceduresService auditFocusProceduresService, AuditScopeService auditScopeService) {
+    public HomeController(AuditFocusService auditFocusService, AuditFocusProceduresService auditFocusProceduresService, AuditScopeService auditScopeService, AuditUniverseService auditUniverseService, AuditUniverseMapper auditUniverseMapper) {
         this.auditFocusService = auditFocusService;
         this.auditFocusProceduresService = auditFocusProceduresService;
         this.auditScopeService = auditScopeService;
+        this.auditUniverseService = auditUniverseService;
+        this.auditUniverseMapper = auditUniverseMapper;
     }
 
     @GetMapping("/dashboard")
@@ -66,6 +72,7 @@ public class HomeController {
                         .filter(x -> Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus()))
                         .collect(Collectors.toList()));
         model.addAttribute("approvals", auditScopeService.countByUsernameAndApprovalStatus(email));
+        model.addAttribute("universe", auditUniverseMapper.asDTOList(auditUniverseService.findAll()));
         return "dashboard";
     }
 

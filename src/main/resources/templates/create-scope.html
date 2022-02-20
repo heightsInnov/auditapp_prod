@@ -27,6 +27,7 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="universeSelect">Universe<span style="color: red">*</span></label>
                                     <select class="form-control" id="universeSelect" required="required">
+                                        <option value="0">Select Universe</option>
                                         <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                                 th:value="${uni.getUniverseId()}"></option>
                                     </select>
@@ -35,7 +36,7 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="entitySelect">Entity<span style="color: red">*</span></label>
                                     <select class="form-control" id="entitySelect" required="required" th:field="*{entityId}">
-                                        <option value="&nbsp;">Select Entity</option>
+                                        <option value="0">Select Entity</option>
                                     </select>
                                 </div>
                             </div>
@@ -90,6 +91,7 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="forAuditor">Auditor</label>
                                     <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
+                                        <option value="0">Select Auditor</option>
                                         <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
                                                 th:value="${rol.getUsername()}"></option>
                                     </select>

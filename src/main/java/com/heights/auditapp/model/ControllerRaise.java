@@ -20,7 +20,7 @@ import java.io.Serializable;
                                 @ColumnResult(name = "status"),
                                 @ColumnResult(name = "riskRating"),
                                 @ColumnResult(name = "recommendation"),
-                                @ColumnResult(name = "reference"),
+                                @ColumnResult(name = "reference", type = Long.class),
                                 @ColumnResult(name = "auditor"),
                                 @ColumnResult(name = "scope")
                         }
@@ -50,7 +50,7 @@ public class ControllerRaise implements Serializable {
     String status;
     String riskRating;
     String recommendation;
-    String reference;
+    Long reference;
     String auditor;
     String scope;
 
@@ -62,7 +62,7 @@ public class ControllerRaise implements Serializable {
                            String status,
                            String riskRating,
                            String recommendation,
-                           String reference,
+                           Long reference,
                            String auditor,
                            String scope) {
         this.universe = universe;
@@ -154,11 +154,11 @@ public class ControllerRaise implements Serializable {
         this.recommendation = recommendation;
     }
 
-    public String getReference() {
+    public Long getReference() {
         return reference;
     }
 
-    public void setReference(String reference) {
+    public void setReference(Long reference) {
         this.reference = reference;
     }
 

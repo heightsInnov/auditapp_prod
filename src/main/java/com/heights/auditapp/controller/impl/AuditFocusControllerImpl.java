@@ -102,14 +102,15 @@ public class AuditFocusControllerImpl {
         List<AuditFocusProceduresDTO> procedures = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
         for (AuditFocusDTO focus : auditFocus) {
             long procCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId())).count();
-            focus.setProcedureCount(procCount);
+            focus.setProcedureCount((int)procCount);
             if(procCount > 0) {
                 long compCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId()) && x.getStatus().equals(Approval_Status.COMPLETED)).count();
-                focus.setProgressLevel(compCount > 0 ? (compCount / procCount) * 100 : 0);
+                Long cc = (compCount*100)/procCount;
+                focus.setProgressLevel(compCount > 0 ? cc.intValue() : 0);
             }
         }
         model.addAttribute("foci", auditFocus);
-        return "execution";
+        return "execution-focus";
     }
 
     @GetMapping("/execute/{focusId}")

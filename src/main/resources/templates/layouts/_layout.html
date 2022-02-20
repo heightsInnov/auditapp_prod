@@ -138,6 +138,10 @@
                     </div>
                 </form>
 
+                <div>
+                    <a class="btn btn-info btn-sm" data-target="#universeModal" data-toggle="modal"><span class="fa fa-globe"> Select Universe</span></a>
+                </div>
+
                 <div class="topbar-divider d-none d-sm-block"></div>
 
                     <!-- Nav Item - User Information -->
@@ -169,7 +173,7 @@
             </nav>
             <!-- End of Topbar -->
 
-            <!-- Begin Page Content -->
+]            <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <div layout:fragment="content"></div>
@@ -216,6 +220,33 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
                 <a class="btn btn-primary" href="/">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="universeModalLabel" class="modal fade" id="universeModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="universeModalLabel">Change Universe</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="entUniv">Select Universe</label>
+                    <select class="form-control" id="entUniv">
+                        <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
+                                th:value="${uni.getUniverseId()}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                <a class="btn btn-primary" href="/">Change</a>
             </div>
         </div>
     </div>

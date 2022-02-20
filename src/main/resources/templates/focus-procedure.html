@@ -58,24 +58,24 @@
                     </div>
                     <form class="user" method="post">
                         <div class="modal-body">
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="recipientname">Recipient Name</label>-->
+<!--                                    <input class="form-control" id="recipientname" required="required"-->
+<!--                                          type="text">-->
+<!--                                </div>-->
 
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="recipientname">Recipient Name<span style="color: red">*</span></label>
-                                    <input class="form-control" id="recipientname" required="required"
-                                          type="text">
-                                </div>
-
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="recipientemail">Recipient Email<span style="color: red">*</span></label>
-                                    <input class="form-control" id="recipientemail" required="required"
-                                            type="text">
-                                </div>
-                            </div>
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="recipientemail">Recipient Email</label>-->
+<!--                                    <input class="form-control" id="recipientemail" required="required"-->
+<!--                                            type="text">-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="controlstatus">Control Status</label>
                                     <select class="form-control" id="controlstatus">
+                                        <option>Select Control Status</option>
                                         <option value="Adequate">Adequate</option>
                                         <option value="Partially Adequate">Partially Adequate</option>
                                         <option value="Inadequate">Inadequate</option>
@@ -84,6 +84,7 @@
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="riskrating">Risk Rating</label>
                                     <select class="form-control" id="riskrating">
+                                        <option>Select Rating</option>
                                         <option value="very high">Very High</option>
                                         <option value="high">High</option>
                                         <option value="medium">Medium</option>
@@ -109,21 +110,19 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="additionalinfo">Additional Info</label>
-                                    <textarea class="form-control" id="additionalinfo" rows="5"
-                                              >
+                                    <textarea class="form-control" id="additionalinfo" rows="5">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="comment">Comment</label>
-                                    <textarea class="form-control" id="comment" rows="5"
-                                              >
+                                    <textarea class="form-control" id="comment" rows="5">
                                     </textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button class="btn btn-primary" type="submit">Save</button>
                             <button type="button" class="btn btn-secondary btn-completed">Mark as Completed</button>
                         </div>
                     </form>

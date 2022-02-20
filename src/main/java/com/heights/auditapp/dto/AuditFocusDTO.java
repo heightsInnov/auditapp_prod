@@ -23,14 +23,14 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
     private LocalDate startDate;
     private String startFlag = "N";
     private Long userId;
-    private Long progressLevel = 0L;
-    private long procedureCount = 0;
+    private int progressLevel = 0;
+    private int procedureCount = 0;
 
-    public long getProcedureCount() {
+    public int getProcedureCount() {
         return procedureCount;
     }
 
-    public void setProcedureCount(long procedureCount) {
+    public void setProcedureCount(int procedureCount) {
         this.procedureCount = procedureCount;
     }
 
@@ -141,11 +141,11 @@ public class AuditFocusDTO extends AbstractDTO<Long> {
         this.userId = userId;
     }
 
-    public Long getProgressLevel() {
+    public int getProgressLevel() {
         return this.progressLevel;
     }
 
-    public void setProgressLevel(Long progressLevel) {
+    public void setProgressLevel(int progressLevel) {
         this.progressLevel = progressLevel;
     }
 }

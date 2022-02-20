@@ -2,10 +2,14 @@ package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.controller.AuditScopeApproavalController;
 import com.heights.auditapp.dto.AuditFocusDTO;
+import com.heights.auditapp.dto.AuditFocusProceduresDTO;
 import com.heights.auditapp.dto.AuditScopeApproavalDTO;
 import com.heights.auditapp.dto.AuditScopeDTO;
+import com.heights.auditapp.mapper.AuditFocusMapper;
+import com.heights.auditapp.mapper.AuditFocusProceduresMapper;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.model.AUDIT_TYPE;
+import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocusProcedures;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.*;
@@ -25,6 +29,8 @@ import java.util.stream.Collectors;
 public class AuditScopeControllerImpl {
     private final AuditScopeService auditScopeService;
     private final AuditScopeMapper auditScopeMapper;
+    private final AuditFocusProceduresMapper auditFocusProceduresMapper;
+    private final AuditFocusMapper auditFocusMapper;
     private final AuditUniverseService auditUniverseService;
     private final AuditScopeApproavalController auditScopeApproaval;
     private final AuditUserService auditUserService;
@@ -32,11 +38,13 @@ public class AuditScopeControllerImpl {
     private final AuditFocusProceduresService auditFocusProceduresService;
 
     public AuditScopeControllerImpl(AuditScopeService auditScopeService, AuditScopeMapper auditScopeMapper,
-                                    AuditUniverseService auditUniverseService, AuditScopeApproavalController auditScopeApproaval,
+                                    AuditFocusProceduresMapper auditFocusProceduresMapper, AuditFocusMapper auditFocusMapper, AuditUniverseService auditUniverseService, AuditScopeApproavalController auditScopeApproaval,
                                     AuditUserService auditUserService, AuditFocusService auditFocusService,
                                     AuditFocusProceduresService auditFocusProceduresService) {
         this.auditScopeService = auditScopeService;
         this.auditScopeMapper = auditScopeMapper;
+        this.auditFocusProceduresMapper = auditFocusProceduresMapper;
+        this.auditFocusMapper = auditFocusMapper;
         this.auditUniverseService = auditUniverseService;
         this.auditScopeApproaval = auditScopeApproaval;
         this.auditUserService = auditUserService;
@@ -119,11 +127,21 @@ public class AuditScopeControllerImpl {
         if(scopeId < 0L){
             return "redirect:/audit-scope";
         }
+        List<AuditFocusDTO> auditFocus = auditFocusMapper.asDTOList(auditFocusService.findAuditFocusByScope(scopeId));
+        List<AuditFocusProceduresDTO> procedures = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
+        for (AuditFocusDTO focus : auditFocus) {
+            long procCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId())).count();
+            if(procCount > 0) {
+                long compCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId()) && x.getStatus().equals(Approval_Status.COMPLETED)).count();
+                Long cc = (compCount*100)/procCount;
+                focus.setProgressLevel(compCount > 0 ? cc.intValue() : 0);
+            }
+        }
         model.addAttribute("focus", new AuditFocusDTO());
         model.addAttribute("scope", new AuditScopeDTO());
         auditScopeService.findById(scopeId).ifPresent(auditScope -> model.addAttribute("scoped", auditScopeMapper.asDTO(auditScope)));
-        model.addAttribute("foci", auditFocusService.findAuditFocusByScope(scopeId));
-        model.addAttribute("procedures", auditFocusProceduresService.findAll().stream().distinct().collect(Collectors.toList()));
+        model.addAttribute("foci", auditFocus);
+        model.addAttribute("procedures", procedures.stream().distinct().collect(Collectors.toList()));
         return "view-scope";
     }
 
