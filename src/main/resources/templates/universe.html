@@ -129,13 +129,13 @@
                 try {
                     xhr.send();
                     if (xhr.status !== 200) {
-                       $('#msg').html( message("Something went wrong try again."));
+                       //$('#msg').html( message("Something went wrong try again."));
                     } else {
                         $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#rID' + username).remove();
                         let res = JSON.parse(xhr.responseText);
                         if(res){
+                            $('#rID' + id).remove();
+                            $('#msg').html(message("Universe deleted successfully"));
                             location.reload();
                         }
                     }
