@@ -34,7 +34,7 @@
     <div class="card mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Audit Scope
-                <a class="btn btn-info mr-2 float-right" href="/audit-scope/create">
+                <a class="btn btn-info mr-2 float-right create-scope" href="javascript:void(0)">
                     <span class="fa fa-plus float-right"></span>
                 </a>
             </h6>
@@ -172,7 +172,13 @@
                                <td>
                                     <div class="progress">
                                     <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                         role="progressbar" style="width: ${x.progressLevel}%"></div>
+                                         role="progressbar" style="width: ${x.progressLevel}%"
+                                         class="${x.progressLevel <= 20 ? 'progress-bar bg-danger'
+                                            : x.progressLevel > 20 && x.progressLevel <= 40 ? 'progress-bar bg-warning'
+                                            : x.progressLevel > 40 && x.progressLevel <= 60 ? 'progress-bar bg-primary'
+                                            : x.progressLevel > 60 && x.progressLevel <= 80 ? 'progress-bar bg-info'
+                                            : 'progress-bar bg-success'}">
+                                    </div>
                                </td>
                                <td class="text-center">
                                     <span class="badge badge-info">
@@ -180,7 +186,10 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a data-toggle="modal" data-target="#assignModal" class="btn btn-warning btn-sm"><span class="fa fa-user"></span></a>
+                                    ${x.assignedTo != null ?
+                                        x.assignedTo  :
+                                        `<a data-toggle="modal" data-target="#" onclick="OpenAssign('${x.scopeId}')" class="btn btn-warning btn-sm"><span class="fa fa-user"></span></a>`}
+
                                </td>
                                <td class="text-center">
                                     <a href="/audit-scope/preview/${x.scopeId}" class="btn btn-primary btn-sm"><span class="fa fa-eye"></span></a>
@@ -200,6 +209,19 @@
             // sessionStorage.setItem("scopeId", id);
             location = "/audit-scope/preview";
         }
+
+        const OpenAssign = (scopeId) => {
+            if(scopeId == null || scopeId == ''){
+                return;
+            };
+
+            $('.scope-id').val(scopeId);
+            $('#assignModal').modal('show');
+        }
+        $('.create-scope').click(() => {
+            sessionStorage.removeItem('editScopeId');
+            location = '/audit-scope/create';
+        })
     </script>
 
 </th:block>

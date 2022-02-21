@@ -169,6 +169,7 @@ public class AuditScopeControllerImpl {
         universeId = universeId == 0L ? 61L : universeId;
         List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
         dtos = auditScopeService.getScopeProgressLevel(dtos);
+        model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", dtos);
         return "execution-scope";
     }
