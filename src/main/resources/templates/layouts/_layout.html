@@ -28,7 +28,7 @@
         $(function() {
             if(!username){
                 location = '/';
-
+                return;
             }
         });
     </script>
@@ -273,12 +273,11 @@
 
 <script>
     $(document).ready(function() {
+        let getUniverse = "[[${session.universe}]]";
         if(username){
-            let getUniverse = sessionStorage.getItem('universe');
-
-            if(getUniverse == '' || getUniverse == null){
+            if(!getUniverse){
                 $('#universeModal').modal('show');
-
+                return;
             }
         }
     });
@@ -288,10 +287,29 @@
         if(universe == '' || null){
             return;
         }
-
-        sessionStorage.setItem("universe", universe);
-        location.reload();
+        setSession(universe);
     });
+
+    const setSession = (id) => {
+
+        let xhr = new XMLHttpRequest();
+        let url = `/session/${id}`;
+        xhr.open('Get', url, false);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        try {
+
+            xhr.send();
+            if (xhr.status != 200) {
+                //alert('Something went wrong try again!');
+            } else {
+                let res = JSON.parse(xhr.responseText);
+                if(res){
+                   location.reload();
+                }
+            }
+        } catch (t) { }
+    }
 </script>
 <th:block layout:fragment="script"></th:block>
 </body>
