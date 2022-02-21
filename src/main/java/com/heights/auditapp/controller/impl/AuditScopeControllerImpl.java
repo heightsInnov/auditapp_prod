@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -166,16 +167,25 @@ public class AuditScopeControllerImpl {
 
     @GetMapping("/execute")
     public String auditExecution(Model model, HttpServletRequest request) {
+        List<AuditScopeDTO> dtos = getScope(request);
+        if(dtos.isEmpty()){
+            return "/dashboard";
+        }
+        model.addAttribute("universe", auditUniverseService.findAll());
+        model.addAttribute("scope", dtos);
+        return "execution-scope";
+    }
+
+    public List<AuditScopeDTO> getScope(HttpServletRequest request){
         String universe = request.getSession().getAttribute("universe").toString();
         if(universe == null)
         {
-            return "/dashboard";
+            return new ArrayList<>();
         }
         Long universeId = Long.parseLong(request.getSession().getAttribute("universe").toString());
         List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
         dtos = auditScopeService.getScopeProgressLevel(dtos);
-        model.addAttribute("universe", auditUniverseService.findAll());
-        model.addAttribute("scope", dtos);
-        return "execution-scope";
+
+        return dtos;
     }
 }
