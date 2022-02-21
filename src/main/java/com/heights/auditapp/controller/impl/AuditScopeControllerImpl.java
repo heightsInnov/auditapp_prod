@@ -16,11 +16,11 @@ import com.heights.auditapp.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -164,9 +164,14 @@ public class AuditScopeControllerImpl {
     return "redirect:/audit-scope";
     }
 
-    @GetMapping("/execute/{universeId}")
-    public String auditExecution(Model model,@Nullable @PathVariable long universeId) {
-        universeId = universeId == 0L ? 61L : universeId;
+    @GetMapping("/execute")
+    public String auditExecution(Model model, HttpServletRequest request) {
+        String universe = request.getSession().getAttribute("universe").toString();
+        if(universe == null)
+        {
+            return "/dashboard";
+        }
+        Long universeId = Long.parseLong(request.getSession().getAttribute("universe").toString());
         List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
         dtos = auditScopeService.getScopeProgressLevel(dtos);
         model.addAttribute("universe", auditUniverseService.findAll());

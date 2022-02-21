@@ -57,7 +57,7 @@
                     <form class="user" method="post" th:action="@{/audit-procedures}">
                         <div class="modal-body">
                             <div class="form-group row">
-                                <input hidden="hidden" id="procId" type="text" value=""/>
+                                <input hidden="hidden" id="procId" name="procedureId" type="text" value=""/>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label for="controlstatus">Control Status</label>
                                     <select class="form-control" id="controlstatus" name="controlStatus">
@@ -155,7 +155,7 @@
                 data.forEach( (x, index) => {
                     let res = `
                     <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary"
-                                   href="#" data-toggle="modal" data-target="#focusModal" style="pointer-events: ${x.startFlag}">
+                                   href="#" data-toggle="modal" data-target="#" onclick="openFocus(${x.procedureId})" style="pointer-events: ${x.startFlag}">
                                     <div class="dropdown-list-image mr-3">
                                         <span><i class="fa fa-tasks"></i></span>
                                     </div>
@@ -171,6 +171,15 @@
             }else{
                 $('.focus-procedure').html(' <div class="text-truncate">Procedure not added created one!</div>');
             }
+        }
+
+        const openFocus = (procedureId) => {
+            if(procedureId ==  '' || procedureId == null){
+                return;
+            }
+            $('#focusModal').modal('show');
+            $('#procId').val(procedureId);
+            alert($('#procId').val());
         }
 
         const  startExecution =() => alert(confirm("Are you sure to start this procedure execution"))

@@ -68,6 +68,7 @@ public class FocusProcedureMapper implements AuditFocusProceduresMapper {
         entity.setProgressLevel(dto.getProgressLevel());
         entity.setDescription(dto.getDescription());
         entity.setStatus(Approval_Status.valueOf(dto.getStatus()));
+        entity.setProcedureId(dto.getId());
         return entity;
     }
 

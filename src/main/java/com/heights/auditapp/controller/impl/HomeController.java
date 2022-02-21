@@ -11,10 +11,7 @@ import com.heights.auditapp.service.AuditUniverseService;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -60,8 +57,9 @@ public class HomeController {
         model.addAttribute("dashboard", "");
         model.addAttribute("foci", foc
                 .stream()
-                .filter(x -> "S".equals(x.getStartFlag()))
-                .collect(Collectors.toList()) );
+                .filter(x -> Approval_Status.ACTIVE.name().equals(x.getApprovalStatus()))
+                .limit(5)
+                .collect(Collectors.toList()));
         model.addAttribute("ongoing", ongoing);
         model.addAttribute("completed", completed);
         model.addAttribute("scheduled", scheduled);
@@ -70,6 +68,7 @@ public class HomeController {
                         .findAll()
                         .stream()
                         .filter(x -> Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus()))
+                        .limit(5)
                         .collect(Collectors.toList()));
         model.addAttribute("approvals", auditScopeService.countByUsernameAndApprovalStatus(email));
         model.addAttribute("universe", auditUniverseMapper.asDTOList(auditUniverseService.findAll()));
@@ -103,5 +102,11 @@ public class HomeController {
                          HttpServletRequest req) {
         model.addAttribute("proc",auditFocusProceduresService.getExceptions());
         return "exception";
+    }
+
+    @GetMapping("/session/{universeId}")
+    public boolean setSession(HttpServletRequest req, @PathVariable Long universeId) {
+        req.getSession().setAttribute("universe", universeId);
+        return true;
     }
 }
