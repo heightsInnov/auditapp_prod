@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
     private Long focusId;
+    private Long procedureId;
     private String procedure;
     private LocalDate dateCreated;
     private String authStat;
@@ -29,6 +30,14 @@ public class AuditFocusProceduresDTO extends AbstractDTO<Long> {
     private String comments;
     private String description;
     private Approval_Status status = Approval_Status.PENDING;
+
+    public Long getProcedureId() {
+        return procedureId;
+    }
+
+    public void setProcedureId(Long procedureId) {
+        this.procedureId = procedureId;
+    }
 
     public Approval_Status getStatus() {
         return status;
