@@ -10,8 +10,6 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
-<!--    <meta content = "2; url = http://localhost:7007/" http-equiv = "refresh" th:if="${session.username == null}" />-->
-
     <title>Audit Management Solution</title>
 
     <!-- Custom fonts for this template-->
@@ -30,10 +28,9 @@
         $(function() {
             if(!username){
                 location = '/';
-                return;
+
             }
         });
-
     </script>
 </head>
 
@@ -74,7 +71,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="/audit-scope/execute/61">
+            <a class="nav-link collapsed" th:href="@{'/audit-scope/execute/'+${session.universe}}">
                 <i class="fas fa-fw fa-user-shield"></i>
                 <span>Audit Execution</span>
             </a>
@@ -150,7 +147,8 @@
                 </form>
 
                 <div>
-                    <a class="btn btn-info btn-sm" data-target="#universeModal" data-toggle="modal"><span class="fa fa-globe"> Select Universe</span></a>
+                    <em class="text-dark" th:text="${session.username}"></em>
+                    <a class="btn btn-info btn-sm" data-target="#universeModal" data-toggle="modal"><span class="fa fa-globe">Change</span></a>
                 </div>
 
                 <div class="topbar-divider d-none d-sm-block"></div>
@@ -178,7 +176,6 @@
                             </a>
                         </div>
                     </li>
-
                 </ul>
 
             </nav>
@@ -240,7 +237,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="universeModalLabel">Change Universe</h5>
+                <h5 class="modal-title" id="universeModalLabel">Choose a universe</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -249,7 +246,7 @@
                 <div class="mb-3">
                     <label for="entUniv">Select Universe</label>
                     <select class="form-control" id="entUniv">
-                        <option label="&nbsp;"></option>
+                        <option label="Select Universe"></option>
                         <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
                                 th:value="${uni.getUniverseId()}"></option>
                     </select>
@@ -257,14 +254,12 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
-<!--                <a class="btn btn-primary btn-change" href="javascript:void(0)">Change</a>-->
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
-
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 <script th:src="@{/js/moment.js}"></script>
@@ -278,14 +273,12 @@
 
 <script>
     $(document).ready(function() {
-
         if(username){
-            let getUniverse = sessionStorage.getItem('universe-' + username);
+            let getUniverse = sessionStorage.getItem('universe');
 
             if(getUniverse == '' || getUniverse == null){
-                alert('Set your current universe!');
                 $('#universeModal').modal('show');
-                return;
+
             }
         }
     });
@@ -296,7 +289,7 @@
             return;
         }
 
-        sessionStorage.setItem("universe-"+ username, universe);
+        sessionStorage.setItem("universe", universe);
         location.reload();
     });
 </script>
