@@ -136,20 +136,16 @@
                 try {
 
                     xhr.send();
-                    if (xhr.status != 200) {
-                        // location.reload();
-                        //alert('Something went wrong try again!');
-
-                       // $('#msg').html( message("Something went wrong try again."));
+                    if (xhr.status !== 200) {
+                       $('#msg').html( message("Something went wrong try again."));
                     } else {
                         $('#delete').attr('disabled', false);
                         $('#msg').html(message(data.data));
                         $('#rID' + username).remove();
                         let res = JSON.parse(xhr.responseText);
-                        // if(res){
-                        //     location.reload();
-                        // }
-
+                        if(res){
+                            location.reload();
+                        }
                     }
                 } catch (t) {
                     // location.reload();

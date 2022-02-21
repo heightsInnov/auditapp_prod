@@ -106,8 +106,16 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public long countByUsernameAndApprovalStatus(String email) {
-        return email == null ? repository.countAllByApprovalStatus(Approval_Status.AWAITING_APPROVAL.name()) : repository.countAllByUserNameAndApprovalStatus(email, Approval_Status.AWAITING_APPROVAL.name());
+    public long countByUsernameAndApprovalStatus(String email, Long universeId) {
+            return repository.findScopeByUniverseId(universeId)
+                    .stream()
+                    .filter(x -> {
+                        if(email != null){
+                            return x.getUserName().equals(email) && Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus());
+                        }else{
+                            return Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus());
+                        }
+                    }).count();
     }
 
     @Override

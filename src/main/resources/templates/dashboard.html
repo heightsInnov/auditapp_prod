@@ -109,18 +109,13 @@
                    data-toggle="collapse" href="#collapseCardExample" role="button">
                     <h6 class="m-0 font-weight-bold text-primary">Ongoing Audit</h6>
                 </a>
-                <!--            <div class="card-header py-3">-->
-                <!--                <h6 class="m-0 font-weight-bold text-primary">Recent Audit Scopes-->
-                <!--                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus float-right"></span></a>-->
-                <!--                </h6>-->
-                <!--            </div>-->
                 <div class="collapse show" id="collapseCardExample">
                     <div class="card-body">
                         <div class="table-responsive">
                             <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
                                 <thead>
                                 <tr>
-                                    <th class="border-gray-200" scope="col">Focus</th>
+                                    <th class="border-gray-200" scope="col">Scope</th>
                                     <th class="border-gray-200" scope="col">Start Date</th>
                                     <th class="border-gray-200" scope="col">Progress</th>
                                     <th class="border-gray-200" scope="col">Action</th>
@@ -128,15 +123,15 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="f : ${foci}"
-                                    th:id="${'rID'} + ${f.getFocusId()}">
+                                    th:id="${'rID'} + ${f.getScopeId()}">
                                     <td>
-                                        <a href="/audit-focus/page-query" th:text="${f.getAreaOfFocus()}"></a>
+                                        <a href="/audit-focus/page-query" th:text="${f.getScopeOfAudit()}"></a>
                                     </td>
-                                    <td th:text="${f.getStartDate()}"></td>
+                                    <td th:text="${f.getAuditStartDate()}"></td>
                                     <td>
                                         <div class="progress mb-4">
                                             <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
-                                                 role="progressbar" style="width: ${f.progressLevel}+'%'"
+                                                 role="progressbar" th:style="${'width: '+f.getProgressLevel()+'%'}"
                                                  th:class="${f.progressLevel <= 20 ? 'progress-bar bg-danger'
                                                     : f.progressLevel > 20 && f.progressLevel <= 40 ? 'progress-bar bg-warning'
                                                     : f.progressLevel > 40 && f.progressLevel <= 60 ? 'progress-bar bg-primary'
@@ -145,7 +140,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a th:href="@{/audit-focus/}"><span><i class="fa fa-search-plus"></i></span></a>
+                                        <a th:href="@{'/audit-focus/execute-list/'+${f.scopeId} + '?scopatunama='+${f.scopeOfAudit}}"><span><i class="fa fa-search-plus"></i></span></a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -161,11 +156,6 @@
                    data-toggle="collapse" href="#collapseApproval" role="button">
                     <h6 class="m-0 font-weight-bold text-primary">Approvals</h6>
                 </a>
-                <!--            <div class="card-header py-3">-->
-                <!--                <h6 class="m-0 font-weight-bold text-primary">Recent Audit Scopes-->
-                <!--                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><span class="fa fa-plus float-right"></span></a>-->
-                <!--                </h6>-->
-                <!--            </div>-->
                 <div class="collapse show" id="collapseApproval">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -239,17 +229,9 @@
     </div>
 </div>
     <th:block layout:fragment="script">
-
         <!-- Page level plugins -->
         <!--    <script src="vendor/datatables/jquery.dataTables.min.js"></script>-->
         <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <script>
-
-
-        </script>
-
     </th:block>
-
 </body>
 </html>

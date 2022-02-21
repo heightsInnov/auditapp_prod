@@ -138,7 +138,6 @@
                                     <thead>
                                     <tr>
                                         <th class="border-gray-200" scope="col">Area of Focus</th>
-                                        <!--                                        <th class="border-gray-200" scope="col">Scope</th>-->
                                         <th class="border-gray-200" scope="col">Scheduled Date</th>
                                         <th class="border-gray-200" scope="col">Start Date</th>
                                         <th class="border-gray-200" scope="col">Progress</th>
@@ -224,12 +223,6 @@
                                           th:field="*{areaOfFocus}" type="text">
                                 </div>
                             </div>
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-sm-12 mb-3 mb-sm-0">-->
-<!--                                    <label for="scheduledate">Schedule Date<span style="color: red">*</span></label>-->
-<!--                                    <input class="form-control" id="scheduledate" th:field="*{schedulledDate}" type="date">-->
-<!--                                </div>-->
-<!--                            </div>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
@@ -280,17 +273,10 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-<!--                                            <tr th:each="proc : ${procedures}">-->
-
-<!--                                                <td></td>-->
-<!--                                                <td th:text="${proc.procedure}"></td>-->
-<!--                                            </tr>-->
-
                                             </tbody>
                                         </table>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
@@ -406,8 +392,7 @@
             try {
 
                 xhr.send(JSON.stringify(arrProcedure));
-                if (xhr.status != 200) {
-                    //alert('Something went wrong try again!');
+                if (xhr.status !== 200) {
                 } else {
                     let res = JSON.parse(xhr.responseText);
                     console.log(res);
@@ -429,10 +414,8 @@
             xhr.setRequestHeader("content-type", "application/json");
             xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
             try {
-
                 xhr.send();
-                if (xhr.status != 200) {
-                    //alert('Something went wrong try again!');
+                if (xhr.status !== 200) {
                 } else {
                     let res = JSON.parse(xhr.responseText);
                     console.log(res);

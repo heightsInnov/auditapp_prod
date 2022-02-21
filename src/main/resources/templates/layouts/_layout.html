@@ -28,7 +28,7 @@
         $(function() {
             if(!username){
                 location = '/';
-                return;
+
             }
         });
     </script>
@@ -71,7 +71,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" th:href="@{'/audit-scope/execute/'+${session.universe}}">
+            <a class="nav-link collapsed" th:href="@{/audit-scope/execute}">
                 <i class="fas fa-fw fa-user-shield"></i>
                 <span>Audit Execution</span>
             </a>
@@ -147,8 +147,8 @@
                 </form>
 
                 <div>
-                    <em class="text-dark" th:text="${session.username}"></em>
-                    <a class="btn btn-info btn-sm" data-target="#universeModal" data-toggle="modal"><span class="fa fa-globe">Change</span></a>
+                    <strong class="text-sm-center" style="color: #4f1915" th:text="'['+${session.universeName}+']'"></strong>
+                    <a class="btn btn-info btn-sm" data-target="#universeModal" data-toggle="modal"><span class="fa fa-globe"> Change</span></a>
                 </div>
 
                 <div class="topbar-divider d-none d-sm-block"></div>
@@ -277,21 +277,20 @@
         if(username){
             if(!getUniverse){
                 $('#universeModal').modal('show');
-                return;
+
             }
         }
     });
 
     $('#entUniv').change(() => {
         let universe = $('#entUniv').val();
-        if(universe == '' || null){
+        if(universe === '' || null){
             return;
         }
         setSession(universe);
     });
 
     const setSession = (id) => {
-
         let xhr = new XMLHttpRequest();
         let url = `/session/${id}`;
         xhr.open('Get', url, false);
@@ -300,8 +299,7 @@
         try {
 
             xhr.send();
-            if (xhr.status != 200) {
-                //alert('Something went wrong try again!');
+            if (xhr.status !== 200) {
             } else {
                 let res = JSON.parse(xhr.responseText);
                 if(res){

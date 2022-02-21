@@ -13,6 +13,7 @@ import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditFocusProcedures;
 import com.heights.auditapp.model.AuditScope;
 import com.heights.auditapp.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequestMapping("/audit-scope")
 @Controller
 public class AuditScopeControllerImpl {
@@ -167,25 +168,16 @@ public class AuditScopeControllerImpl {
 
     @GetMapping("/execute")
     public String auditExecution(Model model, HttpServletRequest request) {
-        List<AuditScopeDTO> dtos = getScope(request);
-        if(dtos.isEmpty()){
-            return "/dashboard";
+        Object universe = request.getSession().getAttribute("universe");
+        if(universe == null)
+        {
+            return "redirect:/dashboard";
         }
+        Long universeId = Long.parseLong(universe.toString());
+        List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
+        dtos = auditScopeService.getScopeProgressLevel(dtos);
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", dtos);
         return "execution-scope";
-    }
-
-    public List<AuditScopeDTO> getScope(HttpServletRequest request){
-        String universe = request.getSession().getAttribute("universe").toString();
-        if(universe == null)
-        {
-            return new ArrayList<>();
-        }
-        Long universeId = Long.parseLong(request.getSession().getAttribute("universe").toString());
-        List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
-        dtos = auditScopeService.getScopeProgressLevel(dtos);
-
-        return dtos;
     }
 }
