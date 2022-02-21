@@ -65,7 +65,7 @@ public class HomeController {
                     approvalScope.add(x);
                 else if (Approval_Status.SCHEDULED.equals(x.getApprovalStatus()))
                     scheduled.getAndIncrement();
-                else
+                else if (Approval_Status.COMPLETED.equals(x.getApprovalStatus()))
                     completed.getAndIncrement();
 
             });

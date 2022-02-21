@@ -56,7 +56,7 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping
-    public String load(Model model){
+    public String load(Model model) {
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", new AuditScopeDTO());
         model.addAttribute("user", auditUserService.findAll());
@@ -64,7 +64,7 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping("/create")
-    public String create(Model model){
+    public String create(Model model) {
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", new AuditScopeDTO());
         model.addAttribute("auditType", AUDIT_TYPE.values());
@@ -72,17 +72,17 @@ public class AuditScopeControllerImpl {
         return "create-scope";
     }
 
-    @PostMapping(value="/save", params="action=approve")
+    @PostMapping(value = "/save", params = "action=approve")
     public String sendForApproval(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
         AuditScopeApproavalDTO approval = new AuditScopeApproavalDTO();
         approval.setScopeId(auditScopeDTO.getScopeId());
         approval.setUserId(auditUserService.findByUsername(auditScope.getUserName()).getUserId());
-        model.addAttribute("response",auditScopeApproaval.save(approval));
+        model.addAttribute("response", auditScopeApproaval.save(approval));
         return "redirect:/audit-scope";
     }
 
-    @PostMapping(value="/save", params="action=save")
+    @PostMapping(value = "/save", params = "action=save")
     public String save(@ModelAttribute("scope") AuditScopeDTO auditScopeDTO, Model model) {
         AuditScope auditScope = auditScopeMapper.asEntity(auditScopeDTO);
         model.addAttribute("response", auditScopeMapper.asDTO(auditScopeService.save(auditScope)));
@@ -90,12 +90,14 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody AuditScopeDTO findById(@PathVariable("id") Long id) {
+    public @ResponseBody
+    AuditScopeDTO findById(@PathVariable("id") Long id) {
         return auditScopeMapper.asDTO(auditScopeService.findById(id).orElse(null));
     }
 
     @GetMapping("/find-by-entity/{id}")
-    public @ResponseBody List<AuditScopeDTO> findByEntityId(@PathVariable("id") Long entityId) {
+    public @ResponseBody
+    List<AuditScopeDTO> findByEntityId(@PathVariable("id") Long entityId) {
         List<AuditScopeDTO> scopes = auditScopeMapper.asDTOList(auditScopeService.findByEntityId(entityId));
         scopes = auditScopeService.getScopeProgressLevel(scopes);
         return scopes;
@@ -128,17 +130,17 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping("/preview/{scopeId}")
-    public String viewScope(@NotNull @PathVariable long scopeId, Model model){
-        if(scopeId < 0L){
+    public String viewScope(@NotNull @PathVariable long scopeId, Model model) {
+        if (scopeId < 0L) {
             return "redirect:/audit-scope";
         }
         List<AuditFocusDTO> auditFocus = auditFocusMapper.asDTOList(auditFocusService.findAuditFocusByScope(scopeId));
         List<AuditFocusProceduresDTO> procedures = auditFocusProceduresMapper.asDTOList(auditFocusProceduresService.findAll());
         for (AuditFocusDTO focus : auditFocus) {
             long procCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId())).count();
-            if(procCount > 0) {
+            if (procCount > 0) {
                 long compCount = procedures.stream().filter(x -> x.getFocusId().equals(focus.getId()) && x.getStatus().equals(Approval_Status.COMPLETED)).count();
-                Long cc = (compCount*100)/procCount;
+                Long cc = (compCount * 100) / procCount;
                 focus.setProgressLevel(compCount > 0 ? cc.intValue() : 0);
             }
         }
@@ -151,30 +153,35 @@ public class AuditScopeControllerImpl {
     }
 
     @GetMapping("/procedures/{focusId}")
-    public @ResponseBody List<AuditFocusProcedures> proceduresBy(@PathVariable Long focusId) {
+    public @ResponseBody
+    List<AuditFocusProcedures> proceduresBy(@PathVariable Long focusId) {
         return auditFocusProceduresService.findAll()
                 .stream()
                 .filter(x -> x.getFocusId().equals(focusId)).collect(Collectors.toList());
     }
 
     @GetMapping("/assign")
-    public String assignAuditee(@ModelAttribute AuditScopeDTO auditScopeDTO){
-        if(auditScopeDTO.getScopeId() < 0L){
+    public String assignAuditee(@ModelAttribute AuditScopeDTO auditScopeDTO) {
+        if (auditScopeDTO.getScopeId() < 0L) {
             return "redirect:/audit-scope";
         }
         auditScopeService.updateScopeAuditor(auditScopeDTO.getScopeId(), auditScopeDTO.getUserName());
-    return "redirect:/audit-scope";
+        return "redirect:/audit-scope";
     }
 
     @GetMapping("/execute")
     public String auditExecution(Model model, HttpServletRequest request) {
         Object universe = request.getSession().getAttribute("universe");
-        if(universe == null)
-        {
+        if (universe == null) {
             return "redirect:/dashboard";
         }
         Long universeId = Long.parseLong(universe.toString());
-        List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(auditScopeService.findScopeByUniverseId(universeId));
+        List<AuditScope> scope = auditScopeService.findScopeByUniverseId(universeId)
+                .stream()
+                .filter(x ->
+                        Approval_Status.ACTIVE.name().equals(x.getApprovalStatus())
+                                || Approval_Status.COMPLETED.name().equals(x.getApprovalStatus())).collect(Collectors.toList());
+        List<AuditScopeDTO> dtos = auditScopeMapper.asDTOList(scope);
         dtos = auditScopeService.getScopeProgressLevel(dtos);
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", dtos);
