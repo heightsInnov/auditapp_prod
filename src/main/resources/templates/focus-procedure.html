@@ -154,8 +154,9 @@
                 $('.focus-procedure').html('');
                 data.forEach( (x, index) => {
                     let res = `
-                    <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary"
-                                   href="#" data-toggle="modal" data-target="#" onclick="openFocus(${x.procedureId})" style="pointer-events: ${x.startFlag}">
+                    <a class="dropdown-item d-flex align-items-center border-bottom-1 border-bottom-primary text-truncate"
+                    data-balloon-length="fit" aria-label="${x.procedure}"
+                                   href="#" data-toggle="modal" data-target="#" th:title="${x.procedure}" onclick="openFocus(${x.procedureId})" style="pointer-events: ${x.startFlag}">
                                     <div class="dropdown-list-image mr-3">
                                         <span><i class="fa fa-tasks"></i></span>
                                     </div>

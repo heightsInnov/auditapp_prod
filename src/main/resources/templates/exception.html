@@ -32,6 +32,9 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             Audit Exceptions
+                            <a class="btn btn-primary mr-2 float-right" data-target="#assignModal" data-toggle="modal">
+                                <span class="fa fa-envelope float-right"></span>
+                            </a>
                         </div>
                         <div class="card-body p-0">
                             <!-- Billing history table-->
@@ -39,6 +42,7 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
+                                        <th class="border-gray-200" scope="col">-</th>
                                         <th class="border-gray-200" scope="col">Universe</th>
                                         <th class="border-gray-200" scope="col">Entity</th>
                                         <th class="border-gray-200" scope="col">Focus</th>
@@ -51,23 +55,57 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
+                                    <tr th:each="app : ${proc}"
+                                        th:id="${'rID'} + ${app.getId()}">
+                                        <td><input class="form-control" type="checkbox"></td>
+                                        <td hidden="hidden" th:text="${app.getId()}"></td>
+                                        <td th:text="${app.getUniverse()}"></td>
+                                        <td th:text="${app.getEntity()}"></td>
+                                        <td th:text="${app.getFocus()}"></td>
+                                        <td th:text="${app.getProcess()}"></td>
+                                        <td th:text="${app.getStatus()}"></td>
+                                        <td th:text="${app.getRiskRating()}"></td>
+                                        <td th:text="${app.getRecommendation()}"></td>
+                                        <td th:text="${app.getReference()}"></td>
+                                        <td th:text="${app.getAuditor()}"></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div aria-hidden="true" aria-labelledby="assignModalLabel" class="modal fade" id="assignModal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="focusModalLabel">Choose Auditor</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="user" method="post" th:action="@{/exception/send}">
+                    <div class="modal-body">
+                        <input class="scope-id" type="hidden" value="">
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                <label for="forAuditor">Auditor</label>
+                                <select class="form-control" id="forAuditor" name="exceptionEmail">
+                                    <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
+                                            th:value="${rol.getUsername()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

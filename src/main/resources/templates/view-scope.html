@@ -286,6 +286,41 @@
                 </div>
             </div>
         </div>
+
+        <div aria-hidden="true" aria-labelledby="procedureListModalLabel" class="modal fade" id="procedureListModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="procedureListModalLabel">Procedure</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="#" class="user">
+
+                        <div class="modal-body">
+                            <div id="err"></div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <table class="table table-striped mt-3 procedure-list-table">
+                                        <thead>
+                                        <tr>
+                                            <th class="border-gray-200" scope="col">Procedure Name</th>
+                                            <th class="border-gray-200" scope="col">Description</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -307,6 +342,7 @@
             }
 
             focusId = id;
+            getProcedureList(focusId);
             $('#procedureModal').modal('show');
         };
 
@@ -372,6 +408,40 @@
             });
         }
 
+        const getProcedureList = (id) => {
+
+            let xhr = new XMLHttpRequest();
+            let url = `/audit-procedures/procedure/${id}`;
+            xhr.open('Get', url, false);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+            try {
+                xhr.send();
+                if (xhr.status !== 200) {
+                } else {
+                    let res = JSON.parse(xhr.responseText);
+                    console.log(res);
+                    if(res){
+
+                        procedureListTable(res);
+                    }
+                }
+            } catch (t) { }
+        }
+
+        const procedureListTable = (data) => {
+            $('.procedure-table tbody').html('');
+            data.forEach( (x, index) => {
+                let res = `
+                    <tr>
+                        <td></td>
+                        <td>${x.procedure}</td>
+                    </tr>
+                   `;
+                 $('.procedure-table tbody').append(res);
+            });
+        }
+
         function removeData(index) {
             arrProcedure.splice(index, 1);
             tempTable();
@@ -429,15 +499,16 @@
 
 
         const procedureTable = (data) => {
-            $('.procedure-table tbody').html('');
+            $('.procedure-list-table tbody').html('');
             data.forEach( (x, index) => {
                 let res = `
                     <tr>
-                        <td></td>
                         <td>${x.procedure}</td>
+                        <td>${x.description  !== null ? x.description : ''}</td>
                     </tr>
                    `;
-                $('.procedure-table tbody').append(res);
+                $('.procedure-list-table tbody').append(res);
+                // $('.procedure-table tbody').append(res);
             });
         }
 

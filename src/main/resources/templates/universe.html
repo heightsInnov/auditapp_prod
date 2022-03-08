@@ -129,7 +129,6 @@
                 try {
                     xhr.send();
                     if (xhr.status !== 200) {
-                       //$('#msg').html( message("Something went wrong try again."));
                     } else {
                         $('#delete').attr('disabled', false);
                         let res = JSON.parse(xhr.responseText);

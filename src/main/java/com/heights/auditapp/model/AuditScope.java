@@ -66,13 +66,13 @@ public class AuditScope {
     private Long auditScopesById;
 
     @Column(name = "ASSIGNED_TO")
-    private Long assignedTo;
+    private String assignedTo;
 
-    public Long getAssignedTo() {
+    public String getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(Long assignedTo) {
+    public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
 

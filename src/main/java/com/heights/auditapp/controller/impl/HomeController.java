@@ -1,14 +1,18 @@
 package com.heights.auditapp.controller.impl;
 
 import com.heights.auditapp.dto.AuditScopeDTO;
+import com.heights.auditapp.dto.AuditThrows;
 import com.heights.auditapp.dto.AuditUserDTO;
 import com.heights.auditapp.mapper.AuditScopeMapper;
 import com.heights.auditapp.mapper.AuditUniverseMapper;
 import com.heights.auditapp.model.Approval_Status;
 import com.heights.auditapp.model.AuditUniverse;
+import com.heights.auditapp.model.ControllerRaise;
 import com.heights.auditapp.service.AuditFocusProceduresService;
 import com.heights.auditapp.service.AuditScopeService;
 import com.heights.auditapp.service.AuditUniverseService;
+import com.heights.auditapp.service.AuditUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -30,13 +35,15 @@ public class HomeController {
     private final AuditUniverseService auditUniverseService;
     private final AuditUniverseMapper auditUniverseMapper;
     private final AuditScopeMapper auditScopeMapper;
-    
-    public HomeController(AuditScopeMapper auditScopeMapper, AuditFocusProceduresService auditFocusProceduresService, AuditScopeService auditScopeService, AuditUniverseService auditUniverseService, AuditUniverseMapper auditUniverseMapper) {
+    private final AuditUserService auditUserService;
+
+    public HomeController(AuditScopeMapper auditScopeMapper, AuditFocusProceduresService auditFocusProceduresService, AuditScopeService auditScopeService, AuditUniverseService auditUniverseService, AuditUniverseMapper auditUniverseMapper, AuditUserService auditUserService) {
         this.auditScopeMapper = auditScopeMapper;
         this.auditFocusProceduresService = auditFocusProceduresService;
         this.auditScopeService = auditScopeService;
         this.auditUniverseService = auditUniverseService;
         this.auditUniverseMapper = auditUniverseMapper;
+        this.auditUserService = auditUserService;
     }
 
     @GetMapping("/dashboard")
@@ -117,7 +124,17 @@ public class HomeController {
             name = univ.get().getUniverseName();
         }
         String finalName = name;
-        model.addAttribute("proc", auditFocusProceduresService.getExceptions().stream().filter(x -> finalName.equals(x.getUniverse())));
+
+        List<AuditThrows> throwsList = new ArrayList<>();
+        List<ControllerRaise> p = auditFocusProceduresService.getExceptions().stream().filter(x -> finalName.equals(x.getUniverse())).collect(Collectors.toList());
+        p.forEach(x -> {
+            AuditThrows tt = new AuditThrows();
+            BeanUtils.copyProperties(x, tt);
+            throwsList.add(tt);
+        });
+        model.addAttribute("proc", throwsList);
+        model.addAttribute(UNIVERSE, auditUniverseService.findAll());
+        model.addAttribute("user", auditUserService.findAll());
         return "exception";
     }
 
@@ -131,5 +148,10 @@ public class HomeController {
             return true;
         }
         return false;
+    }
+
+    @PostMapping("/exception/send")
+    public String sendMail(HttpServletRequest req, @RequestBody String email) {
+        return "send-success";
     }
 }

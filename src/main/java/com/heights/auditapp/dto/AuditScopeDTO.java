@@ -28,7 +28,7 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
     private String scopePurpose;
     private String userName;
     private Long auditScopesById;
-    private Long assignedTo;
+    private String assignedTo;
     private int progressLevel = 0;
 
     public int getProgressLevel() {
@@ -39,11 +39,11 @@ public class AuditScopeDTO extends AbstractDTO<Long> {
         this.progressLevel = progressLevel;
     }
 
-    public Long getAssignedTo() {
+    public String getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(Long assignedTo) {
+    public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
 

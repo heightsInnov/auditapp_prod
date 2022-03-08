@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -160,12 +161,21 @@ public class AuditScopeControllerImpl {
                 .filter(x -> x.getFocusId().equals(focusId)).collect(Collectors.toList());
     }
 
-    @GetMapping("/assign")
+    @PostMapping("/assign")
     public String assignAuditee(@ModelAttribute AuditScopeDTO auditScopeDTO) {
         if (auditScopeDTO.getScopeId() < 0L) {
             return "redirect:/audit-scope";
         }
-        auditScopeService.updateScopeAuditor(auditScopeDTO.getScopeId(), auditScopeDTO.getUserName());
+        AuditScope s = new AuditScope();
+        s.setAssignedTo(auditScopeDTO.getAssignedTo());
+        s.setScopeId(auditScopeDTO.getScopeId());
+        auditScopeService.save(s);
+//
+//        Optional<AuditScope> scopeOptional = auditScopeService.findById(auditScopeDTO.getScopeId());
+//        if(scopeOptional.isPresent()){
+//            scopeOptional.get().setAssignedTo(auditScopeDTO.getAssignedTo());
+//            auditScopeService.update(scopeOptional);
+//        }
         return "redirect:/audit-scope";
     }
 
@@ -186,5 +196,32 @@ public class AuditScopeControllerImpl {
         model.addAttribute("universe", auditUniverseService.findAll());
         model.addAttribute("scope", dtos);
         return "execution-scope";
+    }
+
+    @GetMapping("/approvals")
+    public String approveScope(HttpServletRequest request, Model model) {
+        Object universe = request.getSession().getAttribute("universe");
+        if (universe == null){
+            return "redirect:/dashboard";
+        }
+        long universeId = Long.parseLong(universe.toString());
+        List<AuditScope> scopes = auditScopeService.findScopeByUniverseId(universeId)
+        .stream()
+        .filter(x -> Approval_Status.AWAITING_APPROVAL.name().equals(x.getApprovalStatus()))
+        .collect(Collectors.toList());
+        model.addAttribute("approval", scopes);
+        model.addAttribute("universe", auditUniverseService.findAll());
+        return "approvals";
+    }
+
+    @GetMapping("/approvals/{scopeId}/{approve}")
+    public String approveScope(HttpServletRequest request, Model model, @PathVariable long scopeId, @PathVariable String approve) {
+        Optional<AuditScope> scope = auditScopeService.findById(scopeId);
+        if(scope.isPresent()){
+            AuditScope auditScope = scope.get();
+            auditScope.setApprovalStatus("approve".equals(approve) ? Approval_Status.APPROVED.name():Approval_Status.DECLINED.name());
+            auditScopeService.update(auditScope, scopeId);
+        }
+        return "redirect:/audit-scope/approvals";
     }
 }

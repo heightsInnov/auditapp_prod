@@ -33,14 +33,14 @@
 <body>
 <div layout:fragment="content">
     <div class="container">
-        <h1 class="h3 mb-2 text-gray-800">Exception Management</h1>
+        <h1 class="h3 mb-2 text-gray-800">Audit Approvals</h1>
         <div class="main-body">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Billing history card-->
                     <div class="card mb-4">
                         <div class="card-header">
-                            Audit Exceptions
+                            Approvals
                         </div>
                         <div class="card-body p-0">
                             <!-- Billing history table-->
@@ -48,28 +48,35 @@
                                 <table class="table mb-0">
                                     <thead>
                                     <tr>
-                                        <th class="border-gray-200" scope="col">Universe</th>
-                                        <th class="border-gray-200" scope="col">Entity</th>
-                                        <th class="border-gray-200" scope="col">Focus</th>
-                                        <th class="border-gray-200" scope="col">Process</th>
-                                        <th class="border-gray-200" scope="col">Status</th>
-                                        <th class="border-gray-200" scope="col">Risk Rating</th>
-                                        <th class="border-gray-200" scope="col">Recommendations</th>
-                                        <th class="border-gray-200" scope="col">Reference</th>
-                                        <th class="border-gray-200" scope="col">Auditor</th>
+                                        <th class="border-gray-200" hidden="hidden" scope="col">ScopeId</th>
+                                        <th class="border-gray-200" scope="col">Scope</th>
+                                        <th class="border-gray-200" scope="col">Frequency</th>
+                                        <th class="border-gray-200" scope="col">Start Date</th>
+                                        <th class="border-gray-200" scope="col">User</th>
+                                        <th class="border-gray-200" scope="col">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                    <tr th:each="app : ${approval}"
+                                        th:id="${'rID'} + ${app.getScopeId()}">
+                                        <td hidden="hidden" th:text="${app.getScopeId()}"></td>
+                                        <td th:text="${app.getScopeOfAudit()}"></td>
+                                        <td th:text="${app.getFrequency()}"></td>
+                                        <td th:text="${app.getAuditStartDate()}"></td>
+                                        <td th:text="${app.getUserName()}"></td>
+                                        <td>&nbsp;
+                                            <a th:href="@{/audit-scope/preview/{scopeId}(scopeId=${app.scopeId})}" th:title="View">
+                                                <span class="fa fa-search-plus"></span>
+                                            </a>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{/audit-scope/approvals/{scopeId}/approve(scopeId=${app.scopeId})}" th:title="Approve">
+                                                <span class="fa fa-check"></span>
+                                            </a>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <a th:href="@{/audit-scope/approvals/{scopeId}/decline(scopeId=${app.scopeId})}" th:title="Decline">
+                                                <span class="fa fa-stop"></span>
+                                            </a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

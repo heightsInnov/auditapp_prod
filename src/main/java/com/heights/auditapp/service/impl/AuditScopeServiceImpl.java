@@ -11,9 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -66,33 +64,8 @@ public class AuditScopeServiceImpl implements AuditScopeService {
     }
 
     @Override
-    public AuditScope update(AuditScope auditScope, Long id) {
-        Optional<AuditScope> optional = findById(id);
-        if (optional.isPresent()) {
-            AuditScope scope = optional.get();
-            if (auditScope.getScopeDef() != null)
-                scope.setScopeDef(auditScope.getScopeDef());
-            if (auditScope.getAuditEndDate() != null)
-                scope.setAuditEndDate(auditScope.getAuditEndDate());
-            if (auditScope.getAuditPeriod() != null)
-                scope.setScopeDef(auditScope.getScopeDef());
-            if (auditScope.getAuditStartDate() != null)
-                scope.setAuditStartDate(auditScope.getAuditStartDate());
-            if (auditScope.getAuditType() != null)
-                scope.setAuditType(auditScope.getAuditType());
-            if (auditScope.getFrequency() != null)
-                scope.setFrequency(auditScope.getFrequency());
-            if (auditScope.getRiskRating() != null)
-                scope.setRiskRating(auditScope.getRiskRating());
-            if (auditScope.getSchedulledDate() != null)
-                scope.setSchedulledDate(auditScope.getSchedulledDate());
-            if (auditScope.getScopeObjectives() != null)
-                scope.setScopeObjectives(auditScope.getScopeObjectives());
-            if (auditScope.getScopePurpose() != null)
-                scope.setScopePurpose(auditScope.getScopePurpose());
-            return save(scope);
-        }
-        throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "No data found corresponding to scope Id");
+    public AuditScope update(AuditScope auditScope, Long scopeId) {
+         return repository.save(auditScope);
     }
 
     @Override
@@ -120,7 +93,7 @@ public class AuditScopeServiceImpl implements AuditScopeService {
 
     @Override
     public AuditScope updateScopeAuditor(long scopeId, String email) {
-        return repository.updateScopeAuditor(scopeId, email);
+        return repository.updateScopeAuditor(email, scopeId);
     }
 
     @Override
