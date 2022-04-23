@@ -3,82 +3,126 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="style">
+    <!-- Plugins css start-->
 
 </th:block>
 <body>
 <div layout:fragment="content">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Audit Universe</h1>
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Audit Universe
-                <a class="btn btn-primary mr-2 float-right" data-target="#exampleModal" data-toggle="modal" href="javascript:void(0)">
-                    <span class="fa fa-plus float-right"></span>
-                </a>
-            </h6>
-        </div>
-        <div class="card-body">
-            <div id="msg">
-            </div>
-            <div class="table-responsive">
-                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
-                    <thead>
-                        <tr>
-                            <th hidden="hidden">Universe Id</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="univ : ${universe}"
-                            th:id="${'rID'} + ${univ.getUniverseId()}">
-                            <td hidden="hidden" th:text="${univ.getUniverseId()}"></td>
-                            <td th:text="${univ.getUniverseName()}"></td>
-                            <td class="text-center">&nbsp;
-                                <a href="javascript:void(0)"
-                                   id="delete"
-                                   th:data-univ_id="${univ.getUniverseId()}"
-                                   onclick="deleteUniverse(this.getAttribute('data-univ_id'))">
-                                    <span class="fa fa-trash"></span>
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Audit Universe</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bookmark Start-->
+                    <div class="bookmark">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)" data-container="body"
+                                  data-placement="top"
+                                   title="" data-original-title="Tables" data-bs-toggle="modal"
+                                   data-bs-target="#exampleModalCenter">
+                                    <i data-feather="plus"></i>
                                 </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>Universe Id</th>
-                        <th>Name</th>
-                        <th hidden="hidden">Action</th>
-                    </tr>
-                    </tfoot>
-                </table>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- Bookmark Ends-->
+                </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Universe</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    </div>
+    <!-- Container-fluid starts-->
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- Bookmark Start-->
+                                <div class="bookmark">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" data-container="body"
+                                               data-placement="top"
+                                               title="" data-original-title="Tables" data-bs-toggle="modal"
+                                               data-bs-target="#exampleModalCenter">
+                                                <i data-feather="plus"></i>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <!-- Bookmark Ends-->
+                            </div>
+                        </div>
+                        <div id="msg">
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display" id="basic-1">
+                                <thead>
+                                    <tr>
+                                        <th hidden="hidden">Universe Id</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="univ : ${universe}"
+                                        th:id="${'rID'} + ${univ.getUniverseId()}">
+                                        <td hidden="hidden" th:text="${univ.getUniverseId()}"></td>
+                                        <td th:text="${univ.getUniverseName()}"></td>
+                                        <td class="text-center">&nbsp;
+                                            <a href="javascript:void(0)"
+                                               id="delete"
+                                               th:data-univ_id="${univ.getUniverseId()}"
+                                               onclick="deleteUniverse(this.getAttribute('data-univ_id'))">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New universe</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <form method="post" th:action="@{/audit-universe}" th:object="${universeObj}">
                         <div class="modal-body">
                                 <div class="mb-3">
-                                    <!--<label for="universeName">Universe Name</label>-->
                                     <input class="form-control" name="universeName" id="universeName" placeholder="Universe Name"
                                           th:field="*{universeName}" type="text">
                                 </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
+
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -86,12 +130,12 @@
 
 <th:block layout:fragment="script">
 
-    <!-- Page level plugins -->
-    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+    <!-- Plugins JS start-->
+    <script th:src="@{js/datatable/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{js/datatable/datatables/datatable.custom.js}"></script>
+    <script th:src="@{js/tooltip-init.js}"></script>
+    <!-- Plugins JS Ends-->
 
-    <!-- Page level custom scripts -->
-    <script th:src="@{/js/demo/datatables-demo.js}"></script>
     <script>
         const addUniverse = () => {
             let uniName = $('#universeName').val();

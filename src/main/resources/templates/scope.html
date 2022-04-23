@@ -6,105 +6,132 @@
 </th:block>
 <body>
 <div layout:fragment="content">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-2 text-gray-800">Audit Scope</h1>
-    </div>
-    <div class="card mb-4">
-        <div class="card-header py-3">
-        </div>
-        <div class="card-body">
-            <div class="dropdown no-arrow mb-4">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <select class="form-control" id="universeSelect">
-                            <option value="0">Select Universe</option>
-                            <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
-                                    th:value="${uni.getUniverseId()}"></option>
-                        </select>
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Audit Scope</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bookmark Start-->
+                    <div class="bookmark">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)" class="create-scope" data-container="body"
+                                   data-placement="top"
+                                   title="" data-original-title="Tables" >
+                                    <i data-feather="plus"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-container="body"
+                                   data-bs-toggle="popover" data-placement="top"
+                                   title="" data-original-title="Tables">
+                                    <i data-feather="inbox"></i>
+                                </a>
+                            </li>
+
+                        </ul>
                     </div>
-                    <div class="col-lg-6">
-                        <select class="form-control" id="entitySelect">
-                            <option label="&nbsp;">Select Entity</option>
-                        </select>
-                    </div>
+                    <!-- Bookmark Ends-->
                 </div>
             </div>
         </div>
     </div>
-    <div class="card mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Audit Scope
-                <a class="btn btn-info mr-2 float-right create-scope" href="javascript:void(0)">
-                    <span class="fa fa-plus float-right"></span>
-                </a>
-            </h6>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
 
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
-                    <thead>
-                    <tr>
-                        <th hidden="hidden">Scope Id</th>
-                        <th>Scope</th>
-                        <th>Audit Type</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th hidden="hidden">User</th>
-                        <th>Progress</th>
-                        <th>Status</th>
-                        <th>Assign</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div aria-hidden="true" aria-labelledby="assignModalLabel" class="modal fade" id="assignModal" role="dialog"
-         tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="focusModalLabel">Assign Auditor</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form class="user" method="post" th:action="@{/audit-scope/assign}"
-                      th:object="${scope}">
-                    <div class="modal-body">
-                        <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
-                        <div class="form-group row">
-                            <div class="col-sm-12 mb-3 mb-sm-0">
-                                <label for="forAuditor">Auditor</label>
-                                <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
-                                    <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
-                                            th:value="${rol.getUsername()}"></option>
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" for="universeSelect">Select Universe</label>
+                                <select class="form-control" id="universeSelect">
+                                    <option value="0">Select Universe</option>
+                                    <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
+                                            th:value="${uni.getUniverseId()}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="universeSelect">Select Entity</label>
+                                <select class="form-control" id="entitySelect">
+                                    <option label="&nbsp;">Select Entity</option>
                                 </select>
                             </div>
                         </div>
+                        <div id="msg">
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-warning" data-dismiss="modal" type="button">Close</button>
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display scope-table" id="basic-1">
+                                <thead>
+                                    <tr>
+                                        <th hidden="hidden">Scope Id</th>
+                                        <th>Scope</th>
+                                        <th>Audit Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th hidden="hidden">User</th>
+                                        <th>Progress</th>
+                                        <th>Status</th>
+                                        <th>Assign</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading -->
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Audit Entity</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="user" method="post" th:action="@{/audit-scope/assign}"
+                          th:object="${scope}">
+                        <div class="modal-body">
+                            <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                    <label for="forAuditor">Auditor</label>
+                                    <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
+                                        <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
+                                                th:value="${rol.getUsername()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
 <th:block layout:fragment="script">
-
-    <!-- Page level plugins -->
-    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
-
-    <!-- Page level custom scripts -->
-    <script th:src="@{/js/demo/datatables-demo.js}"></script>
 
     <script>
         $('#universeSelect').on('change', () => {
@@ -161,7 +188,7 @@
         });
 
         const scopeTemp = (data) => {
-            $('.table-bordered tbody').html('');
+            $('.scope-table tbody').html('');
             data.forEach(x => {
                 let res = `<tr>
                                <td>${x.scopeOfAudit}</td>
@@ -196,18 +223,8 @@
                                </td>
                         </tr>`;
 
-                $('.table-bordered tbody').append(res);
+                $('.scope-table tbody').append(res);
             });
-        }
-
-        const showDetail = (id) => {
-
-            // if(id == "" || id == null){
-            //     return;
-            // }
-            //
-            // sessionStorage.setItem("scopeId", id);
-            location = "/audit-scope/preview";
         }
 
         const OpenAssign = (scopeId) => {

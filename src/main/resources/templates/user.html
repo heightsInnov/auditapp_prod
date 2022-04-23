@@ -7,83 +7,120 @@
 </th:block>
 <body>
 <div layout:fragment="content">
-    <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Manage Users</h1>
-    <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Users
-                <a class="btn btn-primary mr-2 float-right" data-target="#exampleModal" data-toggle="modal" href="javascript:void(0)">
-                    <span class="fa fa-plus float-right"></span>
-                </a>
-            </h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table cellspacing="0" class="table table-bordered" id="dataTable" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Manager</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="user : ${users}"
-                        th:id="${'rID'} + ${user.getUserId()}">
-                        <td th:text="${user.getUsername()}"></td>
-                        <td th:text="${user.getRoleName()}"></td>
-                        <td th:text="${user.getSupvroleName()}"></td>
-                        <td><span th:class="${!user.getIsActive().equals('ACTIVE')?'badge badge-pill badge-danger':'badge badge-pill badge-success'}" th:text="${user.getIsActive()}"></span></td>
-                        <td class="text-center">&nbsp;
-                            <a data-target="#"
-                               data-toggle="modal" href="javascript:void(0)"
-                               onclick="openEditModal(this.getAttribute('data-user_id'))"
-                               th:data-ent_id="${user.getUserId()}">
-                                <span class="fa fa-pen"></span>
-                            </a>
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            <a href="javascript:void(0)"
-                               id="delete"
-                               onclick="deleteUniverse(this.getAttribute('data-user_id'))"
-                               th:data-univ_id="${user.getUserId()}">
-                                <span class="fa fa-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Manage Users</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bookmark Start-->
+                    <div class="bookmark">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)" data-container="body"
+                                   data-placement="top"
+                                   title="" data-original-title="Tables" data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">
+                                    <i data-feather="plus"></i>
+                                </a>
+                            </li>
+                            <!--                            <li>-->
+                            <!--                                <a href="javascript:void(0)" data-container="body"-->
+                            <!--                                   data-bs-toggle="popover" data-placement="top"-->
+                            <!--                                   title="" data-original-title="Tables">-->
+                            <!--                                    <i data-feather="inbox"></i>-->
+                            <!--                                </a>-->
+                            <!--                            </li>-->
+
+                        </ul>
+                    </div>
+                    <!-- Bookmark Ends-->
+                </div>
             </div>
         </div>
-        <!-- Modal -->
-        <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal" role="dialog"
-             tabindex="-1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">New Customer</h5>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    </div>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div id="msg">
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display scope-table" id="basic-1">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Manager</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${users}"
+                                        th:id="${'rID'} + ${user.getUserId()}">
+                                        <td th:text="${user.getUsername()}"></td>
+                                        <td th:text="${user.getRoleName()}"></td>
+                                        <td th:text="${user.getSupvroleName()}"></td>
+                                        <td><span th:class="${!user.getIsActive().equals('ACTIVE')?'badge badge-pill badge-danger':'badge badge-pill badge-success'}" th:text="${user.getIsActive()}"></span></td>
+                                        <td class="text-center">&nbsp;
+                                            <a data-target="#"
+                                               data-toggle="modal" href="javascript:void(0)"
+                                               onclick="openEditModal(this.getAttribute('data-user_id'))"
+                                               th:data-ent_id="${user.getUserId()}">
+                                                <span class="fa fa-pen"></span>
+                                            </a>
+                                            <a href="javascript:void(0)"
+                                               id="delete"
+                                               onclick="deleteUniverse(this.getAttribute('data-user_id'))"
+                                               th:data-univ_id="${user.getUserId()}">
+                                                <span class="fa fa-trash"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New User</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
                     <form method="post" th:action="@{/audit-user}" th:object="${user}">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="userName">Username/Email</label>
+                                <label class="form-label" for="userName">Username/Email</label>
                                 <input class="form-control" id="userName" name="userName"
                                        th:field="*{username}" type="text">
                             </div>
                             <div class="mb-3">
-                                <label for="forRole">Role</label>
+                                <label class="form-label" for="forRole">Role</label>
                                 <select class="form-control" id="forRole" th:field="*{role}">
                                     <option th:each="rol : ${role}" th:text="${rol.getName()}"
                                             th:value="${rol.getRoleId()}"></option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="forSupvRole">Supervisory Role</label>
+                                <label class="form-label" for="forSupvRole">Supervisory Role</label>
                                 <select class="form-control" id="forSupvRole" th:field="*{role}">
                                     <option th:each="rol : ${role}" th:text="${rol.getName()}"
                                             th:value="${rol.getRoleId()}"></option>
@@ -91,129 +128,21 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
+
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
+
 <th:block layout:fragment="script">
 
-    <!-- Page level plugins -->
-    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
-
-    <!-- Page level custom scripts -->
-    <script th:src="@{/js/demo/datatables-demo.js}"></script>
-    <script>
-        const addUniverse = () => {
-            let uniName = $('#universeName').val();
-            if (uniName == "") {
-                alert("Universe name is required!");
-                return;
-            }
-            let xhr = new XMLHttpRequest();
-            let url = "/audit-universe/add-universe";
-            xhr.open('POST', url, false);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-            try {
-
-                xhr.send(JSON.stringify({'universeName': uniName}));
-                if (xhr.status != 200) {
-                    //alert('Something went wrong try again!');
-                } else {
-
-                    let res = JSON.parse(xhr.responseText);
-                    console.log(res);
-                    let data = JSON.parse(res).data;
-                    if (JSON.parse(res).success) {
-
-                    }
-
-                }
-            } catch (t) {
-            }
-        }
-
-        const openEditModal = (id) => {
-            let entId = id;
-            $('#editEntModal').modal('show');
-            if(entId < 1){
-                return;
-            }
-            let xhr = new XMLHttpRequest();
-            let url = "/audit-user/" + entId;
-            xhr.open('GET', url, false);
-            xhr.setRequestHeader("content-type", "application/json");
-            xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-            try {
-
-                xhr.send();
-                if (xhr.status != 200) {
-                    //alert('Something went wrong try again!');
-                } else {
-                    let res = JSON.parse(xhr.responseText);
-                    console.log(res);
-
-                    if(res){
-                        $('#editEntModal').modal('show');
-                        $('#entityId').val(entId);
-                        setSelectedOption('#entUniv', res['universeId']);
-                        $('#entName').val(res['entityName']);
-                    }
-                }
-            } catch (t) { }
-
-        }
-
-        function deleteUniverse(id) {
-            $('#delete').attr('disabled', true);
-            if (confirm('Are you sure to delete this Universe?')) {
-                let xhr = new XMLHttpRequest();
-                let url = "/audit-universe/' + id";
-                xhr.open('DELETE', url, false);
-                xhr.setRequestHeader("content-type", "application/json");
-                xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-                try {
-
-                    xhr.send();
-                    if (xhr.status != 200) {
-                        //alert('Something went wrong try again!');
-
-                        $('#msg').html(message("Something went wrong try again."));
-                    } else {
-                        $('#delete').attr('disabled', false);
-                        $('#msg').html(message(data.data));
-                        $('#rID' + username).remove();
-                        let res = JSON.parse(xhr.responseText);
-                        console.log(res);
-                        let data = JSON.parse(res).data;
-                        if (JSON.parse(res).success) {
-
-                        }
-
-                    }
-                } catch (t) {
-                }
-
-            } else {
-                $('#delete').attr('disabled', false);
-            }
-
-        }
-
-        function message(msg) {
-            return `<div class="alert alert-primary alert-dismissible fade show" role="alert">
-					${msg}
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>`
-        }
-    </script>
 </th:block>
 </body>
 </html>

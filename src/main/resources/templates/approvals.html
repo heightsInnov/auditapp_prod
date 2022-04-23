@@ -4,59 +4,69 @@
       xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="style">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-          rel="stylesheet">
-    <!-- Google Icon Font -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-
-    <!-- Propeller Button -->
-    <link
-            href="https://opensource.propeller.in/components/button/css/button.css"
-            rel="stylesheet" type="text/css"/>
-
-    <!-- Propeller Accordion -->
-    <!--    <link-->
-    <!--            href="https://opensource.propeller.in/components/floating-action-button/css/floating-action-button.css"-->
-    <!--            rel="stylesheet" type="text/css"/>-->
-
-    <!--    <link-->
-    <!--            href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css"-->
-    <!--            rel="stylesheet">-->
-    <style>
-        body {
-            background: transparent;
-        }
-
-    </style>
 </th:block>
 <body>
 <div layout:fragment="content">
-    <div class="container">
-        <h1 class="h3 mb-2 text-gray-800">Audit Approvals</h1>
-        <div class="main-body">
+    <div class="container-fluid">
+        <div class="page-header">
             <div class="row">
-                <div class="col-md-12">
-                    <!-- Billing history card-->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            Approvals
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Audit Approval</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bookmark Start-->
+                    <div class="bookmark">
+                        <ul>
+<!--                            <li>-->
+<!--                                <a href="javascript:void(0)" class="create-scope" data-container="body"-->
+<!--                                   data-placement="top"-->
+<!--                                   title="" data-original-title="Tables" >-->
+<!--                                    <i data-feather="plus"></i>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="javascript:void(0)" data-container="body"-->
+<!--                                   data-bs-toggle="popover" data-placement="top"-->
+<!--                                   title="" data-original-title="Tables">-->
+<!--                                    <i data-feather="inbox"></i>-->
+<!--                                </a>-->
+<!--                            </li>-->
+
+                        </ul>
+                    </div>
+                    <!-- Bookmark Ends-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div id="msg">
                         </div>
-                        <div class="card-body p-0">
-                            <!-- Billing history table-->
-                            <div class="table-responsive table-billing-history">
-                                <table class="table mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="border-gray-200" hidden="hidden" scope="col">ScopeId</th>
-                                        <th class="border-gray-200" scope="col">Scope</th>
-                                        <th class="border-gray-200" scope="col">Frequency</th>
-                                        <th class="border-gray-200" scope="col">Start Date</th>
-                                        <th class="border-gray-200" scope="col">User</th>
-                                        <th class="border-gray-200" scope="col">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="display scope-table" id="basic-1">
+                                <thead>
+                                <tr>
+                                    <th class="border-gray-200" hidden="hidden" scope="col">ScopeId</th>
+                                    <th class="border-gray-200" scope="col">Scope</th>
+                                    <th class="border-gray-200" scope="col">Frequency</th>
+                                    <th class="border-gray-200" scope="col">Start Date</th>
+                                    <th class="border-gray-200" scope="col">User</th>
+                                    <th class="border-gray-200" scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                     <tr th:each="app : ${approval}"
                                         th:id="${'rID'} + ${app.getScopeId()}">
                                         <td hidden="hidden" th:text="${app.getScopeId()}"></td>
@@ -78,9 +88,8 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -89,13 +98,7 @@
     </div>
 </div>
 <th:block layout:fragment="script">
-    <!--    <script-->
-    <!--            src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>-->
-    <!--    <script-->
-    <!--            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-    <!--    <script-->
-    <!--            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>-->
-    <script th:src="@{/js/custom.js}"></script>
+<!--    <script th:src="@{/js/custom.js}"></script>-->
 </th:block>
 </body>
 </html>

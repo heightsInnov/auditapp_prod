@@ -7,25 +7,50 @@
 </th:block>
 <body>
 <div layout:fragment="content">
-    <h1 class="h3 mb-2 text-gray-800">Audit Scope</h1>
-    <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
+    <div class="container-fluid">
+        <div class="page-header">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="p-5">
-                        <div class="">
-                            <h1 class="h4 text-gray-900 mb-4">Create Scope
-                                <a  class="btn btn-info mr-2 float-right" data-target="#uploadModal" data-toggle="modal" href="javascript:void(0)">
-                                    <span class="float-right fa fa-upload"></span>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Create Audit Scope</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <!-- Bookmark Start-->
+                    <div class="bookmark">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)"  data-container="body"
+                                   data-placement="top"
+                                   title="" data-original-title="Tables" >
+                                    <i data-feather="upload"></i>
                                 </a>
-                            </h1>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Bookmark Ends-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Zero Configuration  Starts-->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div id="msg">
                         </div>
+                    </div>
+                    <div class="card-body">
                         <form class="user" method="post" th:action="@{/audit-scope/save}"
                               th:object="${scope}">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="universeSelect">Universe<span style="color: red">*</span></label>
+                                    <label class="form-label" for="universeSelect">Universe<span style="color: red">*</span></label>
                                     <select class="form-control" id="universeSelect" required="required">
                                         <option value="0">Select Universe</option>
                                         <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"
@@ -34,7 +59,7 @@
                                 </div>
 
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="entitySelect">Entity<span style="color: red">*</span></label>
+                                    <label class="form-label" for="entitySelect">Entity<span style="color: red">*</span></label>
                                     <select class="form-control" id="entitySelect" required="required" th:field="*{entityId}">
                                         <option value="0">Select Entity</option>
                                     </select>
@@ -42,12 +67,12 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scopeName">Scope of Audit<span style="color: red">*</span></label>
+                                    <label class="form-label" for="scopeName">Scope of Audit<span style="color: red">*</span></label>
                                     <input class="form-control" id="scopeName" required="required"
                                            th:field="*{scopeOfAudit}" type="text">
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="auditType">Audit Type<span style="color: red">*</span></label>
+                                    <label class="form-label" for="auditType">Audit Type<span style="color: red">*</span></label>
                                     <select class="form-control" id="auditType" required="required" th:field="*{auditType}">
                                         <option value="0">Select Audit Type</option>
                                         <option th:each="aud : ${auditType}" th:text="${aud.name.replace('_',' ')}"
@@ -57,25 +82,25 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="scopeStartDate">Start Date<span style="color: red">*</span></label>
+                                    <label class="form-label" for="scopeStartDate">Start Date<span style="color: red">*</span></label>
                                     <input class="form-control" id="scopeStartDate" required="required"
                                            th:field="*{auditStartDate}" type="date"/>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="endDate">End Date<span style="color: red">*</span></label>
+                                    <label class="form-label" for="endDate">End Date<span style="color: red">*</span></label>
                                     <input class="form-control" id="endDate" th:field="*{auditEndDate}" type="date"/>
                                 </div>
                             </div>
                             <hr/>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="definition">Scope Definition</label>
+                                    <label class="form-label" for="definition">Scope Definition</label>
                                     <textarea class="form-control" id="definition" rows="5"
                                     th:field="*{scopeDef}">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="objective">Objectives</label>
+                                    <label class="form-label" for="objective">Objectives</label>
                                     <textarea class="form-control" id="objective" rows="5"
                                               th:field="*{scopeObjectives}">
                                     </textarea>
@@ -83,13 +108,13 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="purpose">Purpose</label>
+                                    <label class="form-label" for="purpose">Purpose</label>
                                     <textarea class="form-control" id="purpose" rows="5"
                                               th:field="*{scopePurpose}">
                                     </textarea>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <label for="forAuditor">Auditor</label>
+                                    <label class="form-label" for="forAuditor">Auditor</label>
                                     <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
                                         <option value="0">Select Auditor</option>
                                         <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
@@ -115,35 +140,179 @@
                 </div>
             </div>
         </div>
-        <div aria-hidden="true" aria-labelledby="uploadModalLabel" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Upload Audit Scope</h5>
-                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="post" th:action="@{/audit-scope/}">
+    </div>
+    <!-- Page Heading -->
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Audit Entity</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="user" method="post" th:action="@{/audit-scope/assign}"
+                          th:object="${scope}">
                         <div class="modal-body">
-
-                            <div class="mb-3">
-                                <label for="scopeUpload">Upload Excel File</label>
-                                <input accept=".xlsx, .xls, .csv" class="form-control" id="scopeUpload" name="scopeUpload"
-                                       type="file">
+                            <input class="scope-id" th:field="*{scopeId}" type="hidden" value="">
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3 mb-sm-0">
+                                    <label class="form-label" for="forAuditor">Auditor</label>
+                                    <select class="form-control" id="forAuditor" th:field="*{assignedTo}">
+                                        <option th:each="rol : ${user}" th:text="${rol.getUsername()}"
+                                                th:value="${rol.getUsername()}"></option>
+                                    </select>
+                                </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
                             <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
+
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+<!--    <h1 class="h3 mb-2 text-gray-800">Audit Scope</h1>-->
+<!--    <div class="card o-hidden border-0 shadow-lg my-5">-->
+<!--        <div class="card-body p-0">-->
+<!--            &lt;!&ndash; Nested Row within Card Body &ndash;&gt;-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-12">-->
+<!--                    <div class="p-5">-->
+<!--                        <div class="">-->
+<!--                            <h1 class="h4 text-gray-900 mb-4">Create Scope-->
+<!--                                <a  class="btn btn-info mr-2 float-right" data-target="#uploadModal" data-toggle="modal" href="javascript:void(0)">-->
+<!--                                    <span class="float-right fa fa-upload"></span>-->
+<!--                                </a>-->
+<!--                            </h1>-->
+<!--                        </div>-->
+<!--                        <form class="user" method="post" th:action="@{/audit-scope/save}"-->
+<!--                              th:object="${scope}">-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="universeSelect">Universe<span style="color: red">*</span></label>-->
+<!--                                    <select class="form-control" id="universeSelect" required="required">-->
+<!--                                        <option value="0">Select Universe</option>-->
+<!--                                        <option th:each="uni : ${universe}" th:text="${uni.getUniverseName()}"-->
+<!--                                                th:value="${uni.getUniverseId()}"></option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="entitySelect">Entity<span style="color: red">*</span></label>-->
+<!--                                    <select class="form-control" id="entitySelect" required="required" th:field="*{entityId}">-->
+<!--                                        <option value="0">Select Entity</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="scopeName">Scope of Audit<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="scopeName" required="required"-->
+<!--                                           th:field="*{scopeOfAudit}" type="text">-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="auditType">Audit Type<span style="color: red">*</span></label>-->
+<!--                                    <select class="form-control" id="auditType" required="required" th:field="*{auditType}">-->
+<!--                                        <option value="0">Select Audit Type</option>-->
+<!--                                        <option th:each="aud : ${auditType}" th:text="${aud.name.replace('_',' ')}"-->
+<!--                                                th:value="${aud.getId()}"></option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="scopeStartDate">Start Date<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="scopeStartDate" required="required"-->
+<!--                                           th:field="*{auditStartDate}" type="date"/>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="endDate">End Date<span style="color: red">*</span></label>-->
+<!--                                    <input class="form-control" id="endDate" th:field="*{auditEndDate}" type="date"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <hr/>-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="definition">Scope Definition</label>-->
+<!--                                    <textarea class="form-control" id="definition" rows="5"-->
+<!--                                    th:field="*{scopeDef}">-->
+<!--                                    </textarea>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="objective">Objectives</label>-->
+<!--                                    <textarea class="form-control" id="objective" rows="5"-->
+<!--                                              th:field="*{scopeObjectives}">-->
+<!--                                    </textarea>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="purpose">Purpose</label>-->
+<!--                                    <textarea class="form-control" id="purpose" rows="5"-->
+<!--                                              th:field="*{scopePurpose}">-->
+<!--                                    </textarea>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-6 mb-3 mb-sm-0">-->
+<!--                                    <label for="forAuditor">Auditor</label>-->
+<!--                                    <select class="form-control" id="forAuditor" th:field="*{assignedTo}">-->
+<!--                                        <option value="0">Select Auditor</option>-->
+<!--                                        <option th:each="rol : ${user}" th:text="${rol.getUsername()}"-->
+<!--                                                th:value="${rol.getUsername()}"></option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                                <input hidden="hidden" th:field="*{userName}" th:value="${session.username}" type="text">-->
+<!--                            </div>-->
+<!--                            <div class="form-group row">-->
+<!--                                <div class="col-md-12 mb-3 mb-sm-0 text-right">-->
+<!--                                    <button class="btn btn-sm w-25 btn-success" name="action" type="submit"-->
+<!--                                            value="approve">-->
+<!--                                        Send for Approval-->
+<!--                                    </button>-->
+<!--                                    <button class="btn btn-sm w-25 btn-primary btn-save" name="action" type="submit"-->
+<!--                                            value="save">-->
+<!--                                        Save-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div aria-hidden="true" aria-labelledby="uploadModalLabel" class="modal fade" id="uploadModal" role="dialog" tabindex="-1">-->
+<!--            <div class="modal-dialog" role="document">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title" id="exampleModalLabel">Upload Audit Scope</h5>-->
+<!--                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">-->
+<!--                            <span aria-hidden="true">&times;</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <form method="post" th:action="@{/audit-scope/}">-->
+<!--                        <div class="modal-body">-->
+
+<!--                            <div class="mb-3">-->
+<!--                                <label for="scopeUpload">Upload Excel File</label>-->
+<!--                                <input accept=".xlsx, .xls, .csv" class="form-control" id="scopeUpload" name="scopeUpload"-->
+<!--                                       type="file">-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                        <div class="modal-footer">-->
+<!--                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>-->
+<!--                            <button class="btn btn-primary" type="submit">Submit</button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <th:block layout:fragment="script">
     <script>
         $(document).ready(() => {
